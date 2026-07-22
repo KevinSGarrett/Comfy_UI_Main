@@ -35,12 +35,20 @@ def test_current_dependency_matrix_is_exact_45_and_fail_closed():
     assert not all(item["accepted"] for item in dependencies)
 
 
-def test_current_matrix_detects_held_row101_and_ambiguous_rows():
+def test_current_matrix_resolves_hash_bound_supplements_without_upgrading_holds():
     by_id = {item["tracker_id"]: item for item in MOD.inspect_all_dependencies(ROOT)}
     assert by_id["TRK-W64-101"]["disposition"] == "held"
     for tracker in ("TRK-W64-086", "TRK-W64-087", "TRK-W64-088"):
-        assert by_id[tracker]["disposition"] == "ambiguous"
+        assert by_id[tracker]["disposition"] == "held"
         assert len(by_id[tracker]["candidate_paths"]) > 1
+        assert by_id[tracker]["evidence_sha256"]
+
+
+def test_unregistered_multiple_current_deltas_remain_ambiguous(tmp_path: Path):
+    tracker = "TRK-W64-067"
+    for suffix in ("ONE", "TWO"):
+        (tmp_path / f"{tracker}_{suffix}_CURRENT_DELTA.json").write_text(json.dumps({"tracker_id": tracker, "row_complete": False, "status": "HOLD"}))
+    assert MOD.inspect_dependency(tmp_path, tracker)["disposition"] == "ambiguous"
 
 
 def test_single_current_delta_requires_boolean_complete_and_pass_status(tmp_path: Path):

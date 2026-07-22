@@ -195,6 +195,13 @@ unambiguous current delta per tracker. A dependency is accepted only when
 hash matches the inspected file. Missing, invalid, held, or competing current
 deltas are exact blockers.
 
+When a row intentionally retains multiple files whose names contain
+`CURRENT_DELTA`, a canonical record may be selected only by the Row112 current-
+delta authority registry. The registry must bind the exact complete candidate
+set and every SHA-256, designate one contract-level canonical record, retain all
+others as supplemental evidence, and confer no acceptance upgrade. Membership
+or hash drift restores the ambiguity blocker.
+
 Certification additionally requires independently hash-bound evidence and
 artifact hashes for genuine runtime, rights, provenance, full-duration review,
 AV sync, global QA, multimodal release, and replay reconstruction. These gates

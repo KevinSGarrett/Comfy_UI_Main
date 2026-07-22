@@ -475,9 +475,11 @@ multimodal release, and replay reconstruction evidence across at least three
 unique genuine-video hashes. Synthetic fixtures exercise the mechanism but are
 structurally forbidden from granting certification authority.
 
-The latest live audit found 5 accepted, 37 held, 3 ambiguous, and no absent
-dependency records. Rows086-088 have competing current deltas and Row101 now
-has an implemented but held contract. All eight genuine-production gates remain absent. Therefore Row112's
+The latest live audit found 5 accepted, 40 held, and no ambiguous or absent
+dependency records. Rows086-088 retain all contract, fixture, and CI deltas,
+with one exact hash-bound contract record selected as row authority and no
+acceptance upgrade; Row101 has an implemented but held contract. All eight
+genuine-production gates remain absent. Therefore Row112's
 certification matrix is implemented and tested, but Row112 acceptance, runtime
 completion, production authority, and product completion remain false.
 

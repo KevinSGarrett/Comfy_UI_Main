@@ -13,10 +13,10 @@
   "dependency_audit": {
     "required_count": 45,
     "accepted": 5,
-    "held": 37,
-    "ambiguous": 3,
+    "held": 40,
+    "ambiguous": 0,
     "absent": 0,
-    "ambiguous_tracker_ids": ["TRK-W64-086", "TRK-W64-087", "TRK-W64-088"],
+    "ambiguous_tracker_ids": [],
     "absent_tracker_ids": []
   },
   "certification_contract": {
@@ -36,16 +36,17 @@
     "rollup_substitution_forbidden": true
   },
   "validation": {
-    "targeted_tests": {"result": "PASS", "passed": 20, "failed": 0},
+    "targeted_tests": {"result": "PASS", "passed": 21, "failed": 0},
     "ruff_check": "PASS",
     "live_certification_authority": false
   },
   "artifacts": [
-    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_audio_full_system_certification.py", "sha256": "a895e40d05f124059bcc44cbcb81ffc8a3d110bc5c8ddb3e40519f58d61b1be5"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_audio_full_system_certification.py", "sha256": "fd2d0d9c02ad283b1d85160bc015c5bbdefc131e464e0f29c05b7d0a1ba83812"},
     {"path": "Plan/08_SCHEMAS/audio_full_system_certification_report.schema.json", "sha256": "b3e384c442dedfe6e00ff4c5141cd4ab5b4e00b4e931bd60c09a548df4acd711"},
-    {"path": "Plan/10_REGISTRIES/wave64_row112_audio_full_system_certification_policy_registry.json", "sha256": "03be8ccf7747caf9e91b132066805724f7fd824c01d20153deb5e131ab014f1a"},
-    {"path": "Plan/Instructions/QA/Scripts/test_row112_audio_full_system_certification.py", "sha256": "aacdfbeced89bb55e1198af1fb887fb4c65592d1e9b5fbf3173995ca02adfe22"},
-    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-112_audio_full_system_certification.json", "sha256": "8aad8cee118df2156643f732e18bfe104e148dd9c5eac7377afd08625019abb8"}
+    {"path": "Plan/10_REGISTRIES/wave64_row112_audio_full_system_certification_policy_registry.json", "sha256": "dfa14613f32487eeaf308d78bc349d1223c9a654677f65386bee709514c8003f"},
+    {"path": "Plan/10_REGISTRIES/wave64_audio_current_delta_authority_registry.json", "sha256": "c64bd154eb43f07facdada0feb4155bd97ccbae3092dc50213376dbcc2adcfe4"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row112_audio_full_system_certification.py", "sha256": "817414e5534a4ad0fa5a3de57416e125b43c0e8840046fe5f8e66a8ae9b34bb4"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-112_audio_full_system_certification.json", "sha256": "491768541992df15d94cec4c5f592023e48f43e230441ed3c776e3e9790843f7"}
   ],
   "hold_boundary": {
     "blocker_codes": [
@@ -55,6 +56,6 @@
     "runtime_or_service_mutated": false,
     "production_authority": false,
     "product_completion": false,
-    "next_action": "Resolve Row086-088 current-delta ambiguity and continue prerequisite implementation while retaining all genuine-production gates as holds."
+    "next_action": "Continue dependency-safe prerequisite implementation while retaining all genuine-production gates as holds."
   }
 }

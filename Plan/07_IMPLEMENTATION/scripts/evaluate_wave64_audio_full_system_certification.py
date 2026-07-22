@@ -16,6 +16,7 @@ from jsonschema import Draft202012Validator
 ROOT = Path(__file__).resolve().parents[3]
 POLICY_PATH = Path("Plan/10_REGISTRIES/wave64_row112_audio_full_system_certification_policy_registry.json")
 SCHEMA_PATH = Path("Plan/08_SCHEMAS/audio_full_system_certification_report.schema.json")
+DELTA_AUTHORITY_PATH = Path("Plan/10_REGISTRIES/wave64_audio_current_delta_authority_registry.json")
 DEFAULT_EVIDENCE = Path("Plan/Instructions/QA/Evidence/Wave64/TRK-W64-112_audio_full_system_certification.json")
 POLICY_REVISION = "wave64_row112_audio_full_system_certification_policy_v0.1.0"
 REQUIRED_TRACKERS = tuple(f"TRK-W64-{number:03d}" for number in range(67, 112))
@@ -54,25 +55,51 @@ def _candidate_delta_paths(evidence_root: Path, tracker_id: str) -> list[Path]:
     return sorted(path for path in evidence_root.glob(f"{tracker_id}_*CURRENT_DELTA*.json") if path.is_file())
 
 
+def _resolve_canonical_candidate(evidence_root: Path, tracker_id: str, candidates: list[Path]) -> Path | None:
+    project_root = evidence_root.parents[4]
+    registry_path = project_root / DELTA_AUTHORITY_PATH
+    if not registry_path.is_file():
+        return None
+    entry = load_json(registry_path).get("resolutions", {}).get(tracker_id)
+    if not isinstance(entry, dict):
+        return None
+    declared = [entry.get("canonical"), *entry.get("supplemental", [])]
+    if not all(isinstance(item, dict) and set(item) == {"path", "sha256"} for item in declared):
+        return None
+    observed = {
+        str(path.relative_to(project_root)).replace("\\", "/"): sha256_file(path)
+        for path in candidates
+    }
+    expected = {item["path"]: item["sha256"] for item in declared}
+    if observed != expected:
+        return None
+    canonical = project_root / entry["canonical"]["path"]
+    return canonical if canonical in candidates else None
+
+
 def inspect_dependency(evidence_root: Path, tracker_id: str) -> dict[str, Any]:
     candidates = _candidate_delta_paths(evidence_root, tracker_id)
     def relative(path: Path) -> str:
         return str(path.relative_to(evidence_root.parents[4])).replace("\\", "/")
+    candidate_paths = [relative(path) for path in candidates]
     if not candidates:
         return {"tracker_id": tracker_id, "disposition": "absent", "candidate_paths": [], "evidence_sha256": None, "row_complete": False, "status": "ABSENT", "accepted": False}
     if len(candidates) > 1:
-        return {"tracker_id": tracker_id, "disposition": "ambiguous", "candidate_paths": [relative(path) for path in candidates], "evidence_sha256": None, "row_complete": False, "status": "AMBIGUOUS_MULTIPLE_CURRENT_DELTAS", "accepted": False}
-    path = candidates[0]
+        path = _resolve_canonical_candidate(evidence_root, tracker_id, candidates)
+        if path is None:
+            return {"tracker_id": tracker_id, "disposition": "ambiguous", "candidate_paths": candidate_paths, "evidence_sha256": None, "row_complete": False, "status": "AMBIGUOUS_MULTIPLE_CURRENT_DELTAS", "accepted": False}
+    else:
+        path = candidates[0]
     try:
         payload = load_json(path)
     except (OSError, json.JSONDecodeError):
-        return {"tracker_id": tracker_id, "disposition": "invalid", "candidate_paths": [relative(path)], "evidence_sha256": sha256_file(path), "row_complete": False, "status": "INVALID_JSON", "accepted": False}
+        return {"tracker_id": tracker_id, "disposition": "invalid", "candidate_paths": candidate_paths, "evidence_sha256": sha256_file(path), "row_complete": False, "status": "INVALID_JSON", "accepted": False}
     if not isinstance(payload, dict) or payload.get("tracker_id") != tracker_id:
-        return {"tracker_id": tracker_id, "disposition": "invalid", "candidate_paths": [relative(path)], "evidence_sha256": sha256_file(path), "row_complete": False, "status": "INVALID_TRACKER_BINDING", "accepted": False}
+        return {"tracker_id": tracker_id, "disposition": "invalid", "candidate_paths": candidate_paths, "evidence_sha256": sha256_file(path), "row_complete": False, "status": "INVALID_TRACKER_BINDING", "accepted": False}
     complete = payload.get("row_complete") is True
     status = str(payload.get("status", ""))
     accepted = complete and status.lower().startswith(PASS_PREFIXES)
-    return {"tracker_id": tracker_id, "disposition": "accepted" if accepted else "held", "candidate_paths": [relative(path)], "evidence_sha256": sha256_file(path), "row_complete": complete, "status": status, "accepted": accepted}
+    return {"tracker_id": tracker_id, "disposition": "accepted" if accepted else "held", "candidate_paths": candidate_paths, "evidence_sha256": sha256_file(path), "row_complete": complete, "status": status, "accepted": accepted}
 
 
 def inspect_all_dependencies(root: Path) -> list[dict[str, Any]]:

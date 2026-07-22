@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "registry_revision": "wave64_audio_current_delta_authority_v0.1.0",
+  "policy": {
+    "canonical_record_required": true,
+    "supplemental_records_retained": true,
+    "exact_candidate_set_required": true,
+    "all_records_sha256_bound": true,
+    "hash_or_membership_drift_disposition": "ambiguous",
+    "authority_effect": "record_selection_only_no_acceptance_upgrade"
+  },
+  "resolutions": {
+    "TRK-W64-086": {
+      "canonical": {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_POSE_HAND_FOOT_GAIT_EXTRACTION_CURRENT_DELTA_20260719.json", "sha256": "f19d81679c36d7cb0575d2663601d4e3f0b52ceaa11e24521b2565bcb8134df1"},
+      "supplemental": [
+        {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-086_SYNTHETIC_LANDMARK_PHASE_LEDGER_HARNESS_CURRENT_DELTA_20260720.json", "sha256": "d0e27df0a1afd1f633ef0ca7b069f010219498e77b5e5eba0240e2a0228f7f04"}
+      ],
+      "basis": "contract-level pose/hand/foot/gait record owns row status; synthetic landmark-phase ledger is retained calibration evidence"
+    },
+    "TRK-W64-087": {
+      "canonical": {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_MOTION_FORCE_CUES_CURRENT_DELTA_20260719.json", "sha256": "9c71c538d424b2189b50e53081356917bb0e14a8a5a1b5f23777a3193f2b50f5"},
+      "supplemental": [
+        {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CALIBRATED_TRAJECTORY_FIXTURE_PACKET_CURRENT_DELTA_20260720.json", "sha256": "e574724bdc135a2ff8403e4cdcfba9e2d1a1fb9708d5d5d3d0c168afebd79fbe"},
+        {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-087_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json", "sha256": "4c47207e0e0d54f453605d83524c0216d175c0a8eb251afe3d853f2e42d94dce"}
+      ],
+      "basis": "motion/force measurement compiler owns row status; trajectory and CI ledgers are retained fixture evidence"
+    },
+    "TRK-W64-088": {
+      "canonical": {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_DEPTH_CAMERA_SOURCE_POSITION_CURRENT_DELTA_20260719.json", "sha256": "736289435815303ea002a0bd73bf899b843b329a7418d21e5a83294366f3417d"},
+      "supplemental": [
+        {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CAMERA_LISTENER_SOURCE_FIXTURE_PACKET_CURRENT_DELTA_20260720.json", "sha256": "8dbde998925ba33f652ed2931aa34a3adaccb2d5649cef9c59993d106c8cf955"},
+        {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-088_CI_FIXTURE_LEDGER_GATE_CURRENT_DELTA_20260720.json", "sha256": "d34aa08bb79b43da71c5f3d5db393aa76fee6eefaf5807190486a5f0846eb761"}
+      ],
+      "basis": "depth/camera/source-position contract owns row status; camera/listener and CI ledgers are retained fixture evidence"
+    }
+  }
+}
