@@ -1,0 +1,38 @@
+{
+  "schema_version": "wave64.aqa.model_storage_transaction_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-018"],
+  "evaluated_at_utc": "2026-07-22T17:15:07Z",
+  "disposition": "PARTIALLY_ADOPTED",
+  "repository_base_commit": "3258a8e2b957b080efafb957d753968feb180b4e",
+  "scope": "Prepared non-executable Flux.2 Klein companion storage transaction only",
+  "transaction": {
+    "transaction_id": "f21a8a4d1ef754df75caae2d543e2322dd4e0d8f00615e741b8a40c2f8dbd5b5",
+    "file_count": 2,
+    "total_promotion_bytes": 8381193340,
+    "minimum_post_promotion_reserve_bytes": 53687091200,
+    "minimum_verified_free_before_bytes": 62068284540,
+    "blocker_count": 6,
+    "executable": false
+  },
+  "safety": {
+    "exact_partial_paths": true,
+    "exact_target_paths": true,
+    "hash_equal_preexisting_target_idempotent": true,
+    "hash_different_preexisting_target_overwrite": false,
+    "transaction_owned_staging_cleanup_only": true,
+    "preexisting_target_rollback_forbidden": true,
+    "foreign_recovery_override_forbidden": true,
+    "shared_storage_mutation_permit_required": true
+  },
+  "bindings": [
+    {"path": "Plan/10_REGISTRIES/wave64_aqa_flux2_klein_companion_storage_transaction.json", "sha256": "78f2536446c65853484ff6614be5f2ed48e19e22cd101a99b6f3a1edc7be31e3"},
+    {"path": "Plan/08_SCHEMAS/runpod_autonomous_model_storage_transaction.schema.json", "sha256": "4a8f83b9940a8b5211c59ed80feac0800dbe083e7eb171553a3b0ec4651739d3"},
+    {"path": "Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_model_storage_transaction.py", "sha256": "939a07193c8e0f1fe6808be336dbfed592a5bbba0f80bddbf210678af8acdd01"},
+    {"path": "Plan/Instructions/QA/Scripts/test_validate_wave64_aqa_model_storage_transaction.py", "sha256": "b8192afd9c1a71768f3b77424cbddd3be4f19e7666383b555300fb0a928032e5"}
+  ],
+  "validation": {"transaction_replay": "PASS", "focused_pytest": {"status": "PASS", "passed": 4}, "ruff": "PASS", "runpod_contacted": false, "vae_acquired": false, "remote_target_checked": false, "bytes_transferred": 0, "files_promoted": 0},
+  "authority_granted": ["transaction planning", "exact source staging and target identities", "reserve arithmetic", "idempotency rollback and no-overwrite policy"],
+  "authority_not_granted": ["license or provenance acceptance", "Klein VAE acquisition", "live quota", "shared-storage mutation permit", "remote target inspection", "transfer promotion runtime activation or product authority"],
+  "next_action": "Resolve companion provenance and project acceptance, then acquire the exact Klein VAE into a transaction-owned local staging file and verify its size and SHA-256 without contacting RunPod."
+}

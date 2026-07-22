@@ -1439,3 +1439,17 @@ latent, node, and Qwen text-encoder support, but this grants no current-pod
 project license acceptance, exact workflow hash, companion promotion, object
 info, lease, load, cleanup, capacity, quality, failure injection, activation,
 and promotion all remain held.
+
+The two missing companions now have a prepared, non-executable atomic storage
+transaction. It requires 8,381,193,340 promotion bytes plus a 50 GiB retained
+reserve, so an exact live free-quota reading of at least 62,068,284,540 bytes
+must pass immediately before transfer. Each asset has a transaction-owned
+`.partial` staging path and exact final target. A pre-existing hash-equal target
+is idempotently accepted; a hash-different target fails without overwrite.
+
+The transaction may not acquire or move bytes yet. The exact Klein VAE is not
+locally acquired, companion redistribution license and project acceptance are
+unresolved, live quota is unverified, foreign recovery remains unresolved, and
+no exact shared-storage mutation permit exists. Cleanup and rollback are
+restricted to transaction-owned partials and newly promoted files; no
+pre-existing target or unrelated staging root may be removed.

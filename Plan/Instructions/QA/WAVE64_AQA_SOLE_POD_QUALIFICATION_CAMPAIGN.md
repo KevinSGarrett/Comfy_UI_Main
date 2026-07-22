@@ -77,3 +77,16 @@ atomic storage transaction. Never substitute the retained Flux.2 Dev VAE: its
 size and hash differ from the Klein companion. Storage promotion still does not
 authorize `object_info`, model load, generation, visual QA, activation, or
 product promotion.
+
+Validate the prepared companion storage transaction with:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_aqa_model_storage_transaction.py
+```
+
+`PASS` means only that the non-executable plan is internally consistent. Before
+execution, resolve every blocker and issue a new exact transaction state with a
+fresh content ID. Never edit the current record to imply that quota, remote
+targets, permit, acquisition, transfer, or promotion occurred. Never overwrite
+a hash-different target or delete anything outside the transaction-owned
+staging directory.

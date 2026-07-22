@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_model_storage_transaction.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "transaction_id", "status", "pod_id", "dependency_bundle", "files", "storage_gate", "coordinator_gate", "protocol", "blockers", "executable", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.model_storage_transaction.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "transaction_id": {"$ref": "#/$defs/sha256"},
+    "status": {"const": "PREPARED_NOT_EXECUTABLE"},
+    "pod_id": {"const": "1q4ji0gg1fkhvt"},
+    "dependency_bundle": {"$ref": "#/$defs/fileBinding"},
+    "files": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/file"}},
+    "storage_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total_promotion_bytes", "minimum_post_promotion_reserve_bytes", "minimum_verified_free_before_bytes", "live_free_quota_verified", "reserve_gate_passed"],
+      "properties": {
+        "total_promotion_bytes": {"const": 8381193340},
+        "minimum_post_promotion_reserve_bytes": {"const": 53687091200},
+        "minimum_verified_free_before_bytes": {"const": 62068284540},
+        "live_free_quota_verified": {"const": false},
+        "reserve_gate_passed": {"const": false}
+      }
+    },
+    "coordinator_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["shared_storage_mutation_permit_required", "foreign_recovery_override_forbidden", "owner_recovery_resolved", "exact_permit_granted"],
+      "properties": {
+        "shared_storage_mutation_permit_required": {"const": true},
+        "foreign_recovery_override_forbidden": {"const": true},
+        "owner_recovery_resolved": {"const": false},
+        "exact_permit_granted": {"const": false}
+      }
+    },
+    "protocol": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ordered_steps", "preexisting_target_policy", "staging_cleanup_policy", "rollback_policy"],
+      "properties": {
+        "ordered_steps": {"type": "array", "minItems": 11, "items": {"type": "string"}, "uniqueItems": true},
+        "preexisting_target_policy": {"const": "HASH_EQUAL_ACCEPT_IDEMPOTENT_HASH_DIFFERENT_FAIL_NO_OVERWRITE"},
+        "staging_cleanup_policy": {"const": "REMOVE_ONLY_TRANSACTION_OWNED_PARTIALS_AFTER_HASH_OR_TRANSFER_FAILURE"},
+        "rollback_policy": {"const": "REMOVE_ONLY_NEWLY_PROMOTED_TRANSACTION_FILES_IF_POST_PROMOTION_REPLAY_FAILS_PRESERVE_PREEXISTING_TARGETS"}
+      }
+    },
+    "blockers": {"type": "array", "minItems": 5, "items": {"type": "string"}, "uniqueItems": true},
+    "executable": {"const": false},
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["planning", "acquisition", "storage_mutation", "runtime", "activation", "promotion"],
+      "properties": {"planning": {"const": true}, "acquisition": {"const": false}, "storage_mutation": {"const": false}, "runtime": {"const": false}, "activation": {"const": false}, "promotion": {"const": false}}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "id"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}, "id": {"$ref": "#/$defs/sha256"}}},
+    "file": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "bytes", "sha256", "source", "staging_path", "target_path", "preexisting_target_checked", "promoted"],
+      "properties": {
+        "role": {"enum": ["text_encoder", "vae"]}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "source": {
+          "type": "object", "additionalProperties": false,
+          "required": ["kind", "state", "path_or_uri", "local_bytes_verified"],
+          "properties": {
+            "kind": {"enum": ["retained_local_file", "primary_provider_https"]},
+            "state": {"enum": ["EXACT_LOCAL_HASH_VERIFIED", "EXACT_REMOTE_IDENTITY_ACQUISITION_PENDING"]},
+            "path_or_uri": {"type": "string", "minLength": 1},
+            "local_bytes_verified": {"type": "boolean"}
+          }
+        },
+        "staging_path": {"type": "string", "pattern": "^/workspace/\\.w64_aqa_staging/.+\\.partial$"},
+        "target_path": {"type": "string", "pattern": "^/workspace/ComfyUI/models/"},
+        "preexisting_target_checked": {"const": false},
+        "promoted": {"const": false}
+      }
+    }
+  }
+}
