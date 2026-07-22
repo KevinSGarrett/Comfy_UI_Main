@@ -19,7 +19,7 @@ import urllib.request
 import zipfile
 
 
-EXPECTED_ADMISSION_SHA256 = "c8b777a124a51bd1d333257236496d39d365b394abb3573e6bbaf944b505f576"
+EXPECTED_ADMISSION_SHA256 = "72b269534e497270c846fddca7539e16aa9a57b58609ff0ca0113102cb758b5c"
 EXPECTED_SOURCE_SHA256 = "51997f20be8958e23b7c4061ba45d0efcd86bffd5fe81c695d0befee0d442976"
 EXPECTED_SOURCE_BYTES = 13602299
 EXPECTED_ENTRY_COUNT = 70
@@ -33,6 +33,15 @@ OLD_TAG = b"Tag: cp36-cp36m-manylinux2010_x86_64"
 NEW_TAG = b"Tag: py3-none-manylinux2010_x86_64"
 OUTPUT_FILENAME = "decord-0.6.0-py3-none-manylinux2010_x86_64.whl"
 ALLOWED_CHANGED_ENTRIES = {WHEEL_PATH, RECORD_PATH}
+EXPECTED_RECORD_DEFECTS = [
+    {
+        "path": "decord-0.6.0.dist-info/top_level.txt",
+        "record_hash": "sha256=8TBMC8W9caRfSBphoy47j2wFImKqCOgWKD3JVELo5e0",
+        "record_bytes": 17,
+        "actual_hash": "sha256=2gcXRGxvur2Z1iLmIE4fxL6cmywVZYD__8rzDGIEZDM",
+        "actual_bytes": 7,
+    }
+]
 RUNTIME_CLAIMS = {
     "package_installed": False,
     "package_imported": False,
@@ -125,12 +134,13 @@ def download_source(admission: dict, destination: Path) -> dict:
     return {"url": source["url"], "filename": source["filename"], **observed}
 
 
-def verify_record(contents: dict[str, bytes]) -> None:
+def record_findings(contents: dict[str, bytes]) -> list[dict[str, str | int]]:
     rows = list(csv.reader(io.StringIO(contents[RECORD_PATH].decode("utf-8"))))
     file_names = {name for name in contents if not name.endswith("/")}
     if len(rows) != len(file_names):
         raise RepairError("wheel RECORD entry count mismatch")
     observed_names: set[str] = set()
+    findings: list[dict[str, str | int]] = []
     for row in rows:
         if len(row) != 3 or row[0] in observed_names or row[0] not in contents:
             raise RepairError("wheel RECORD identity is malformed")
@@ -138,13 +148,35 @@ def verify_record(contents: dict[str, bytes]) -> None:
         if row[0] == RECORD_PATH:
             if row[1:] != ["", ""]:
                 raise RepairError("wheel RECORD self-entry must be unhashed")
-        elif row[1] != record_digest(contents[row[0]]) or row[2] != str(len(contents[row[0]])):
-            raise RepairError(f"wheel RECORD hash or size mismatch: {row[0]}")
+        else:
+            if not row[2].isdigit():
+                raise RepairError(f"wheel RECORD size is malformed: {row[0]}")
+            actual_hash = record_digest(contents[row[0]])
+            actual_bytes = len(contents[row[0]])
+            if row[1] != actual_hash or int(row[2]) != actual_bytes:
+                findings.append(
+                    {
+                        "path": row[0],
+                        "record_hash": row[1],
+                        "record_bytes": int(row[2]),
+                        "actual_hash": actual_hash,
+                        "actual_bytes": actual_bytes,
+                    }
+                )
     if observed_names != file_names:
         raise RepairError("wheel RECORD does not cover every non-directory entry")
+    return findings
 
 
-def inspect_source(path: Path) -> tuple[list[zipfile.ZipInfo], dict[str, bytes]]:
+def verify_record(contents: dict[str, bytes]) -> None:
+    findings = record_findings(contents)
+    if findings:
+        raise RepairError(f"wheel RECORD hash or size mismatch: {findings}")
+
+
+def inspect_source(
+    path: Path,
+) -> tuple[list[zipfile.ZipInfo], dict[str, bytes], list[dict[str, str | int]]]:
     with zipfile.ZipFile(path) as archive:
         if archive.testzip() is not None:
             raise RepairError("source wheel ZIP integrity failed")
@@ -168,8 +200,10 @@ def inspect_source(path: Path) -> tuple[list[zipfile.ZipInfo], dict[str, bytes]]
     binary = contents[EXPECTED_BINARY_PATH]
     if len(binary) != EXPECTED_BINARY_BYTES or sha256_bytes(binary) != EXPECTED_BINARY_SHA256:
         raise RepairError("source wheel binary identity mismatch")
-    verify_record(contents)
-    return infos, contents
+    record_defects = record_findings(contents)
+    if record_defects != EXPECTED_RECORD_DEFECTS:
+        raise RepairError("source wheel RECORD defect identity mismatch")
+    return infos, contents, record_defects
 
 
 def regenerate_record(contents: dict[str, bytes], original_record: bytes) -> bytes:
@@ -199,7 +233,7 @@ def write_repaired_wheel(
 
 
 def inspect_repaired(source: Path, repaired: Path) -> dict:
-    _, source_contents = inspect_source(source)
+    _, source_contents, _ = inspect_source(source)
     with zipfile.ZipFile(repaired) as archive:
         if archive.testzip() is not None:
             raise RepairError("repaired wheel ZIP integrity failed")
@@ -279,7 +313,7 @@ def repair(admission_path: Path) -> dict:
         output_dir.mkdir()
         source_path = source_dir / OUTPUT_FILENAME
         source_binding = download_source(admission, source_path)
-        infos, contents = inspect_source(source_path)
+        infos, contents, source_record_defects = inspect_source(source_path)
         repaired_path = output_dir / OUTPUT_FILENAME
         write_repaired_wheel(repaired_path, infos, contents)
         repaired_wheel = inspect_repaired(source_path, repaired_path)
@@ -292,13 +326,28 @@ def repair(admission_path: Path) -> dict:
             "program_id": "W64-AQA",
             "package_id": "W64-AQA-PKG-LATENTSYNC-1.6",
             "status": "DECORD_WHEEL_METADATA_REPAIRED_HASHED_INSTALL_IMPORT_PENDING",
-            "admission_commit": "d3a75ffb",
+            "admission_commit": "c7ac27e0",
             "admission_sha256": EXPECTED_ADMISSION_SHA256,
             "source_wheel": source_binding,
             "observed_defect": {
                 "filename_tag": "py3-none-manylinux2010_x86_64",
                 "internal_tag": "cp36-cp36m-manylinux2010_x86_64",
+                "record_defects": source_record_defects,
             },
+            "prior_attempts": [
+                {
+                    "controller_commit": "60a488d0",
+                    "result": "FAIL_CLOSED_BEFORE_WHEEL_PUBLICATION",
+                    "reason": "source RECORD correctly omits twelve explicit ZIP directory entries; the first validator incorrectly compared RECORD rows with total ZIP entries",
+                    "staging_removed": True,
+                },
+                {
+                    "controller_commit": "ef5d752b",
+                    "result": "FAIL_CLOSED_BEFORE_WHEEL_PUBLICATION",
+                    "reason": "source RECORD has one upstream hash and size defect for top_level.txt; admission did not yet bind that defect",
+                    "staging_removed": True,
+                },
+            ],
             "repair": {
                 "replacement_internal_tag": "py3-none-manylinux2010_x86_64",
                 "allowed_changed_entries": sorted(ALLOWED_CHANGED_ENTRIES),

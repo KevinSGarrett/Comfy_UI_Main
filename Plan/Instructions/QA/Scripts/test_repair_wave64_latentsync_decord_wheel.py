@@ -81,6 +81,27 @@ def test_record_verification_allows_explicit_directory_entries() -> None:
     MODULE.verify_record(contents)
 
 
+def test_record_findings_report_exact_hash_and_size_drift() -> None:
+    contents = {
+        MODULE.WHEEL_PATH: b"wheel",
+        MODULE.RECORD_PATH: b"",
+    }
+    contents[MODULE.RECORD_PATH] = (
+        f"{MODULE.WHEEL_PATH},sha256=bad,1\n"
+        f"{MODULE.RECORD_PATH},,\n"
+    ).encode()
+    findings = MODULE.record_findings(contents)
+    assert findings == [
+        {
+            "path": MODULE.WHEEL_PATH,
+            "record_hash": "sha256=bad",
+            "record_bytes": 1,
+            "actual_hash": MODULE.record_digest(b"wheel"),
+            "actual_bytes": 5,
+        }
+    ]
+
+
 def test_unsafe_member_paths_fail() -> None:
     assert MODULE.safe_member_path("decord/__init__.py")
     assert not MODULE.safe_member_path("../escape")
