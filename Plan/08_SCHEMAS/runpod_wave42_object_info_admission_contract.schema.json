@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_wave42_object_info_admission_contract.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_id", "contract_id", "status", "quarantine", "evidence_bindings", "candidate", "required_object_info_types", "frontend_only_exemptions", "forbidden_object_info_types", "signature_requirements", "admission_preconditions", "evaluation", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.wave42_object_info_admission_contract.v1"},
+    "program_id": {"const": "W64-AQA"},
+    "contract_id": {"$ref": "#/$defs/sha256"},
+    "status": {"const": "STATIC_ADMISSION_CONTRACT_READY_FOREIGN_COORDINATOR_RELEASE_AND_OBJECT_INFO_PENDING"},
+    "quarantine": {
+      "type": "object", "additionalProperties": false,
+      "required": ["root", "workflow_manifest_rows", "workflow_manifest_bytes", "workflows", "custom_node_root", "custom_node_pins", "dependencies_installed", "loader_visible", "activated"],
+      "properties": {
+        "root": {"const": "/workspace/wave64_quarantine/aws_ec2_20260722"},
+        "workflow_manifest_rows": {"const": 77},
+        "workflow_manifest_bytes": {"const": 16679059},
+        "workflows": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/workflow"}},
+        "custom_node_root": {"const": "/workspace/custom_node_quarantine/aws_ec2_pins_20260722"},
+        "custom_node_pins": {"type": "array", "minItems": 17, "maxItems": 17, "uniqueItems": true, "items": {"$ref": "#/$defs/pin"}},
+        "dependencies_installed": {"const": false}, "loader_visible": {"const": false}, "activated": {"const": false}
+      }
+    },
+    "evidence_bindings": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/file"}},
+    "candidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["comfyui_version", "comfyui_commit", "workflow_node_types", "executable_object_info_types", "commercial_dwpose", "legacy_dwpose_allowed"],
+      "properties": {
+        "comfyui_version": {"const": "0.28.0"}, "comfyui_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "workflow_node_types": {"const": 40}, "executable_object_info_types": {"const": 39},
+        "commercial_dwpose": {"$ref": "#/$defs/commercialDwpose"}, "legacy_dwpose_allowed": {"const": false}
+      }
+    },
+    "required_object_info_types": {"type": "array", "minItems": 39, "maxItems": 39, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "frontend_only_exemptions": {"const": [{"type": "Note", "reason": "FRONTEND_ONLY_NON_EXECUTABLE_WORKFLOW_ANNOTATION"}]},
+    "forbidden_object_info_types": {"const": ["DWPreprocessor"]},
+    "signature_requirements": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}},
+    "admission_preconditions": {"type": "array", "minItems": 10, "uniqueItems": true, "items": {"type": "string"}},
+    "evaluation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["snapshot_required", "network_allowed", "secret_mounts_allowed", "model_session_allowed", "workflow_submission_allowed", "write_scope", "success_requires_exact_type_set", "success_requires_signature_match"],
+      "properties": {
+        "snapshot_required": {"const": true}, "network_allowed": {"const": false}, "secret_mounts_allowed": {"const": false},
+        "model_session_allowed": {"const": false}, "workflow_submission_allowed": {"const": false},
+        "write_scope": {"const": "TRANSACTION_OWNED_EVIDENCE_DIRECTORY_ONLY"},
+        "success_requires_exact_type_set": {"const": true}, "success_requires_signature_match": {"const": true}
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["static_contract", "transfer_integrity", "pin_identity", "commercial_dwpose_overlay_identity", "coordinator_admission", "custom_node_import", "object_info", "model_resolution", "model_load", "workflow_execution", "quality", "activation", "promotion"],
+      "properties": {
+        "static_contract": {"const": true}, "transfer_integrity": {"const": true}, "pin_identity": {"const": true}, "commercial_dwpose_overlay_identity": {"const": true},
+        "coordinator_admission": {"const": false}, "custom_node_import": {"const": false}, "object_info": {"const": false}, "model_resolution": {"const": false},
+        "model_load": {"const": false}, "workflow_execution": {"const": false}, "quality": {"const": false}, "activation": {"const": false}, "promotion": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file": {"type": "object", "additionalProperties": false, "required": ["path", "bytes", "sha256"], "properties": {"path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "workflow": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "nodes", "unique_types"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}, "nodes": {"type": "integer", "minimum": 1}, "unique_types": {"const": 40}}},
+    "pin": {"type": "array", "prefixItems": [{"type": "string"}, {"type": "string", "pattern": "^[0-9a-f]{40}$"}], "items": false, "minItems": 2, "maxItems": 2},
+    "commercialDwpose": {
+      "type": "object", "additionalProperties": false,
+      "required": ["node_type", "overlay_path", "overlay_manifest_sha256", "node_sha256", "gpu_distribution", "cpu_distribution_metadata_present", "imported"],
+      "properties": {
+        "node_type": {"const": "Wave64CommercialDWPosePreprocessor"}, "overlay_path": {"type": "string"},
+        "overlay_manifest_sha256": {"$ref": "#/$defs/sha256"}, "node_sha256": {"$ref": "#/$defs/sha256"},
+        "gpu_distribution": {"const": "onnxruntime-gpu==1.27.0"}, "cpu_distribution_metadata_present": {"const": false}, "imported": {"const": false}
+      }
+    }
+  }
+}

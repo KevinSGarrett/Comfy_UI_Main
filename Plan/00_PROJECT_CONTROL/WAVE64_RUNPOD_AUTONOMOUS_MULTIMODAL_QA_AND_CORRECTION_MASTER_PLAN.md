@@ -1504,3 +1504,29 @@ binding gates only. Current-pod `object_info`, dependency parity, model
 resolution, isolated workflow smoke, output, cleanup, capacity, quality,
 failure injection, activation, and promotion remain false. The companion
 license hold still prohibits VAE acquisition and storage execution.
+
+### Wave42 exact object-info admission contract
+
+The accepted July 22 transfer is now joined to one immutable, fail-closed
+object-info admission contract. It binds the 77-file / 16,679,059-byte
+quarantine, both exact Wave42 workflow hashes, every one of the 17 clean
+custom-node pins, ComfyUI `0.28.0` at `66655153`, and the exact commercial
+DWPose overlay manifest. This consolidates the earlier node, model, provider,
+dependency-security, and overlay findings without changing their authority.
+
+Each workflow contains 40 serialized node types. `Note` is explicitly
+partitioned as frontend-only and non-executable; the candidate therefore
+requires exactly 39 `/object_info` types. It replaces the legacy
+non-commercial `DWPreprocessor` with the project-owned
+`Wave64CommercialDWPosePreprocessor`, whose eight required inputs are checked
+by name. Missing types, the legacy type, or signature drift fail closed.
+
+The latest finalized supervisor audit available to this shift is dated July
+10. Its anti-loop instruction is adopted, while its selected-inpaint target is
+rejected as stale relative to the accepted July 22 quarantine and later pushed
+W64-AQA evidence. No pod contact or import occurred. Coordinator admission,
+custom-node import, object info, model resolution, model load, workflow
+execution, quality, activation, and promotion all remain false. After the
+foreign recovery owner releases the coordinator, the next exact Wave42 action
+is one no-network/no-secret import and object-info canary under an exact
+`comfyui_main` lease, with no model session or workflow submission.

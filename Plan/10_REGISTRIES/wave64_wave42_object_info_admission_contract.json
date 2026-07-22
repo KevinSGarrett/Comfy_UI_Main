@@ -1,0 +1,108 @@
+{
+  "schema_version": "wave64.aqa.wave42_object_info_admission_contract.v1",
+  "program_id": "W64-AQA",
+  "contract_id": "d9c5a479fc0fbea95e025675dc77e4df2d3e5cabbacda9bbecf7a723ecd91a0f",
+  "status": "STATIC_ADMISSION_CONTRACT_READY_FOREIGN_COORDINATOR_RELEASE_AND_OBJECT_INFO_PENDING",
+  "quarantine": {
+    "root": "/workspace/wave64_quarantine/aws_ec2_20260722",
+    "workflow_manifest_rows": 77,
+    "workflow_manifest_bytes": 16679059,
+    "workflows": [
+      {"path": "workflows/WAVE42_MAIN_FLOW_20260702.json", "sha256": "5382d6cad24856662f7febca7356dbf0cf15080417324b58a5480c065e69401f", "nodes": 699, "unique_types": 40},
+      {"path": "workflows/Wave42_Runtime_Bound__UI__WAVE42_MAIN_FLOW_20260702.json", "sha256": "60529aa2f6365a0a632222f7bdf7b2973970f066fac1e501b3ef6b796af904a2", "nodes": 661, "unique_types": 40}
+    ],
+    "custom_node_root": "/workspace/custom_node_quarantine/aws_ec2_pins_20260722",
+    "custom_node_pins": [
+      ["ComfyUI-AnimateDiff-Evolved", "d8d163cd90b1111f6227495e3467633676fbb346"],
+      ["ComfyUI-Custom-Scripts", "609f3afaa74b2f88ef9ce8d939626065e3247469"],
+      ["ComfyUI-GGUF", "6ea2651e7df66d7585f6ffee804b20e92fb38b8a"],
+      ["ComfyUI-HunyuanVideoWrapper", "fcbd6729a9b0b8ff6037c598bbada4a6bdc6d967"],
+      ["ComfyUI-Impact-Pack", "429d0159ad429e64d2b3916e6e7be9c22d025c3c"],
+      ["ComfyUI-Impact-Subpack", "50c7b71a6a224734cc9b21963c6d1926816a97f1"],
+      ["ComfyUI-KJNodes", "bc8e4ce4254bcd0050383386ee2f9d753dbf1fa5"],
+      ["ComfyUI-LTXVideo", "4f45fd6c222eb06eb3e46605da62e7c889e4be5c"],
+      ["ComfyUI-VideoHelperSuite", "4ee72c065db22c9d96c2427954dc69e7b908444b"],
+      ["ComfyUI-WanVideoWrapper", "088128b224242e110d3906c6750e9a3a348a659b"],
+      ["ComfyUI_IPAdapter_plus", "a0f451a5113cf9becb0847b92884cb10cbdec0ef"],
+      ["ComfyUI_PuLID_Flux_ll", "7c7362b806c2c0f4bde8742ada9e7cb05b44d249"],
+      ["ComfyUI_UltimateSDUpscale", "a5547db9e1d07d3318bb21e9e9c474f4c1e9c8df"],
+      ["ComfyUI_essentials", "9d9f4bedfc9f0321c19faf71855e228c93bd0dc9"],
+      ["comfyui-controlnet-aux", "83463c2e4b04e729268e57f638b4212e0da4badc"],
+      ["comfyui-manager", "049a53f3d5b052ad24920353ec5f8beaac1ae2fa"],
+      ["rgthree-comfy", "27b4f4cdcf3b127c29d5d8135ac1536ecbd4c383"]
+    ],
+    "dependencies_installed": false,
+    "loader_visible": false,
+    "activated": false
+  },
+  "evidence_bindings": [
+    {"path": "Plan/10_REGISTRIES/wave64_wave42_quarantine_node_type_reconciliation.json", "bytes": 4579, "sha256": "66590e1c46fa7f8728120c2d0d64c14222d733b527caf9fbf77289f33cb52d10"},
+    {"path": "Plan/10_REGISTRIES/wave64_wave42_quarantine_model_selection_reconciliation.json", "bytes": 5022, "sha256": "59b5a663557131baf4a243c353d4f828ef5c7d19848c310ee5175698c2e317a4"},
+    {"path": "Plan/10_REGISTRIES/wave64_wave42_quarantine_dependency_security_reconciliation.json", "bytes": 5095, "sha256": "c80ce42d48ba6843e08bc6d83c5a26f380b3daf511fde5aa92b8e18d176174af"},
+    {"path": "Plan/10_REGISTRIES/wave64_wave42_commercial_dwpose_replacement_contract.json", "bytes": 4859, "sha256": "848a93322e083f34fa6fa70d586450c2a75111855c5a9205f05fd28d332caac4"},
+    {"path": "Plan/10_REGISTRIES/wave64_wave42_commercial_dwpose_runtime_staging_package.json", "bytes": 2676, "sha256": "0369b79d735c78796676440e261606a1acecf0570f078dd03685ccca04a1d999"}
+  ],
+  "candidate": {
+    "comfyui_version": "0.28.0",
+    "comfyui_commit": "66655153499f89052aa72d5a869f556b25f0e9c6",
+    "workflow_node_types": 40,
+    "executable_object_info_types": 39,
+    "commercial_dwpose": {
+      "node_type": "Wave64CommercialDWPosePreprocessor",
+      "overlay_path": "/workspace/wave64_quarantine/aws_ec2_20260722/candidates/commercial_dwpose_v1_overlay",
+      "overlay_manifest_sha256": "62a7197b79ae1159550e6cfe22abba8de8cd6e1d6ba0245943e732a958583ac9",
+      "node_sha256": "037d95af6469bff84e8aeae759827225233655405acf174d8fd92f11f08b67ab",
+      "gpu_distribution": "onnxruntime-gpu==1.27.0",
+      "cpu_distribution_metadata_present": false,
+      "imported": false
+    },
+    "legacy_dwpose_allowed": false
+  },
+  "required_object_info_types": [
+    "BboxDetectorSEGS", "CLIPLoader", "CLIPTextEncode", "CLIPTextEncodeFlux", "CheckpointLoaderSimple", "ConditioningCombine", "ConditioningConcat", "ConditioningSetAreaPercentage", "ConditioningZeroOut", "ControlNetApplyAdvanced", "ControlNetLoader", "EmptyLatentImage", "EmptySD3LatentImage", "IPAdapter", "IPAdapterUnifiedLoader", "ImageUpscaleWithModel", "InpaintModelConditioning", "KSampler", "LoadImage", "LoadImageMask", "Lora Loader Stack (rgthree)", "LoraLoader", "MaskComposite", "MaskToImage", "ModelSamplingAuraFlow", "ModelSamplingFlux", "PreviewImage", "SAMDetectorCombined", "SAMLoader", "SaveImage", "SolidMask", "UNETLoader", "UltralyticsDetectorProvider", "UpscaleModelLoader", "VAEDecode", "VAEEncode", "VAEEncodeForInpaint", "VAELoader", "Wave64CommercialDWPosePreprocessor"
+  ],
+  "frontend_only_exemptions": [{"type": "Note", "reason": "FRONTEND_ONLY_NON_EXECUTABLE_WORKFLOW_ANNOTATION"}],
+  "forbidden_object_info_types": ["DWPreprocessor"],
+  "signature_requirements": {
+    "Wave64CommercialDWPosePreprocessor": ["image", "detect_hand", "detect_body", "detect_face", "resolution", "bbox_detector", "pose_estimator", "scale_stick_for_xinsr_cn"]
+  },
+  "admission_preconditions": [
+    "FOREIGN_MASKFACTORY_RECOVERY_STATE_CLEARED_BY_OWNING_PROJECT",
+    "EXACT_COMFYUI_MAIN_COORDINATOR_ADMISSION_AND_LEASE_GRANTED",
+    "CURRENT_POD_COMFYUI_HEAD_EQUALS_66655153499F89052AA72D5A869F556B25F0E9C6",
+    "QUARANTINE_77_FILE_MANIFEST_REPLAY_EQUAL",
+    "SEVENTEEN_CUSTOM_NODE_HEADS_AND_CLEAN_WORKTREES_REPLAY_EQUAL",
+    "ONLY_FIVE_REFERENCED_CUSTOM_NODE_PINS_EXPOSED_TO_CANDIDATE",
+    "COMMERCIAL_DWPOSE_OVERLAY_MANIFEST_REPLAY_EQUAL",
+    "NO_NETWORK_NO_SECRETS_DISPOSABLE_IMPORT_NAMESPACE",
+    "INSTALLERS_RUNTIME_PIP_AND_MUTABLE_MODEL_DOWNLOADS_DISABLED",
+    "RAW_CHECKPOINT_LOADERS_DENIED_UNLESS_EXACT_HASH_SANDBOX_POLICY_EXISTS",
+    "NO_MODEL_SESSION_WORKFLOW_SUBMISSION_OR_GPU_INFERENCE_DURING_OBJECT_INFO_CANARY",
+    "TRANSACTION_OWNED_EVIDENCE_AND_CLEANUP_PATHS_DECLARED"
+  ],
+  "evaluation": {
+    "snapshot_required": true,
+    "network_allowed": false,
+    "secret_mounts_allowed": false,
+    "model_session_allowed": false,
+    "workflow_submission_allowed": false,
+    "write_scope": "TRANSACTION_OWNED_EVIDENCE_DIRECTORY_ONLY",
+    "success_requires_exact_type_set": true,
+    "success_requires_signature_match": true
+  },
+  "authority": {
+    "static_contract": true,
+    "transfer_integrity": true,
+    "pin_identity": true,
+    "commercial_dwpose_overlay_identity": true,
+    "coordinator_admission": false,
+    "custom_node_import": false,
+    "object_info": false,
+    "model_resolution": false,
+    "model_load": false,
+    "workflow_execution": false,
+    "quality": false,
+    "activation": false,
+    "promotion": false
+  }
+}

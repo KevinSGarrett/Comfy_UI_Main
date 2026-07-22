@@ -134,3 +134,27 @@ sampling parameters, node-source coverage, local installed-template equality,
 and local dependency observations. It does not prove current-pod object info,
 dependency parity, model resolution, execution, output quality, capacity,
 cleanup, failure isolation, activation, or promotion.
+
+Validate the Wave42 object-info admission contract before any quarantined
+custom-node import:
+
+```powershell
+python Plan/07_IMPLEMENTATION/scripts/validate_wave64_wave42_object_info_admission_contract.py
+```
+
+Static PASS binds the exact 77-file quarantine, both workflow hashes, all 17
+custom-node pins, the five project evidence inputs, and the commercial DWPose
+overlay. The workflows contain 40 serialized types, but `Note` is a frontend-
+only non-executable annotation, so the object-info canary requires exactly 39
+executable types. The candidate must expose
+`Wave64CommercialDWPosePreprocessor` and must not expose the legacy
+`DWPreprocessor` implementation.
+
+Do not run the optional `--object-info` evaluation until the foreign
+MaskFactory recovery owner clears its state and one exact `comfyui_main` lease
+is granted. The canary must be disposable, no-network, no-secret, and limited
+to imports plus `/object_info`; it may not create an ONNX or model session,
+submit a workflow, perform GPU inference, or write outside its transaction-
+owned evidence directory. Object-info PASS grants only import and schema
+compatibility for that retained snapshot. It does not grant model resolution,
+model load, workflow execution, quality, activation, or promotion.
