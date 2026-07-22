@@ -1091,3 +1091,11 @@ records no commercial-use category. These permission fields are retained as
 machine-readable constraints, not treated as license acceptance, consent, or
 product authority. No workflow binding, model load, visual-quality review,
 activation, or promotion occurred.
+
+Kokoro 82M's former provider-provenance hold is now closed. The exact three
+promoted files bind to official `hexgrad/Kokoro-82M` revision
+`f3ff3571791e39611d31c381e3a41a3af07b4987`; both large artifacts match
+published LFS hashes and the revision-pinned `config.json` independently hashes
+to the live value. Apache-2.0 metadata is recorded without license acceptance.
+Storage and provider identity are adopted; dependency environment, model load,
+synthesis quality, lifecycle cleanup, activation, and promotion remain false.
