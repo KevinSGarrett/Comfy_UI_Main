@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/generated_asset_promotion_decision.schema.json",
+  "title": "Wave64 Row104 Generated Asset Promotion Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "tracker_id", "item_id", "record_type",
+    "evaluator_revision", "policy_revision", "policy_sha256", "candidate_id",
+    "candidate_pcm_sha256", "is_synthetic", "dependency_admissions",
+    "required_gates", "canonical_tags", "origin", "provenance", "qa",
+    "rights", "dedup", "library", "revocation", "decision", "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tracker_id": {"const": "TRK-W64-104"},
+    "item_id": {"const": "ITEM-W64-104"},
+    "record_type": {"const": "generated_asset_promotion_decision"},
+    "evaluator_revision": {"const": "wave64_row104_generated_asset_promotion_evaluator_v0.1.0"},
+    "policy_revision": {"const": "wave64_row104_generated_asset_promotion_policy_v0.1.0"},
+    "policy_sha256": {"$ref": "#/$defs/sha256"},
+    "candidate_id": {"type": "string", "minLength": 1},
+    "candidate_pcm_sha256": {"$ref": "#/$defs/sha256"},
+    "is_synthetic": {"type": "boolean"},
+    "dependency_admissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TRK-W64-080", "TRK-W64-102", "TRK-W64-103"],
+      "properties": {
+        "TRK-W64-080": {"$ref": "#/$defs/dependency"},
+        "TRK-W64-102": {"$ref": "#/$defs/dependency"},
+        "TRK-W64-103": {"$ref": "#/$defs/dependency"}
+      }
+    },
+    "required_gates": {
+      "type": "array",
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {"enum": ["promotion_authority", "registry_ingestion", "selector_visibility", "origin_preserved", "rights", "dedup", "revocation"]}
+    },
+    "canonical_tags": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]*$"}},
+    "origin": {
+      "type": "object", "additionalProperties": false,
+      "required": ["type", "engine_revision", "generation_receipt_sha256"],
+      "properties": {
+        "type": {"const": "generated"},
+        "engine_revision": {"type": "string", "minLength": 1},
+        "generation_receipt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "provenance": {"$ref": "#/$defs/bound_authority"},
+    "qa": {"$ref": "#/$defs/bound_authority"},
+    "rights": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decision_sha256", "output_use", "license_id", "attribution"],
+      "properties": {
+        "decision_sha256": {"$ref": "#/$defs/sha256"},
+        "output_use": {"enum": ["allowed", "prohibited", "unknown"]},
+        "license_id": {"type": "string"},
+        "attribution": {"type": "string"}
+      }
+    },
+    "dedup": {
+      "type": "object", "additionalProperties": false,
+      "required": ["exact_duplicate", "near_duplicate", "justified_role"],
+      "properties": {
+        "exact_duplicate": {"type": "boolean"},
+        "near_duplicate": {"type": "boolean"},
+        "justified_role": {"type": ["string", "null"]}
+      }
+    },
+    "library": {
+      "type": "object", "additionalProperties": false,
+      "required": ["asset_id", "version", "object_path", "selector_visible", "generated_origin_preserved", "evidence_retained"],
+      "properties": {
+        "asset_id": {"type": "string", "minLength": 1},
+        "version": {"type": "integer", "minimum": 1},
+        "object_path": {"type": "string", "pattern": "^generated/[a-f0-9]{64}/v[1-9][0-9]*/asset\\.wav$"},
+        "selector_visible": {"type": "boolean"},
+        "generated_origin_preserved": {"const": true},
+        "evidence_retained": {"const": true}
+      }
+    },
+    "revocation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason", "receipt_sha256"],
+      "properties": {
+        "status": {"enum": ["active", "revoked"]},
+        "reason": {"type": ["string", "null"]},
+        "receipt_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]}
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["route", "status", "blocker_codes", "row104_acceptance", "product_completion", "promotion_authority"],
+      "properties": {
+        "route": {"enum": ["promote", "hold", "reject", "revoke", "fixture_promotable"]},
+        "status": {"enum": ["pass", "blocked", "fail"]},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "row104_acceptance": {"enum": ["fixture_only", "held", "accepted"]},
+        "product_completion": {"type": "boolean"},
+        "promotion_authority": {"type": "boolean"}
+      }
+    },
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tracker_id", "evidence_path", "evidence_sha256", "row_complete", "dependency_satisfied", "blocker_codes"],
+      "properties": {
+        "tracker_id": {"type": "string", "pattern": "^TRK-W64-[0-9]{3}$"},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "row_complete": {"type": "boolean"},
+        "dependency_satisfied": {"type": "boolean"},
+        "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "bound_authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["bundle_sha256", "accepted"],
+      "properties": {
+        "bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "accepted": {"type": "boolean"}
+      }
+    }
+  }
+}

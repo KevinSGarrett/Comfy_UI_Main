@@ -59,6 +59,22 @@ A generated candidate must be rejected for any of the following:
 - source leakage or memorization concern identified by the configured checks;
 - failed full-scene mix or AV-sync review.
 
+## Generated-asset promotion and revocation
+
+Passing candidate QA is necessary but not sufficient for reusable-library
+admission. Promotion additionally requires accepted source-library selector,
+generated-candidate provenance, and generated-sound QA dependencies; exact
+output-use rights and license/attribution fields; canonical tags; exact and
+near-duplicate decisions; a content-addressed no-clobber publication receipt;
+and preserved `generated` origin. Synthetic fixtures never gain selector
+visibility or promotion authority.
+
+Every promoted version binds the canonical PCM hash in its object path and
+retains the original generation, rights, provenance, QA, and dedup evidence.
+Revocation creates a new immutable decision receipt, removes selector
+eligibility, and preserves both the asset and prior evidence. Rewriting or
+deleting prior evidence is forbidden.
+
 ## Benchmark requirements
 
 Benchmarks must include:

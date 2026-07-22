@@ -330,6 +330,17 @@ Promote only passing generated sounds into a versioned generated-asset library w
 
 Acceptance: promoted assets are discoverable by the same selector as source assets while retaining generated origin; revocation removes eligibility without deleting evidence.
 
+Current bounded implementation: the strict Row104 schema, frozen policy,
+evaluator, and synthetic calibration suite now enforce accepted Row080/102/103
+dependencies, exact rights/provenance/QA bindings, canonical tags, generated
+origin, exact/near dedup decisions, content-addressed no-clobber publication,
+selector visibility, and evidence-preserving revocation. Five deterministic
+fixtures prove promotable-fixture isolation, rights/QA/exact-duplicate
+rejection, justified near-duplicate handling, and revocation removal. No
+generated PCM or live selector was mutated. Rows080, 102, and 103 remain held,
+so Row104 library and runtime authority remain false pending one genuine
+publication/discovery/revocation replay.
+
 ### Row105 End-to-end autonomous audio orchestrator
 
 Implement the transaction coordinator from video/scene inputs through perception, event compilation, retrieval/generation, rendering, QA, retry, publication, and resumable failure recovery.

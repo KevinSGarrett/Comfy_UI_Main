@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "W64-ROW104-GENERATED-ASSET-PROMOTION-CURRENT-DELTA-20260722",
+  "timestamp_utc": "2026-07-22T13:22:06Z",
+  "tracker_id": "TRK-W64-104",
+  "item_id": "ITEM-W64-104",
+  "classification": "ROW104_FAIL_CLOSED_PROMOTION_REVOCATION_CONTRACT_SLICE_NO_FALSE_COMPLETION",
+  "status": "HOLD_DEPENDENCIES_AND_GENERATED_ASSET_PROMOTION_RUNTIME_ABSENT_WITH_FAIL_CLOSED_CONTRACT_SLICE_PRESENT",
+  "row_complete": false,
+  "implementation_completion_claimed": false,
+  "runtime_completion_claimed": false,
+  "library_authority": false,
+  "implemented_scope": [
+    "strict generated-asset promotion-decision schema",
+    "frozen rights, provenance, QA, dedup, publication, selector, origin, and revocation policy",
+    "content-addressed no-clobber library object path",
+    "dependency admission for Rows080, 102, and 103",
+    "synthetic fixture-only promotion, rejection, near-duplicate justification, and revocation proofs",
+    "revocation removes selector visibility while retaining asset and evidence"
+  ],
+  "artifact_hashes": [
+    {"path": "Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_asset_promotion.py", "bytes": 15454, "sha256": "2a90301e71934af21598b556f177884aa1139a12b892c2b8043a7c22a64bac27"},
+    {"path": "Plan/08_SCHEMAS/generated_asset_promotion_decision.schema.json", "bytes": 5845, "sha256": "4b8f3897f70b19378f695e7b2a389e0f8323c13042f97601e81f3384a397f468"},
+    {"path": "Plan/10_REGISTRIES/wave64_row104_generated_asset_promotion_policy_registry.json", "bytes": 1471, "sha256": "213acb358488151eb635eca704c5615ce670a2a64a674581b3d98dc29876bfd8"},
+    {"path": "Plan/Instructions/QA/Scripts/test_row104_generated_asset_promotion.py", "bytes": 4116, "sha256": "c5fd97ac6c50f759f51fe4f84eacf8a81d857e07c2cd0b9530eb2529a9b903aa"},
+    {"path": "Plan/Instructions/QA/Evidence/Wave64/TRK-W64-104_generated_asset_promotion.json", "bytes": 23654, "sha256": "d9dc4eb75eea6d022525cba01356b8134ead8676172f204e52b32d1a524c90f7"}
+  ],
+  "validators": [
+    {
+      "command": "pytest -q Plan/Instructions/QA/Scripts/test_row104_generated_asset_promotion.py",
+      "result": "PASS_10",
+      "stdout_sha256": "8a95916348fe1f5eaf328c36c7a8469df2a3ee9da7bb5160bdc8c1540a61720a"
+    },
+    {
+      "command": "ruff check Plan/07_IMPLEMENTATION/scripts/evaluate_wave64_generated_asset_promotion.py Plan/Instructions/QA/Scripts/test_row104_generated_asset_promotion.py",
+      "result": "PASS"
+    },
+    {
+      "command": "python -m json.tool schema registry evidence",
+      "result": "PASS"
+    }
+  ],
+  "dependency_state": {
+    "TRK-W64-080": "held",
+    "TRK-W64-102": "held",
+    "TRK-W64-103": "held"
+  },
+  "truth_boundaries": [
+    "All five calibration records are synthetic and cannot enter the production selector.",
+    "No generated PCM was copied, promoted, published, discovered, or revoked in a live library.",
+    "The contract cannot infer rights, provenance, QA, dedup, or dependency authority.",
+    "Row104 remains incomplete until genuine no-clobber publication, selector discovery, and revocation replay pass after dependencies are accepted."
+  ],
+  "decision": {
+    "status": "blocked",
+    "row104_acceptance": "held",
+    "product_completion": false,
+    "safe_next_action": "Accept Rows080, 102, and 103; bind one genuine generated candidate with exact rights, provenance, QA, dedup, and publication receipts; prove selector discovery and revocation removal without deleting immutable evidence."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "wave64_row104_generated_asset_promotion_policy_registry",
+  "revision": "wave64_row104_generated_asset_promotion_policy_v0.1.0",
+  "tracker_id": "TRK-W64-104",
+  "authority": "planning_freeze_not_library_acceptance",
+  "dependency_prerequisites": ["TRK-W64-080", "TRK-W64-102", "TRK-W64-103"],
+  "required_gates": ["promotion_authority", "registry_ingestion", "selector_visibility", "origin_preserved", "rights", "dedup", "revocation"],
+  "publication": {
+    "path_template": "generated/{canonical_pcm_sha256}/v{version}/asset.wav",
+    "no_clobber": true,
+    "content_addressed": true,
+    "generated_origin_required": true,
+    "evidence_retention_required": true
+  },
+  "rights": {
+    "allowed_output_use": "allowed",
+    "license_id_required": true,
+    "attribution_field_required": true
+  },
+  "dedup": {
+    "exact_duplicate_rejected": true,
+    "near_duplicate_requires_justified_role": true
+  },
+  "revocation": {
+    "removes_selector_eligibility": true,
+    "preserves_asset_and_evidence": true,
+    "reason_and_receipt_required": true
+  },
+  "fail_closed": {
+    "synthetic_fixture_cannot_enter_library": true,
+    "held_dependency_blocks_promotion": true,
+    "missing_rights_blocks_promotion": true,
+    "missing_provenance_blocks_promotion": true,
+    "missing_qa_blocks_promotion": true,
+    "selector_visibility_requires_promotion_authority": true,
+    "revoked_asset_cannot_be_discovered": true
+  }
+}
