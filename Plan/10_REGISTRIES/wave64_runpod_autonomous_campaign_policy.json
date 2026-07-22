@@ -1,0 +1,30 @@
+{
+  "schema_version": "wave64.aqa.campaign_policy.v1",
+  "policy_id": "W64-AQA-TOOL-POLICY-002",
+  "status": "STATIC_QUALIFICATION_ONLY",
+  "max_attempts": 2,
+  "max_repair_attempts": 1,
+  "continue_unrelated_branches": true,
+  "abstain_on_unqualified_role": true,
+  "gpu_phases_require_shared_coordinator_lease": true,
+  "cpu_phases_require_lease": false,
+  "allowed_tools": [
+    "HASH_FILE",
+    "READ_CAMPAIGN_INPUT",
+    "VALIDATE_JSON",
+    "RUN_ALLOWLISTED_VALIDATOR",
+    "WRITE_CANDIDATE_ARTIFACT",
+    "RENDER_ACCEPTANCE_SUMMARY"
+  ],
+  "forbidden_authority": [
+    "PUSH_GIT",
+    "PROMOTE_PRODUCT",
+    "WEAKEN_THRESHOLD",
+    "SPEND_MONEY",
+    "READ_CREDENTIAL",
+    "DESTRUCTIVE_ACTION",
+    "OVERRIDE_FOREIGN_LEASE",
+    "SELF_PROMOTE"
+  ],
+  "final_acceptance_authority": "CODEX"
+}

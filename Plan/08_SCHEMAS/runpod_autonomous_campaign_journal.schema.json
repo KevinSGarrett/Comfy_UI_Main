@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_campaign_journal.schema.json",
+  "title": "Wave64 RunPod Autonomous Campaign Append-Only Journal",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "campaign_id", "events", "restart_cursor"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.campaign_journal.v1"},
+    "campaign_id": {"$ref": "#/definitions/sha256"},
+    "events": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["sequence", "timestamp", "event_type", "state", "node_id", "phase", "payload_sha256", "previous_hash", "event_hash"],
+        "properties": {
+          "sequence": {"type": "integer", "minimum": 0},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "event_type": {"enum": ["CAMPAIGN_CREATED", "ADMITTED", "BLOCKED", "DAG_SCHEDULING", "CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_DISPATCH", "JOB_TERMINAL", "DAG_ADVANCE", "RESTART_REPLAY", "CAMPAIGN_TERMINAL"]},
+          "state": {"enum": ["CAMPAIGN_CREATED", "ADMITTED", "BLOCKED", "DAG_SCHEDULING", "CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_DISPATCH", "DAG_ADVANCE", "COMPLETE", "PARTIAL_BLOCKED", "ABORTED", "RESTART_REPLAY"]},
+          "node_id": {"type": ["string", "null"]},
+          "phase": {"enum": ["CPU", "GPU", "NONE"]},
+          "payload_sha256": {"$ref": "#/definitions/sha256"},
+          "previous_hash": {"$ref": "#/definitions/sha256"},
+          "event_hash": {"$ref": "#/definitions/sha256"}
+        }
+      }
+    },
+    "restart_cursor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["last_sequence", "last_event_hash", "completed_nodes", "in_flight_nodes_assumed_complete"],
+      "properties": {
+        "last_sequence": {"type": "integer", "minimum": 0},
+        "last_event_hash": {"$ref": "#/definitions/sha256"},
+        "completed_nodes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "in_flight_nodes_assumed_complete": {"const": false}
+      }
+    }
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

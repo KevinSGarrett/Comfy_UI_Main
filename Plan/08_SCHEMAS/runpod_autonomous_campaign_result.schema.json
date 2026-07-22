@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_campaign_result.schema.json",
+  "title": "Wave64 RunPod Autonomous Campaign Sealed Result",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "campaign_id", "contract_sha256", "journal_head_sha256", "disposition", "jobs", "evidence", "metrics", "cleanup", "authority", "proposed_delta"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.campaign_result.v1"},
+    "campaign_id": {"$ref": "#/definitions/sha256"},
+    "contract_sha256": {"$ref": "#/definitions/sha256"},
+    "journal_head_sha256": {"$ref": "#/definitions/sha256"},
+    "disposition": {"enum": ["COMPLETE", "PARTIAL_BLOCKED", "ABORTED"]},
+    "jobs": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["node_id", "terminal_state", "attempts", "evidence_sha256", "evidence_path", "reason"], "properties": {"node_id": {"type": "string"}, "terminal_state": {"enum": ["PASS", "FAIL", "BLOCKED", "ABSTAINED", "ROLLED_BACK"]}, "attempts": {"type": "integer", "minimum": 0}, "evidence_sha256": {"$ref": "#/definitions/sha256"}, "evidence_path": {"type": "string"}, "reason": {"type": "string"}}}},
+    "evidence": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["sha256", "relative_path", "media_type", "size_bytes"], "properties": {"sha256": {"$ref": "#/definitions/sha256"}, "relative_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"}, "media_type": {"type": "string"}, "size_bytes": {"type": "integer", "minimum": 0}}}},
+    "metrics": {"type": "object", "additionalProperties": false, "required": ["autonomous_terminalization_rate", "interruption_rate", "evidence_completeness_rate", "restart_replay_rate", "scope_authority_violations", "known_bad_false_accepts", "codex_agreement_rate", "first_pass_validation_rate", "model_reloads", "coordinator_churn"], "properties": {"autonomous_terminalization_rate": {"$ref": "#/definitions/rate"}, "interruption_rate": {"$ref": "#/definitions/rate"}, "evidence_completeness_rate": {"$ref": "#/definitions/rate"}, "restart_replay_rate": {"$ref": "#/definitions/rate"}, "scope_authority_violations": {"type": "integer", "minimum": 0}, "known_bad_false_accepts": {"type": "integer", "minimum": 0}, "codex_agreement_rate": {"$ref": "#/definitions/rate"}, "first_pass_validation_rate": {"$ref": "#/definitions/rate"}, "model_reloads": {"type": "integer", "minimum": 0}, "coordinator_churn": {"type": "integer", "minimum": 0}}},
+    "cleanup": {"type": "object", "additionalProperties": false, "required": ["complete", "residual_paths"], "properties": {"complete": {"type": "boolean"}, "residual_paths": {"type": "array", "items": {"type": "string"}}}},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["self_promoted", "git_pushed", "thresholds_weakened", "final_acceptance_authority"], "properties": {"self_promoted": {"const": false}, "git_pushed": {"const": false}, "thresholds_weakened": {"const": false}, "final_acceptance_authority": {"const": "CODEX"}}},
+    "proposed_delta": {"type": ["object", "null"], "additionalProperties": false, "required": ["manifest_sha256", "relative_path"], "properties": {"manifest_sha256": {"$ref": "#/definitions/sha256"}, "relative_path": {"type": "string"}}}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "rate": {"type": "number", "minimum": 0, "maximum": 1}}
+}
