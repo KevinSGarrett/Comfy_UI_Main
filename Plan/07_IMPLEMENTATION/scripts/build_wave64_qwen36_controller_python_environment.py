@@ -73,9 +73,20 @@ def configure_builder(base: Any) -> Any:
         command: list[str], *, input_text: str | None = None
     ) -> str:
         bounded = list(command)
-        if bounded[:3] == ["uv", "pip", "sync"] and "--no-cache" not in bounded:
-            bounded.insert(3, "--no-cache")
-        return original_run(bounded, input_text=input_text)
+        if bounded[:3] != ["uv", "pip", "sync"]:
+            return original_run(bounded, input_text=input_text)
+        for option in ("--link-mode=copy", "--no-cache"):
+            if option not in bounded:
+                bounded.insert(3, option)
+        previous_concurrency = os.environ.get("UV_CONCURRENT_INSTALLS")
+        os.environ["UV_CONCURRENT_INSTALLS"] = "1"
+        try:
+            return original_run(bounded, input_text=input_text)
+        finally:
+            if previous_concurrency is None:
+                os.environ.pop("UV_CONCURRENT_INSTALLS", None)
+            else:
+                os.environ["UV_CONCURRENT_INSTALLS"] = previous_concurrency
 
     base.run = controller_run
     base.write_receipt = lambda path, receipt: controller_write_receipt(

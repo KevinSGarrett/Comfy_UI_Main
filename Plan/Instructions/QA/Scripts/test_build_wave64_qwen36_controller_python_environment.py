@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -50,7 +51,7 @@ def test_controller_builder_disables_duplicate_uv_cache_storage() -> None:
     calls = []
 
     def run(command: list[str], *, input_text: str | None = None) -> str:
-        calls.append((command, input_text))
+        calls.append((command, input_text, os.environ.get("UV_CONCURRENT_INSTALLS")))
         return "ok"
 
     base = SimpleNamespace(run=run, write_receipt=lambda *_: None)
@@ -64,11 +65,14 @@ def test_controller_builder_disables_duplicate_uv_cache_storage() -> None:
         "pip",
         "sync",
         "--no-cache",
+        "--link-mode=copy",
         "--python",
         "/staging/bin/python",
         "lock.toml",
     ]
+    assert calls[0][2] == "1"
     assert "--no-cache" not in calls[1][0]
+    assert "--link-mode=copy" not in calls[1][0]
 
 
 def test_non_pep751_canonical_lock_gets_hash_exact_transient_alias(
