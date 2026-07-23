@@ -131,6 +131,14 @@ def compile_certificate(report: dict[str, Any]) -> dict[str, Any]:
     qualified = not reasons
     if qualified:
         reasons.add("EXACT_SCOPE_CAPACITY_QUALITY_AND_RELIABILITY_QUALIFIED")
+    authority_scope = report.get("authority_scope", "DECLARED_ROLE_SCOPE")
+    qualification_disposition = (
+        "FAILED_QUALIFICATION"
+        if not qualified
+        else "QUALIFIED_REFUSAL_DISCIPLINE_SCOPE_ONLY"
+        if authority_scope == "REFUSAL_DISCIPLINE_SCOPE_ONLY"
+        else "QUALIFIED_FOR_DECLARED_SCOPE"
+    )
     certificate = {
         "schema_version": "wave64.aqa.role_qualification_certificate.v1",
         "certificate_id": ZERO_HASH,
@@ -142,10 +150,12 @@ def compile_certificate(report: dict[str, Any]) -> dict[str, Any]:
         "issued_at": report["issued_at"], "expires_at": report["expires_at"],
         "scope": report["scope"], "thresholds": thresholds, "metrics": metrics,
         "coverage_categories": sorted(categories),
-        "qualification_disposition": "QUALIFIED_FOR_DECLARED_SCOPE" if qualified else "FAILED_QUALIFICATION",
-        "operational_authority_granted": qualified,
+        "qualification_disposition": qualification_disposition,
+        "operational_authority_granted": qualified and authority_scope == "DECLARED_ROLE_SCOPE",
         "reason_codes": sorted(reasons),
     }
+    if "authority_scope" in report:
+        certificate["authority_scope"] = authority_scope
     certificate["certificate_id"] = hashlib.sha256(canonical_bytes(certificate)).hexdigest()
     jsonschema.Draft7Validator(_load_json(CERTIFICATE_SCHEMA_PATH)).validate(certificate)
     return certificate

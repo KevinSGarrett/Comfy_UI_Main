@@ -361,6 +361,12 @@ PATHS = {
     / "Plan/08_SCHEMAS/runpod_autonomous_role_drift_decision.schema.json",
     "role_qualification_compiler": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
+    "fast_triage_refusal_admission_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_fast_triage_refusal_admission.schema.json",
+    "fast_triage_refusal_admission": ROOT
+    / "Plan/10_REGISTRIES/wave64_qwen3vl4_fast_triage_refusal_admission.json",
+    "fast_triage_refusal_canary": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_qwen3vl4_fast_triage_refusal_canary.py",
     "migration_event_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_one_pod_migration_event.schema.json",
     "migration_state_schema": ROOT

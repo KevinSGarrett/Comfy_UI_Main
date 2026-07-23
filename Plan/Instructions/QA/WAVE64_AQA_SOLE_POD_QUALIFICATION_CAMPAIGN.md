@@ -232,6 +232,19 @@ overlay tree, and CPU-mode import compatibility only. The live port-8188
 service remains unchanged. Attaching the overlay to a disposable ComfyUI instance or
 loading any model is a later lease-bound action.
 
+## Fast-triage refusal-only learned-role gate
+
+The queue-selected fast-triage admission is statically prepared for the exact
+licensed Qwen3-VL 4B package. LLaVA13 is excluded because its project license is
+not accepted. The frozen role matrix contains four calibration and five
+held-out refusal cases but no in-scope triage/crop case. Require 4x2 calibration
+success before 5x1 held-out execution, exact structured refusals, zero false
+accepts, deterministic repeatability, a valid 8 GiB exclusive lease, and proven
+unload cleanup. A passing certificate must be
+`QUALIFIED_REFUSAL_DISCIPLINE_SCOPE_ONLY` with
+`operational_authority_granted=false`; all production roles remain
+`BLOCKED_UNQUALIFIED`.
+
 ## Campaign executor rollout lane
 
 W64-AQA-019 is the CPU-safe orchestration and evidence-compaction lane for the sole production RunPod architecture. Its static schemas, journal, CAS/Merkle, result seal, policy, role families, coordinator adapter contract, renderer, proposed-delta compiler, and exact 18-task CPU shadow require no GPU lease. They grant no model, media, workflow, reviewer, golden-mask, runtime, or product authority.

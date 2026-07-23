@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_fast_triage_refusal_admission.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "admission_id", "program_id", "campaign_id", "role_id", "status", "source_commit", "bindings", "selected_package", "excluded_packages", "prompt_policy", "prompt_sha256", "cases", "lease", "execution", "thresholds", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.fast_triage_refusal_admission.v1"},
+    "admission_id": {"$ref": "#/$defs/sha256"},
+    "program_id": {"const": "W64-AQA"},
+    "campaign_id": {"const": "W64-AQA-CAMPAIGN-ROLE-FAST-TRIAGE"},
+    "role_id": {"const": "W64-AQA-ROLE-FAST-TRIAGE"},
+    "status": {"const": "REFUSAL_DISCIPLINE_RUNTIME_ADMITTED_EXECUTION_PENDING"},
+    "source_commit": {"$ref": "#/$defs/gitsha1"},
+    "bindings": {"type": "object", "additionalProperties": false, "required": ["corpus", "execution_matrix", "campaign_queue", "package_inventory", "role_registry"], "properties": {"corpus": {"$ref": "#/$defs/binding"}, "execution_matrix": {"$ref": "#/$defs/binding"}, "campaign_queue": {"$ref": "#/$defs/binding"}, "package_inventory": {"$ref": "#/$defs/binding"}, "role_registry": {"$ref": "#/$defs/binding"}}},
+    "selected_package": {"type": "object", "additionalProperties": false, "required": ["package_id", "model_id", "digest", "license_state"], "properties": {"package_id": {"const": "W64-AQA-PKG-QWEN3VL4"}, "model_id": {"const": "qwen3-vl:4b-instruct-q4_K_M"}, "digest": {"$ref": "#/$defs/sha256"}, "license_state": {"const": "APACHE-2.0_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE"}}},
+    "excluded_packages": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["package_id", "reason"], "properties": {"package_id": {"type": "string"}, "reason": {"type": "string", "minLength": 1}}}},
+    "prompt_policy": {"type": "object"},
+    "prompt_sha256": {"$ref": "#/$defs/sha256"},
+    "cases": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"type": "object", "additionalProperties": false, "required": ["case_id", "category", "partition", "source_sha256", "task_scope", "expected_disposition", "reason_code", "runs"], "properties": {"case_id": {"type": "string"}, "category": {"type": "string"}, "partition": {"enum": ["calibration", "held_out"]}, "source_sha256": {"$ref": "#/$defs/sha256"}, "task_scope": {"type": "string"}, "expected_disposition": {"const": "REFUSE"}, "reason_code": {"type": "string", "pattern": "^OUT_OF_SCOPE_[A-Z0-9_]+$"}, "runs": {"type": "integer", "minimum": 1, "maximum": 2}}}},
+    "lease": {"type": "object", "additionalProperties": false, "required": ["project", "profile", "mode", "minimum_reserved_peak_gib"], "properties": {"project": {"const": "comfyui_main"}, "profile": {"const": "comfyui_model_qualification"}, "mode": {"const": "exclusive"}, "minimum_reserved_peak_gib": {"type": "number", "minimum": 8}}},
+    "execution": {"type": "object", "additionalProperties": false, "required": ["ollama_version", "runtime_digest", "required_free_vram_mib", "overlay_max_used_percent", "cleanup_tolerance_mib", "timeout_seconds", "held_out_requires_calibration_pass", "unchanged_rerun_forbidden"], "properties": {"ollama_version": {"const": "0.32.1"}, "runtime_digest": {"$ref": "#/$defs/sha256"}, "required_free_vram_mib": {"type": "integer", "minimum": 8192}, "overlay_max_used_percent": {"type": "number", "maximum": 85}, "cleanup_tolerance_mib": {"type": "integer", "maximum": 2048}, "timeout_seconds": {"type": "integer", "minimum": 60, "maximum": 900}, "held_out_requires_calibration_pass": {"const": true}, "unchanged_rerun_forbidden": {"const": true}}},
+    "thresholds": {"type": "object", "additionalProperties": false, "required": ["max_false_accept_rate", "max_invalid_schema_rate", "min_repeatability_rate", "min_refusal_correctness_rate"], "properties": {"max_false_accept_rate": {"const": 0}, "max_invalid_schema_rate": {"const": 0}, "min_repeatability_rate": {"const": 1}, "min_refusal_correctness_rate": {"const": 1}}},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["refusal_discipline_scope_only", "triage_crop_capability", "general_visual_review", "independent_juror", "product_promotion", "golden_mask"], "properties": {"refusal_discipline_scope_only": {"const": true}, "triage_crop_capability": {"const": false}, "general_visual_review": {"const": false}, "independent_juror": {"const": false}, "product_promotion": {"const": false}, "golden_mask": {"const": false}}}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "gitsha1": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "binding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}}}
+}

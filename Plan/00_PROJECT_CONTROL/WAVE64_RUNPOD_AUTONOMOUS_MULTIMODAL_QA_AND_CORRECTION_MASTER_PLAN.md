@@ -1770,3 +1770,20 @@ longer points to an unchanged MIT AST rerun. General event recognition, broad
 audio-semantic role authority, operational activation, product promotion, and
 BEATs equivalence remain false. A future replacement requires a new immutable
 model/corpus/threshold admission; it may not reinterpret this result into a pass.
+
+### First learned-role admission: fast-triage refusal discipline
+
+The queue-selected fast-triage campaign now has an immutable admission for the
+licensed `qwen3-vl:4b-instruct-q4_K_M` package only. It binds the exact model,
+Ollama runtime, queue, corpus, execution matrix, role registry, package
+inventory, prompt policy, and source commit. `llava:13b` is explicitly excluded
+before load because project license acceptance is false.
+
+The current nine-case role matrix contains no genuine in-scope triage or crop
+fixture. The admitted 4x2 calibration and 5x1 held-out campaign therefore may
+qualify only `REFUSAL_DISCIPLINE_SCOPE_ONLY`. Its certificate compiler keeps
+operational role authority false even if every refusal is correct, repeatable,
+schema-valid, capacity-safe, and cleanup-safe. A fresh 8 GiB exclusive shared
+coordinator lease is still required for execution. Fast triage, visual review,
+independent juror, product, multimodal, and golden-mask authority remain
+`BLOCKED_UNQUALIFIED` until their distinct quality gates pass.

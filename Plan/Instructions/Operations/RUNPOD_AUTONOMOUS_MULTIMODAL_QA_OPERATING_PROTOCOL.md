@@ -595,3 +595,13 @@ the production volume with CUDA hidden and an unchanged GPU-process snapshot.
 It does not qualify a learned role or authorize development, multimodal,
 product, or golden-mask decisions. Future CPU mission replays must use a new
 immutable root; never overwrite this evidence directory.
+
+The first learned-role runtime admission is the Qwen3-VL 4B fast-triage
+refusal-only campaign. Before any remote inference, validate the immutable
+admission, exact installed digest, Ollama 0.32.1 identity, explicit LLaVA13
+license exclusion, empty model residency, idle ComfyUI queue, overlay pressure,
+free VRAM, and an 8 GiB exclusive shared-coordinator lease. Run all four
+calibration cases twice; only an all-pass calibration may open each of the five
+held-out cases once. Always unload the owned model and prove cleanup. Even a
+perfect result grants only `REFUSAL_DISCIPLINE_SCOPE_ONLY`; operational triage,
+crop selection, visual review, product, and golden-mask authority stay false.

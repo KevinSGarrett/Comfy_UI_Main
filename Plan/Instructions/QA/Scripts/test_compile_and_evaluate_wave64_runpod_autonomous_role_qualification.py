@@ -64,6 +64,20 @@ def test_complete_capacity_and_quality_report_qualifies_deterministically() -> N
     assert first["metrics"]["repeatability_fixture_count"] == 4
 
 
+def test_refusal_only_scope_never_grants_operational_role_authority() -> None:
+    module = load_compiler()
+    value = report()
+    value["authority_scope"] = "REFUSAL_DISCIPLINE_SCOPE_ONLY"
+    for fixture in value["fixtures"]:
+        fixture["expected_disposition"] = "REFUSE"
+        for run in fixture["runs"]:
+            run["disposition"] = "REFUSE"
+    certificate = module.compile_certificate(value)
+    assert certificate["authority_scope"] == "REFUSAL_DISCIPLINE_SCOPE_ONLY"
+    assert certificate["qualification_disposition"] == "QUALIFIED_REFUSAL_DISCIPLINE_SCOPE_ONLY"
+    assert certificate["operational_authority_granted"] is False
+
+
 def test_missing_coverage_capacity_false_accept_schema_and_repeatability_fail() -> None:
     module = load_compiler()
     missing = report()
