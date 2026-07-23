@@ -1,0 +1,41 @@
+{
+  "schema_version": "wave64.aqa.mit_ast_event_calibration.negative_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-128", "TRK-W64-141", "TRK-W64-142"],
+  "recorded_at_utc": "2026-07-23T00:14:00Z",
+  "status": "REJECTED_RUNTIME_RETAINED_TARGETED_REPAIR_REQUIRED",
+  "campaign_id": "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS",
+  "bindings": {
+    "admission_sha256": "5cd770a95e082d0076d77fd0862c729f3bebec64d206ede00997a4835e6b2141",
+    "calibration_receipt_sha256": "98b01243373a6d554558c96f83cc7d46942d4a9edaf07c5dba35fe6ae1cab22d",
+    "coordinator_lease_granted_sha256": "872958206f2758a4015223b20ad46861a087a6fa4bc6edca4374a1866eba4c80",
+    "coordinator_lease_released_sha256": "d4400ee43202f08408170a1036f4b6afaf8bfe7134e04fbb6c9307e950df97e2",
+    "repaired_executor_sha256": "d115b8a4fc1f588a982fbb29c56b0943fe9218a6915366261f0300c88dd9b93e",
+    "repaired_test_sha256": "b3f8df478293b6e2969fd4e0a96f15fa1c644e2ff0b8dbc2c25f394823d27ba3"
+  },
+  "failure": {
+    "classification": "AST_INPUT_SAMPLE_RATE_NOT_NORMALIZED",
+    "observed_source_rate_hz": 48000,
+    "required_inference_rate_hz": 16000,
+    "case_results_emitted": 0,
+    "process_exit_cleanup_delta_mib": 0,
+    "lease_release_result": "failed_retained_evidence"
+  },
+  "repair": {
+    "classification": "TARGETED_DETERMINISTIC_PREPROCESSING_REPAIR",
+    "scope": "Resample decoded mono PCM to the exact AST feature-extractor rate and record original rate, inference rate, and resampled frame count.",
+    "focused_tests_passed": 8,
+    "ruff": "PASS",
+    "thresholds_weakened": false,
+    "unchanged_rerun": false
+  },
+  "authority": {
+    "exact_partition_measurement": false,
+    "general_audio_event_recognition": false,
+    "beats_equivalence": false,
+    "audio_semantic_role_qualification": false,
+    "operational_activation": false,
+    "product_promotion": false
+  },
+  "next_action": "Commit the targeted repair, then execute calibration under a fresh exact lease. Run held-out once only if repaired calibration passes and cleanup is proven."
+}

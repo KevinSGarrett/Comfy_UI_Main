@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 
@@ -68,6 +69,19 @@ def test_label_family_matching_is_bounded() -> None:
     assert MODULE.family_match("cloth movement", "Rustling")
     assert MODULE.family_match("room ambience", "Inside, small room")
     assert not MODULE.family_match("speech", "Engine")
+
+
+def test_audio_is_resampled_to_exact_ast_rate() -> None:
+    audio = np.linspace(-1.0, 1.0, 48000, dtype=np.float32)
+    resampled = MODULE.resample_audio(audio, 48000, 16000)
+    assert resampled.dtype == np.float32
+    assert resampled.shape == (16000,)
+    assert MODULE.resample_audio(audio, 48000, 48000) is audio
+
+
+def test_invalid_resampling_input_fails_closed() -> None:
+    with pytest.raises(MODULE.CanaryError, match="invalid audio resampling input"):
+        MODULE.resample_audio(np.array([], dtype=np.float32), 48000, 16000)
 
 
 def test_git_blob_identity_matches_git_hash_object(tmp_path: Path) -> None:

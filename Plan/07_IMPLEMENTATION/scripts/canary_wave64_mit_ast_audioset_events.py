@@ -176,6 +176,21 @@ def decode_pcm(path: Path) -> tuple[Any, int]:
     return audio.reshape(-1, channels).mean(axis=1), rate
 
 
+def resample_audio(audio: Any, source_rate: int, target_rate: int) -> Any:
+    """Deterministically resample mono PCM for the AST feature extractor."""
+    import numpy as np
+
+    if source_rate <= 0 or target_rate <= 0 or audio.ndim != 1 or audio.size == 0:
+        raise CanaryError("invalid audio resampling input")
+    if source_rate == target_rate:
+        return audio
+    target_size = max(1, round(audio.size * target_rate / source_rate))
+    source_positions = np.arange(audio.size, dtype=np.float64)
+    target_positions = np.arange(target_size, dtype=np.float64) * source_rate / target_rate
+    target_positions = np.minimum(target_positions, audio.size - 1)
+    return np.interp(target_positions, source_positions, audio).astype(np.float32)
+
+
 def run_worker(admission: dict[str, Any], lease: dict[str, Any], project_root: Path, partition: str, calibration: dict[str, Any] | None) -> tuple[dict[str, Any], int]:
     import torch
     from transformers import ASTFeatureExtractor, ASTForAudioClassification
@@ -207,7 +222,9 @@ def run_worker(admission: dict[str, Any], lease: dict[str, Any], project_root: P
             if not path.is_file() or path.is_symlink() or path.stat().st_size != source["bytes"] or sha256_file(path) != source["sha256"]:
                 raise CanaryError(f"source identity mismatch: {source['source_id']}")
             audio, rate = decode_pcm(path)
-            inputs = extractor(audio, sampling_rate=rate, return_tensors="pt")
+            extractor_rate = int(extractor.sampling_rate)
+            resampled = resample_audio(audio, rate, extractor_rate)
+            inputs = extractor(resampled, sampling_rate=extractor_rate, return_tensors="pt")
             with torch.inference_mode():
                 logits = model(inputs["input_values"].to("cuda:0", dtype=torch.float16)).logits[0].float().cpu()
             probabilities = torch.softmax(logits, dim=-1)
@@ -215,7 +232,7 @@ def run_worker(admission: dict[str, Any], lease: dict[str, Any], project_root: P
             predictions = [{"rank": index + 1, "label": model.config.id2label[int(label)], "score": float(score)} for index, (score, label) in enumerate(zip(top.values, top.indices, strict=True))]
             family_hits = {family: [item["rank"] for item in predictions if family_match(family, item["label"])] for family in case["required_label_families"]}
             top3_pass = any(ranks and min(ranks) <= admission["execution"]["calibration_top_k_gate"] for ranks in family_hits.values())
-            results.append({"case": case, "source": {"source_id": source["source_id"], "sha256": source["sha256"], "bytes": source["bytes"]}, "predictions": predictions, "family_hits": family_hits, "calibration_top3_gate": top3_pass})
+            results.append({"case": case, "source": {"source_id": source["source_id"], "sha256": source["sha256"], "bytes": source["bytes"], "original_sample_rate_hz": rate, "inference_sample_rate_hz": extractor_rate, "resampled_frame_count": int(resampled.size)}, "predictions": predictions, "family_hits": family_hits, "calibration_top3_gate": top3_pass})
         passed = all(item["calibration_top3_gate"] for item in results) if partition == "calibration" else True
     except Exception as exc:  # noqa: BLE001
         error = f"{type(exc).__name__}: {exc}"
