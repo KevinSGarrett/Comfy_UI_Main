@@ -586,3 +586,12 @@ requires an expired heartbeat cutoff and never assumes an in-flight operation
 succeeded. Verify the complete journal before resuming or accepting a terminal
 packet. Do not delete or mutate mission rows or journal events. A final result
 is still a prepared recommendation until Codex accepts it.
+
+The accepted CPU-volume replay is pinned to commit `660f8299` and immutable
+RunPod root
+`/workspace/runtime_artifacts/w64_aqa_durable_mission_cpu_replay_20260723T021010Z`.
+It proves the exact SQLite WAL/CAS lifecycle, recovery replay, and cleanup on
+the production volume with CUDA hidden and an unchanged GPU-process snapshot.
+It does not qualify a learned role or authorize development, multimodal,
+product, or golden-mask decisions. Future CPU mission replays must use a new
+immutable root; never overwrite this evidence directory.

@@ -1739,5 +1739,15 @@ recovery, re-claim, deterministic replay, terminal result binding, and temporary
 queue cleanup. Measured shadow results are 100% terminalization, evidence, and
 restart replay; 5.56% interruption; 83.33% first-pass validation; and zero
 known-bad accepts, scope violations, or GPU leases. These are synthetic static
-metrics, not RunPod throughput or learned-role quality. Current-RunPod CPU
-deployment and every learned and multimodal role remain unqualified.
+metrics, not learned-role quality or general throughput.
+
+The same corrected source at pushed commit `660f8299` then passed an isolated
+CPU-only replay on RunPod pod `1q4ji0gg1fkhvt` under
+`/workspace/runtime_artifacts/w64_aqa_durable_mission_cpu_replay_20260723T021010Z`.
+The sparse source checkout and 80,266-byte evidence set are read-only; the
+single mission journal records admit, claim, heartbeat, checkpoint, stale
+recovery, re-claim, and terminalization. Deterministic replay, journal replay,
+CAS persistence, queue cleanup, and unchanged GPU-process snapshots pass with
+zero lease acquisitions. This qualifies only the exact CPU-volume durability
+path. Every learned role, development-campaign authority, multimodal campaign,
+media-quality gate, product decision, and golden-mask authority remains false.

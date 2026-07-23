@@ -103,6 +103,8 @@ PATHS = {
     / "Plan/Tracker/Evidence/W64_AQA_AUTONOMOUS_CAMPAIGN_CPU_SHADOW_20260722T224015Z/integration_acceptance.json",
     "durable_mission_cpu_shadow_acceptance": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_DURABLE_MISSION_CPU_SHADOW_20260723T020349Z/integration_acceptance.json",
+    "durable_mission_runpod_cpu_replay_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_RUNPOD_DURABLE_MISSION_CPU_REPLAY_20260723T021010Z/integration_acceptance.json",
     "registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
     "role_package_inventory": ROOT
@@ -447,6 +449,9 @@ def collect_errors() -> list[str]:
         durable_mission_cpu_shadow_acceptance = load_json(
             PATHS["durable_mission_cpu_shadow_acceptance"]
         )
+        durable_mission_runpod_cpu_replay_acceptance = load_json(
+            PATHS["durable_mission_runpod_cpu_replay_acceptance"]
+        )
         registry = load_json(PATHS["registry"])
         campaign_role_registry = load_json(PATHS["campaign_role_registry"])
         campaign_deterministic_role_reconciliation = load_json(
@@ -686,6 +691,9 @@ def collect_errors() -> list[str]:
         or mission_control.get("in_flight_success_assumption_allowed") is not False
         or mission_control.get("result_cas_required") is not True
         or mission_control.get("runtime_qualification") is not False
+        or mission_control.get("cpu_volume_replay_qualified") is not True
+        or mission_control.get("cpu_volume_replay_acceptance")
+        != "Plan/Tracker/Evidence/W64_AQA_RUNPOD_DURABLE_MISSION_CPU_REPLAY_20260723T021010Z/integration_acceptance.json"
     ):
         errors.append("durable autonomous mission control policy mismatch")
     mission_source = PATHS["mission_controller"].read_text(encoding="utf-8")
@@ -747,6 +755,60 @@ def collect_errors() -> list[str]:
             errors.append(f"durable mission shadow evidence missing: {relative_path}")
         elif hashlib.sha256(evidence_path.read_bytes()).hexdigest() != expected_sha256:
             errors.append(f"durable mission shadow evidence hash mismatch: {relative_path}")
+
+    runpod_replay_qualification = durable_mission_runpod_cpu_replay_acceptance.get(
+        "qualification", {}
+    )
+    runpod_replay_claims = durable_mission_runpod_cpu_replay_acceptance.get(
+        "runtime_claims", {}
+    )
+    if (
+        durable_mission_runpod_cpu_replay_acceptance.get("status")
+        != "PASS_RUNPOD_CPU_VOLUME_DURABLE_MISSION_REPLAY_RUNTIME_ROLES_UNQUALIFIED"
+        or durable_mission_runpod_cpu_replay_acceptance.get("pod_id")
+        != "1q4ji0gg1fkhvt"
+        or durable_mission_runpod_cpu_replay_acceptance.get("source_commit")
+        != "660f82991aebc5e8546ca0b97b9e04c66dae71ad"
+        or runpod_replay_qualification.get("single_durable_mission_lifecycle")
+        is not True
+        or runpod_replay_qualification.get("deterministic_replay") is not True
+        or runpod_replay_qualification.get("journal_replay") is not True
+        or runpod_replay_qualification.get("mission_queue_cleanup_complete")
+        is not True
+        or runpod_replay_qualification.get("gpu_process_snapshot_unchanged")
+        is not True
+        or runpod_replay_qualification.get("gpu_lease_acquisitions") != 0
+    ):
+        errors.append("RunPod durable mission CPU-volume replay mismatch")
+    if (
+        runpod_replay_claims.get("runpod_contacted") is not True
+        or runpod_replay_claims.get("cpu_only") is not True
+        or runpod_replay_claims.get("coordinator_lease_required") is not False
+        or any(
+            runpod_replay_claims.get(key) is not False
+            for key in (
+                "gpu_used",
+                "self_hosted_model_loaded",
+                "development_campaign_operational",
+                "multimodal_campaign_operational",
+                "production_roles_qualified",
+                "product_authority_granted",
+                "golden_mask_authority_granted",
+            )
+        )
+    ):
+        errors.append("RunPod durable mission CPU replay overclaims authority")
+    runpod_replay_root = PATHS["durable_mission_runpod_cpu_replay_acceptance"].parent
+    for relative_path, expected_sha256 in durable_mission_runpod_cpu_replay_acceptance.get(
+        "critical_file_sha256", {}
+    ).items():
+        evidence_path = runpod_replay_root / relative_path
+        if not evidence_path.is_file():
+            errors.append(f"RunPod durable mission replay evidence missing: {relative_path}")
+        elif hashlib.sha256(evidence_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(
+                f"RunPod durable mission replay evidence hash mismatch: {relative_path}"
+            )
 
     if role_package_inventory.get("schema_version") != "wave64.aqa.role_package_inventory.v1":
         errors.append("role package inventory schema version mismatch")

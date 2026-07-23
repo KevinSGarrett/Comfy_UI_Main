@@ -347,4 +347,11 @@ result identity, and CAS retention. SQLite transactions must atomically update
 the snapshot and journal under WAL/full-sync settings. Static unit tests do not
 grant RunPod runtime, GPU, role, media-quality, product, or promotion authority.
 
+Commit `660f8299` passed this exact lifecycle on current RunPod CPU storage. The
+accepted packet proves one continuous recovered-to-terminal mission, identical
+deterministic replay, complete journal verification, CAS retention, temporary
+queue cleanup, and unchanged GPU-process snapshots with zero lease acquisition.
+This closes the CPU-volume durability gate only. Learned-role, multimodal,
+media-quality, product, and promotion gates remain blocked.
+
 After static and replay gates, admit only a 5–10-artifact isolated image/short-video/audio shadow when all exact roles and runtimes are qualified and each GPU phase holds a coordinator lease. Expand to 25–100 artifacts only after modality quality, false-accept, cleanup, repair, disagreement, cost, reload, and churn gates pass. Long or 24–72-hour campaigns remain blocked until then.
