@@ -306,6 +306,47 @@ def test_unauthorized_checkpoint_does_not_write_cas(tmp_path: Path) -> None:
     assert not (queue.root / "cas").exists()
 
 
+def test_concurrent_recovery_before_terminal_recheck_does_not_write_cas(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    campaign, mission, queue = fixture(tmp_path)
+    mission_id = mission["mission_id"]
+    queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")
+    queue.claim(mission_id, "worker-a", at="2026-07-23T00:01:00Z")
+
+    def passing(job: dict, attempt: int, repair: bool) -> EXECUTOR.JobOutcome:
+        return EXECUTOR.JobOutcome(
+            "PASS",
+            EXECUTOR.canonical_bytes(
+                {"node": job["node_id"], "attempt": attempt, "repair": repair}
+            ),
+        )
+
+    result = EXECUTOR.CampaignExecutor(
+        campaign, tmp_path / "execution", EXECUTOR.MemoryLeaseAdapter()
+    ).run(passing)
+    verify_evidence = queue._verify_result_evidence
+
+    def recover_during_validation(result_packet: dict, evidence_root: Path) -> None:
+        verify_evidence(result_packet, evidence_root)
+        queue.recover_stale(
+            mission_id,
+            stale_before="2026-07-23T00:01:01Z",
+            at="2026-07-23T00:02:00Z",
+        )
+
+    monkeypatch.setattr(queue, "_verify_result_evidence", recover_during_validation)
+    with pytest.raises(MISSION.MissionError, match="ownership mismatch"):
+        queue.terminalize(
+            mission_id,
+            "worker-a",
+            result,
+            tmp_path / "execution",
+            at="2026-07-23T00:03:00Z",
+        )
+    assert not (queue.root / "cas").exists()
+
+
 def test_status_conforms_to_schema(tmp_path: Path) -> None:
     _, mission, queue = fixture(tmp_path)
     status = queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")

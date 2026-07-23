@@ -319,33 +319,27 @@ def execute(output: Path) -> dict[str, Any]:
         result = executor.run(_runner)
         recovery_state = queue.verify(mission_id)
         recovery_journal = queue.journal(mission_id)
-    recovery_queue_cleanup_complete = not recovery_queue_path.exists()
-    elapsed = time.perf_counter() - started
-    accepted = sum(job["terminal_state"] == "PASS" for job in result["jobs"])
-    result["metrics"]["accepted_artifacts_per_hour"] = accepted / max(elapsed, 1e-9) * 3600
-    result["metrics"]["cpu_seconds_per_accepted_artifact"] = elapsed / max(accepted, 1)
-    result["metrics"]["gpu_seconds_per_accepted_artifact"] = 0.0
-    raw_bytes = sum(path.stat().st_size for path in (output / "contracts").glob("*.json"))
-    raw_bytes += sum(path.stat().st_size for path in (output / "runtime" / "cas" / "sha256").rglob("*" ) if path.is_file())
-    result["metrics"]["raw_evidence_bytes"] = raw_bytes
-    result["metrics"]["storage_growth_bytes"] = raw_bytes
-    result["metrics"]["compacted_evidence_bytes"] = len(EXEC.canonical_bytes({"disposition": result["disposition"], "jobs": result["jobs"], "metrics": result["metrics"], "anomalies": [job for job in result["jobs"] if job["terminal_state"] != "PASS"]}))
-    result = EXEC.CampaignExecutor.seal_result(result)
-    with tempfile.TemporaryDirectory(prefix="w64-aqa-mission-terminal-") as terminal_dir:
-        terminal_queue_path = Path(terminal_dir)
-        terminal_queue = MISSION.MissionQueue(Path(terminal_dir))
-        terminal_queue.admit(mission, output, at="2026-07-23T00:00:00Z")
-        terminal_queue.claim(mission["mission_id"], "shadow-worker-b", at="2026-07-23T00:05:00Z")
-        terminal_state = terminal_queue.terminalize(
+        elapsed = time.perf_counter() - started
+        accepted = sum(job["terminal_state"] == "PASS" for job in result["jobs"])
+        result["metrics"]["accepted_artifacts_per_hour"] = accepted / max(elapsed, 1e-9) * 3600
+        result["metrics"]["cpu_seconds_per_accepted_artifact"] = elapsed / max(accepted, 1)
+        result["metrics"]["gpu_seconds_per_accepted_artifact"] = 0.0
+        raw_bytes = sum(path.stat().st_size for path in (output / "contracts").glob("*.json"))
+        raw_bytes += sum(path.stat().st_size for path in (output / "runtime" / "cas" / "sha256").rglob("*") if path.is_file())
+        result["metrics"]["raw_evidence_bytes"] = raw_bytes
+        result["metrics"]["storage_growth_bytes"] = raw_bytes
+        result["metrics"]["compacted_evidence_bytes"] = len(EXEC.canonical_bytes({"disposition": result["disposition"], "jobs": result["jobs"], "metrics": result["metrics"], "anomalies": [job for job in result["jobs"] if job["terminal_state"] != "PASS"]}))
+        result = EXEC.CampaignExecutor.seal_result(result)
+        terminal_state = queue.terminalize(
             mission["mission_id"],
             "shadow-worker-b",
             result,
             output / "runtime",
             at="2026-07-23T00:06:00Z",
         )
-        terminal_queue.verify(mission["mission_id"])
-        mission_journal = terminal_queue.journal(mission["mission_id"])
-    terminal_queue_cleanup_complete = not terminal_queue_path.exists()
+        queue.verify(mission["mission_id"])
+        mission_journal = queue.journal(mission["mission_id"])
+    mission_queue_cleanup_complete = not recovery_queue_path.exists()
     (output / "mission_queue_state.json").write_text(
         json.dumps(terminal_state, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -364,12 +358,12 @@ def execute(output: Path) -> dict[str, Any]:
     jsonschema.Draft7Validator(json.loads((ROOT / "Plan/08_SCHEMAS/runpod_autonomous_campaign_result.schema.json").read_text(encoding="utf-8"))).validate(result)
     expected = {node: "BLOCKED" if task == "never_run" else "FAIL" if task == "poison" else "PASS" for node, _, task in TASKS}
     observed = {job["node_id"]: job["terminal_state"] for job in result["jobs"]}
-    assertions = {"task_count": 18, "expected_states_match": observed == expected, "deterministic_replay": False, "journal_replay": True, "durable_mission_terminal": terminal_state["state"] == "TERMINAL", "durable_mission_result_bound": terminal_state["result_id"] == result["result_id"], "deliberate_crash_recovered": crash_cursor["in_flight_nodes_assumed_complete"] is False and any(event["event_type"] == "MISSION_RECOVERED" for event in recovery_journal), "mission_queue_cleanup_complete": recovery_queue_cleanup_complete and terminal_queue_cleanup_complete, "evidence_complete": result["metrics"]["evidence_completeness_rate"] == 1.0, "scope_authority_violations": 0, "known_bad_false_accepts": 0, "gpu_lease_acquisitions": 0, "roles_are_synthetic_test_doubles_only": True, "production_roles_qualified": False}
+    assertions = {"task_count": 18, "expected_states_match": observed == expected, "deterministic_replay": False, "journal_replay": True, "durable_mission_terminal": terminal_state["state"] == "TERMINAL", "durable_mission_result_bound": terminal_state["result_id"] == result["result_id"], "single_durable_mission_lifecycle": [event["event_type"] for event in mission_journal] == ["MISSION_ADMITTED", "MISSION_CLAIMED", "MISSION_HEARTBEAT", "MISSION_CHECKPOINTED", "MISSION_RECOVERED", "MISSION_CLAIMED", "MISSION_TERMINALIZED"], "deliberate_crash_recovered": crash_cursor["in_flight_nodes_assumed_complete"] is False and any(event["event_type"] == "MISSION_RECOVERED" for event in recovery_journal), "mission_queue_cleanup_complete": mission_queue_cleanup_complete, "evidence_complete": result["metrics"]["evidence_completeness_rate"] == 1.0, "scope_authority_violations": 0, "known_bad_false_accepts": 0, "gpu_lease_acquisitions": 0, "roles_are_synthetic_test_doubles_only": True, "production_roles_qualified": False}
     with tempfile.TemporaryDirectory(prefix="w64-aqa-replay-") as replay_dir:
         replay_executor = EXEC.CampaignExecutor(contract, Path(replay_dir), EXEC.MemoryLeaseAdapter())
         replay_result = replay_executor.run(_runner)
         assertions["deterministic_replay"] = [(job["node_id"], job["terminal_state"], job["evidence_sha256"]) for job in replay_result["jobs"]] == [(job["node_id"], job["terminal_state"], job["evidence_sha256"]) for job in result["jobs"]]
-    assertions["all_static_shadow_gates_pass"] = all([assertions["expected_states_match"], assertions["deterministic_replay"], assertions["journal_replay"], assertions["durable_mission_terminal"], assertions["durable_mission_result_bound"], assertions["deliberate_crash_recovered"], assertions["mission_queue_cleanup_complete"], assertions["evidence_complete"], assertions["scope_authority_violations"] == 0, assertions["known_bad_false_accepts"] == 0, assertions["gpu_lease_acquisitions"] == 0])
+    assertions["all_static_shadow_gates_pass"] = all([assertions["expected_states_match"], assertions["deterministic_replay"], assertions["journal_replay"], assertions["durable_mission_terminal"], assertions["durable_mission_result_bound"], assertions["single_durable_mission_lifecycle"], assertions["deliberate_crash_recovered"], assertions["mission_queue_cleanup_complete"], assertions["evidence_complete"], assertions["scope_authority_violations"] == 0, assertions["known_bad_false_accepts"] == 0, assertions["gpu_lease_acquisitions"] == 0])
     (output / "journal.json").write_text(json.dumps(journal, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (output / "sealed_result.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (output / "shadow_assertions.json").write_text(json.dumps(assertions, indent=2, sort_keys=True) + "\n", encoding="utf-8")

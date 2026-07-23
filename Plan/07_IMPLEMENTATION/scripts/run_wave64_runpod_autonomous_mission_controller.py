@@ -486,7 +486,6 @@ class MissionQueue:
         mission = json.loads(bytes(owned["mission_json"]))
         if result.get("disposition") not in mission["execution"]["terminal_states"]:
             raise MissionError("result disposition is not an allowed terminal state")
-        result_sha, result_path = self._store(canonical_bytes(result))
         with self._connect() as connection:
             connection.execute("BEGIN IMMEDIATE")
             row = connection.execute(
@@ -496,6 +495,10 @@ class MissionQueue:
                 raise MissionError("mission ownership mismatch")
             if result.get("campaign_id") != row["campaign_id"]:
                 raise MissionError("result campaign_id mismatch")
+            # Materialize the sealed result only after the write transaction has
+            # revalidated ownership.  A concurrent stale-worker recovery cannot
+            # pass this lock and leave an unreferenced result in CAS.
+            result_sha, result_path = self._store(canonical_bytes(result))
             count, head = self._append(
                 connection,
                 row,
