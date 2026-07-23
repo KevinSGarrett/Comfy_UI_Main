@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_campaign_contract_v2.schema.json",
+  "title": "Wave64 RunPod Autonomous Campaign Contract V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "campaign_id", "campaign_name", "campaign_profile", "qualification_mode", "admission_disposition", "repository", "policy", "jobs", "dag", "model_bindings", "bulk_manifest", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.campaign.v2"},
+    "campaign_id": {"$ref": "#/definitions/sha256"},
+    "campaign_name": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"},
+    "campaign_profile": {"enum": ["DEVELOPMENT_CAMPAIGN", "MULTIMODAL_MEDIA_CAMPAIGN"]},
+    "qualification_mode": {"enum": ["STATIC_SHADOW", "ISOLATED_QUALIFICATION", "PRODUCTION_CANDIDATE"]},
+    "admission_disposition": {"enum": ["READY_CPU_SHADOW", "READY_FOR_LEASE", "BLOCKED_UNQUALIFIED"]},
+    "repository": {
+      "type": "object", "additionalProperties": false,
+      "required": ["remote", "commit_sha256", "tree_sha256"],
+      "properties": {
+        "remote": {"type": "string", "minLength": 1},
+        "commit_sha256": {"$ref": "#/definitions/sha256"},
+        "tree_sha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["policy_id", "policy_sha256", "max_attempts", "repair_attempts", "abstain_on_unqualified_role"],
+      "properties": {
+        "policy_id": {"const": "W64-AQA-TOOL-POLICY-002"},
+        "policy_sha256": {"$ref": "#/definitions/sha256"},
+        "max_attempts": {"type": "integer", "minimum": 1, "maximum": 5},
+        "repair_attempts": {"type": "integer", "minimum": 0, "maximum": 2},
+        "abstain_on_unqualified_role": {"const": true}
+      }
+    },
+    "jobs": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["node_id", "contract_path", "contract_sha256", "contract_id", "input_sha256", "runtime_sha256", "prompt_sha256", "environment_sha256", "role_id", "phase", "stage", "modality", "risk_tier", "residency_group", "estimated_vram_gib", "continue_unrelated_branches"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
+          "contract_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"},
+          "contract_sha256": {"$ref": "#/definitions/sha256"},
+          "contract_id": {"$ref": "#/definitions/sha256"},
+          "input_sha256": {"$ref": "#/definitions/sha256"},
+          "runtime_sha256": {"$ref": "#/definitions/sha256"},
+          "prompt_sha256": {"$ref": "#/definitions/sha256"},
+          "environment_sha256": {"$ref": "#/definitions/sha256"},
+          "role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
+          "phase": {"enum": ["CPU", "GPU"]},
+          "stage": {"enum": ["GENERATE_OR_IMPLEMENT", "DETERMINISTIC_QA", "PRIMARY_REVIEW", "INDEPENDENT_FAMILY_JUROR", "CONSENSUS_OR_ARBITER", "DEFECT_TAXONOMY", "TARGETED_REPAIR", "REGRESSION_QA", "RE_REVIEW", "TERMINALIZE"]},
+          "modality": {"enum": ["CODE", "WORKFLOW", "IMAGE", "VIDEO", "AUDIO", "AV", "GOLDEN_MASK"]},
+          "risk_tier": {"enum": ["CRITICAL", "HIGH", "STANDARD", "LOW"]},
+          "residency_group": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
+          "estimated_vram_gib": {"type": "number", "minimum": 0, "maximum": 48},
+          "continue_unrelated_branches": {"const": true}
+        }
+      }
+    },
+    "dag": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["node_id", "depends_on"],
+        "properties": {
+          "node_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
+          "depends_on": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"}}
+        }
+      }
+    },
+    "model_bindings": {
+      "type": "array", "minItems": 4,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["role_id", "family_id", "binding_kind", "residency_group", "capacity_state", "qualification_state"],
+        "properties": {
+          "role_id": {"type": "string", "pattern": "^W64-AQA-ROLE-[A-Z0-9-]+$"},
+          "family_id": {"type": "string", "pattern": "^W64-AQA-FAMILY-[A-Z0-9-]+$"},
+          "binding_kind": {"enum": ["MODEL_PACKAGE", "CERTIFIED_COMPONENT"]},
+          "package_id": {"type": "string", "pattern": "^W64-AQA-PKG-[A-Z0-9-]+$"},
+          "certificate_id": {"$ref": "#/definitions/sha256"},
+          "residency_group": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,96}$"},
+          "capacity_state": {"enum": ["QUALIFIED", "UNQUALIFIED", "NOT_MEASURED", "REVOKED"]},
+          "checkpoint_sha256": {"$ref": "#/definitions/sha256"},
+          "environment_sha256": {"$ref": "#/definitions/sha256"},
+          "qualification_state": {"enum": ["QUALIFIED", "UNQUALIFIED", "REVOKED"]}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"binding_kind": {"const": "MODEL_PACKAGE"}}},
+            "then": {"required": ["package_id"]}
+          },
+          {
+            "if": {"properties": {"binding_kind": {"const": "CERTIFIED_COMPONENT"}}},
+            "then": {"required": ["certificate_id"]}
+          },
+          {
+            "if": {"properties": {"qualification_state": {"const": "QUALIFIED"}}},
+            "then": {
+              "required": ["checkpoint_sha256", "environment_sha256"],
+              "properties": {"capacity_state": {"const": "QUALIFIED"}}
+            }
+          },
+          {
+            "if": {"properties": {"qualification_state": {"const": "REVOKED"}}},
+            "then": {
+              "required": ["checkpoint_sha256", "environment_sha256"],
+              "properties": {"capacity_state": {"const": "REVOKED"}}
+            }
+          },
+          {
+            "if": {"properties": {"qualification_state": {"const": "UNQUALIFIED"}}},
+            "then": {
+              "properties": {"capacity_state": {"enum": ["UNQUALIFIED", "NOT_MEASURED"]}}
+            }
+          }
+        ]
+      }
+    },
+    "bulk_manifest": {
+      "anyOf": [
+        {"type": "null"},
+        {"type": "object", "additionalProperties": false, "required": ["relative_path", "sha256"], "properties": {"relative_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"}, "sha256": {"$ref": "#/definitions/sha256"}}}
+      ]
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["runpod_may_execute_isolated_batches", "runpod_may_propose_deltas", "runpod_may_push_git", "runpod_may_promote", "runpod_may_spend", "runpod_may_override_foreign_lease", "final_acceptance_authority"],
+      "properties": {
+        "runpod_may_execute_isolated_batches": {"const": true},
+        "runpod_may_propose_deltas": {"const": true},
+        "runpod_may_push_git": {"const": false},
+        "runpod_may_promote": {"const": false},
+        "runpod_may_spend": {"const": false},
+        "runpod_may_override_foreign_lease": {"const": false},
+        "final_acceptance_authority": {"const": "CODEX"}
+      }
+    }
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

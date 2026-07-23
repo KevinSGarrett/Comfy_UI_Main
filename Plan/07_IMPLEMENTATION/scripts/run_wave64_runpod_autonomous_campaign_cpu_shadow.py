@@ -86,31 +86,58 @@ def _write_children(output: Path) -> list[dict[str, Any]]:
     return jobs
 
 
+def _shadow_role_bindings(family_prefix: str) -> list[dict[str, Any]]:
+    roles = [
+        ("W64-AQA-ROLE-CONTROLLER", "CONTROLLER", "5" * 64),
+        ("W64-AQA-ROLE-IMPLEMENTER", "IMPLEMENTER", "1" * 64),
+        ("W64-AQA-ROLE-REVIEWER", "REVIEWER", "2" * 64),
+        ("W64-AQA-ROLE-INDEPENDENT-JUROR", "JUROR", "3" * 64),
+        ("W64-AQA-ROLE-ARBITER", "ARBITER", "4" * 64),
+        ("W64-AQA-ROLE-REPAIR-PLANNER", "REPAIR", "6" * 64),
+        ("W64-AQA-ROLE-DETERMINISTIC", "DETERMINISTIC", "7" * 64),
+        ("W64-AQA-ROLE-EVIDENCE-COMPILER", "EVIDENCE", "8" * 64),
+    ]
+    bindings = []
+    for role_id, family_suffix, checkpoint_sha256 in roles:
+        binding = {
+            "role_id": role_id,
+            "family_id": f"W64-AQA-FAMILY-{family_prefix}{family_suffix}",
+            "residency_group": family_suffix.lower(),
+            "capacity_state": "QUALIFIED",
+            "checkpoint_sha256": checkpoint_sha256,
+            "environment_sha256": _sha("cpu-shadow-environment-v2"),
+            "qualification_state": "QUALIFIED",
+        }
+        if role_id in {
+            "W64-AQA-ROLE-DETERMINISTIC",
+            "W64-AQA-ROLE-EVIDENCE-COMPILER",
+        }:
+            binding["binding_kind"] = "CERTIFIED_COMPONENT"
+            binding["certificate_id"] = checkpoint_sha256
+        else:
+            binding["binding_kind"] = "MODEL_PACKAGE"
+            binding["package_id"] = role_id.replace(
+                "W64-AQA-ROLE-", "W64-AQA-PKG-SHADOW-"
+            )
+        bindings.append(binding)
+    return bindings
+
+
 def _contract(output: Path) -> dict[str, Any]:
     jobs = _write_children(output)
     for job in jobs:
         job.pop("shadow_task_type")
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip()
     tree = subprocess.run(["git", "ls-tree", "-r", "HEAD"], cwd=ROOT, check=True, capture_output=True).stdout
-    roles = [
-        ("W64-AQA-ROLE-CONTROLLER", "W64-AQA-FAMILY-SHADOW-CONTROLLER", "5" * 64),
-        ("W64-AQA-ROLE-IMPLEMENTER", "W64-AQA-FAMILY-SHADOW-IMPLEMENTER", "1" * 64),
-        ("W64-AQA-ROLE-REVIEWER", "W64-AQA-FAMILY-SHADOW-REVIEWER", "2" * 64),
-        ("W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-FAMILY-SHADOW-JUROR", "3" * 64),
-        ("W64-AQA-ROLE-ARBITER", "W64-AQA-FAMILY-SHADOW-ARBITER", "4" * 64),
-        ("W64-AQA-ROLE-REPAIR-PLANNER", "W64-AQA-FAMILY-SHADOW-REPAIR", "6" * 64),
-        ("W64-AQA-ROLE-DETERMINISTIC", "W64-AQA-FAMILY-SHADOW-DETERMINISTIC", "7" * 64),
-        ("W64-AQA-ROLE-EVIDENCE-COMPILER", "W64-AQA-FAMILY-SHADOW-EVIDENCE", "8" * 64),
-    ]
     draft = {
-        "schema_version": "wave64.aqa.campaign.v1", "campaign_name": "w64-aqa-cpu-shadow-18-v1",
+        "schema_version": "wave64.aqa.campaign.v2", "campaign_name": "w64-aqa-cpu-shadow-18-v2",
         "campaign_profile": "DEVELOPMENT_CAMPAIGN",
         "qualification_mode": "STATIC_SHADOW",
         "repository": {"remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git", "commit_sha256": _sha(head), "tree_sha256": _sha(tree)},
         "policy": {"policy_id": "W64-AQA-TOOL-POLICY-002", "policy_sha256": _sha((ROOT / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_policy.json").read_bytes()), "max_attempts": 2, "repair_attempts": 1, "abstain_on_unqualified_role": True},
         "jobs": jobs,
         "dag": [{"node_id": node, "depends_on": deps} for node, deps, _ in TASKS],
-        "model_bindings": [{"role_id": role, "family_id": family, "checkpoint_sha256": checkpoint, "qualification_state": "QUALIFIED"} for role, family, checkpoint in roles],
+        "model_bindings": _shadow_role_bindings("SHADOW-"),
         "bulk_manifest": None,
         "authority": {"runpod_may_execute_isolated_batches": True, "runpod_may_propose_deltas": True, "runpod_may_push_git": False, "runpod_may_promote": False, "runpod_may_spend": False, "runpod_may_override_foreign_lease": False, "final_acceptance_authority": "CODEX"},
     }
@@ -137,7 +164,11 @@ def _runner(job: dict[str, Any], attempt: int, repair: bool) -> Any:
         proof["observed"] = "ROLLED_BACK"
     elif task == "unqualified_contract":
         value = _contract_for_meta()
-        value["model_bindings"][0]["qualification_state"] = "UNQUALIFIED"
+        binding = value["model_bindings"][0]
+        binding["qualification_state"] = "UNQUALIFIED"
+        binding["capacity_state"] = "NOT_MEASURED"
+        del binding["checkpoint_sha256"]
+        del binding["environment_sha256"]
         proof["observed"] = COMPILER.compile_contract(value)["admission_disposition"]
         assert proof["observed"] == "BLOCKED_UNQUALIFIED"
     elif task == "quarantine_state":
@@ -197,18 +228,8 @@ def _runner(job: dict[str, Any], attempt: int, repair: bool) -> Any:
 
 
 def _contract_for_meta() -> dict[str, Any]:
-    roles = [
-        ("W64-AQA-ROLE-CONTROLLER", "W64-AQA-FAMILY-E", "5" * 64),
-        ("W64-AQA-ROLE-IMPLEMENTER", "W64-AQA-FAMILY-A", "1" * 64),
-        ("W64-AQA-ROLE-REVIEWER", "W64-AQA-FAMILY-B", "2" * 64),
-        ("W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-FAMILY-C", "3" * 64),
-        ("W64-AQA-ROLE-ARBITER", "W64-AQA-FAMILY-D", "4" * 64),
-        ("W64-AQA-ROLE-REPAIR-PLANNER", "W64-AQA-FAMILY-F", "6" * 64),
-        ("W64-AQA-ROLE-DETERMINISTIC", "W64-AQA-FAMILY-G", "7" * 64),
-        ("W64-AQA-ROLE-EVIDENCE-COMPILER", "W64-AQA-FAMILY-H", "8" * 64),
-    ]
     job = {"node_id": "meta", "contract_path": "contracts/meta.json", "contract_sha256": H, "contract_id": H, "input_sha256": H, "runtime_sha256": H, "prompt_sha256": H, "environment_sha256": H, "role_id": "W64-AQA-ROLE-IMPLEMENTER", "phase": "CPU", "stage": "DETERMINISTIC_QA", "modality": "CODE", "risk_tier": "HIGH", "residency_group": "cpu", "estimated_vram_gib": 0, "continue_unrelated_branches": True}
-    return {"schema_version": "wave64.aqa.campaign.v1", "campaign_name": "meta", "campaign_profile": "DEVELOPMENT_CAMPAIGN", "qualification_mode": "STATIC_SHADOW", "repository": {"remote": "x", "commit_sha256": H, "tree_sha256": H}, "policy": {"policy_id": "W64-AQA-TOOL-POLICY-002", "policy_sha256": H, "max_attempts": 1, "repair_attempts": 0, "abstain_on_unqualified_role": True}, "jobs": [job], "dag": [{"node_id": "meta", "depends_on": []}], "model_bindings": [{"role_id": role, "family_id": family, "checkpoint_sha256": checkpoint, "qualification_state": "QUALIFIED"} for role, family, checkpoint in roles], "bulk_manifest": None, "authority": {"runpod_may_execute_isolated_batches": True, "runpod_may_propose_deltas": True, "runpod_may_push_git": False, "runpod_may_promote": False, "runpod_may_spend": False, "runpod_may_override_foreign_lease": False, "final_acceptance_authority": "CODEX"}}
+    return {"schema_version": "wave64.aqa.campaign.v2", "campaign_name": "meta", "campaign_profile": "DEVELOPMENT_CAMPAIGN", "qualification_mode": "STATIC_SHADOW", "repository": {"remote": "x", "commit_sha256": H, "tree_sha256": H}, "policy": {"policy_id": "W64-AQA-TOOL-POLICY-002", "policy_sha256": H, "max_attempts": 1, "repair_attempts": 0, "abstain_on_unqualified_role": True}, "jobs": [job], "dag": [{"node_id": "meta", "depends_on": []}], "model_bindings": _shadow_role_bindings("META-"), "bulk_manifest": None, "authority": {"runpod_may_execute_isolated_batches": True, "runpod_may_propose_deltas": True, "runpod_may_push_git": False, "runpod_may_promote": False, "runpod_may_spend": False, "runpod_may_override_foreign_lease": False, "final_acceptance_authority": "CODEX"}}
 
 
 def _mission(output: Path, contract: dict[str, Any]) -> dict[str, Any]:

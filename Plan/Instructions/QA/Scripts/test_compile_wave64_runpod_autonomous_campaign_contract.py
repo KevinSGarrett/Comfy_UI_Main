@@ -27,8 +27,30 @@ def draft() -> dict:
         ("W64-AQA-ROLE-DETERMINISTIC", "W64-AQA-FAMILY-DETERMINISTIC", "7" * 64),
         ("W64-AQA-ROLE-EVIDENCE-COMPILER", "W64-AQA-FAMILY-EVIDENCE", "8" * 64),
     ]
+
+    def binding(role_id: str, family_id: str, checkpoint_sha256: str) -> dict:
+        value = {
+            "role_id": role_id,
+            "family_id": family_id,
+            "residency_group": family_id.removeprefix("W64-AQA-FAMILY-").lower(),
+            "capacity_state": "QUALIFIED",
+            "checkpoint_sha256": checkpoint_sha256,
+            "environment_sha256": H,
+            "qualification_state": "QUALIFIED",
+        }
+        if role_id in {
+            "W64-AQA-ROLE-DETERMINISTIC",
+            "W64-AQA-ROLE-EVIDENCE-COMPILER",
+        }:
+            value["binding_kind"] = "CERTIFIED_COMPONENT"
+            value["certificate_id"] = checkpoint_sha256
+        else:
+            value["binding_kind"] = "MODEL_PACKAGE"
+            value["package_id"] = role_id.replace("W64-AQA-ROLE-", "W64-AQA-PKG-")
+        return value
+
     return {
-        "schema_version": "wave64.aqa.campaign.v1",
+        "schema_version": "wave64.aqa.campaign.v2",
         "campaign_name": "cpu-shadow-001",
         "campaign_profile": "DEVELOPMENT_CAMPAIGN",
         "qualification_mode": "STATIC_SHADOW",
@@ -39,7 +61,7 @@ def draft() -> dict:
             {"node_id": "b", "contract_path": "contracts/b.json", "contract_sha256": H, "contract_id": H, "input_sha256": H, "runtime_sha256": H, "prompt_sha256": H, "environment_sha256": H, "role_id": "W64-AQA-ROLE-REVIEWER", "phase": "GPU", "stage": "PRIMARY_REVIEW", "modality": "CODE", "risk_tier": "HIGH", "residency_group": "review", "estimated_vram_gib": 8, "continue_unrelated_branches": True},
         ],
         "dag": [{"node_id": "a", "depends_on": []}, {"node_id": "b", "depends_on": ["a"]}],
-        "model_bindings": [{"role_id": r, "family_id": f, "checkpoint_sha256": c, "qualification_state": "QUALIFIED"} for r, f, c in roles],
+        "model_bindings": [binding(r, f, c) for r, f, c in roles],
         "bulk_manifest": None,
         "authority": {"runpod_may_execute_isolated_batches": True, "runpod_may_propose_deltas": True, "runpod_may_push_git": False, "runpod_may_promote": False, "runpod_may_spend": False, "runpod_may_override_foreign_lease": False, "final_acceptance_authority": "CODEX"},
     }
@@ -95,6 +117,7 @@ def test_rejects_self_review_and_represents_unqualified_authority() -> None:
         if item["role_id"] == "W64-AQA-ROLE-INDEPENDENT-JUROR"
     )
     binding["qualification_state"] = "UNQUALIFIED"
+    binding["capacity_state"] = "UNQUALIFIED"
     assert MODULE.compile_contract(value)["admission_disposition"] == "BLOCKED_UNQUALIFIED"
 
 
@@ -106,7 +129,52 @@ def test_new_bundle_role_unqualified_blocks_admission() -> None:
         if item["role_id"] == "W64-AQA-ROLE-REPAIR-PLANNER"
     )
     binding["qualification_state"] = "UNQUALIFIED"
+    binding["capacity_state"] = "NOT_MEASURED"
+    del binding["checkpoint_sha256"]
+    del binding["environment_sha256"]
     assert MODULE.compile_contract(value)["admission_disposition"] == "BLOCKED_UNQUALIFIED"
+
+
+def test_unqualified_model_role_may_omit_unavailable_hashes() -> None:
+    value = draft()
+    binding = next(
+        item
+        for item in value["model_bindings"]
+        if item["role_id"] == "W64-AQA-ROLE-CONTROLLER"
+    )
+    binding["qualification_state"] = "UNQUALIFIED"
+    binding["capacity_state"] = "UNQUALIFIED"
+    del binding["checkpoint_sha256"]
+    del binding["environment_sha256"]
+    contract = MODULE.compile_contract(value)
+    assert contract["admission_disposition"] == "BLOCKED_UNQUALIFIED"
+
+
+@pytest.mark.parametrize("missing_field", ["checkpoint_sha256", "environment_sha256"])
+def test_qualified_role_requires_exact_artifact_and_environment(
+    missing_field: str,
+) -> None:
+    value = draft()
+    del value["model_bindings"][0][missing_field]
+    with pytest.raises(MODULE.CampaignError, match="schema violation"):
+        MODULE.compile_contract(value)
+
+
+def test_legacy_v1_contract_remains_replayable() -> None:
+    value = draft()
+    value["schema_version"] = "wave64.aqa.campaign.v1"
+    for binding in value["model_bindings"]:
+        for field in (
+            "binding_kind",
+            "package_id",
+            "certificate_id",
+            "residency_group",
+            "capacity_state",
+            "environment_sha256",
+        ):
+            binding.pop(field, None)
+    contract = MODULE.compile_contract(value)
+    MODULE.verify_contract(contract)
 
 
 def test_missing_bundle_role_is_rejected_exactly() -> None:

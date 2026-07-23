@@ -49,8 +49,29 @@ def campaign_draft() -> dict:
         "DETERMINISTIC",
         "EVIDENCE-COMPILER",
     ]
+    bindings = []
+    for index, role in enumerate(roles, 1):
+        role_id = f"W64-AQA-ROLE-{role}"
+        binding = {
+            "role_id": role_id,
+            "family_id": f"W64-AQA-FAMILY-F{index}",
+            "residency_group": f"f{index}",
+            "capacity_state": "QUALIFIED",
+            "checkpoint_sha256": str(index) * 64,
+            "environment_sha256": H,
+            "qualification_state": "QUALIFIED",
+        }
+        if role in {"DETERMINISTIC", "EVIDENCE-COMPILER"}:
+            binding["binding_kind"] = "CERTIFIED_COMPONENT"
+            binding["certificate_id"] = str(index) * 64
+        else:
+            binding["binding_kind"] = "MODEL_PACKAGE"
+            binding["package_id"] = role_id.replace(
+                "W64-AQA-ROLE-", "W64-AQA-PKG-"
+            )
+        bindings.append(binding)
     return {
-        "schema_version": "wave64.aqa.campaign.v1",
+        "schema_version": "wave64.aqa.campaign.v2",
         "campaign_name": "mission-controller-test",
         "campaign_profile": "DEVELOPMENT_CAMPAIGN",
         "qualification_mode": "STATIC_SHADOW",
@@ -87,15 +108,7 @@ def campaign_draft() -> dict:
             }
         ],
         "dag": [{"node_id": "n00", "depends_on": []}],
-        "model_bindings": [
-            {
-                "role_id": f"W64-AQA-ROLE-{role}",
-                "family_id": f"W64-AQA-FAMILY-F{index}",
-                "checkpoint_sha256": str(index) * 64,
-                "qualification_state": "QUALIFIED",
-            }
-            for index, role in enumerate(roles, 1)
-        ],
+        "model_bindings": bindings,
         "bulk_manifest": None,
         "authority": {
             "runpod_may_execute_isolated_batches": True,

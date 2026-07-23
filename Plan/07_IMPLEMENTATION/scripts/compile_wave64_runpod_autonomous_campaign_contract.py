@@ -15,7 +15,14 @@ import jsonschema
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SCHEMA_PATH = ROOT / "Plan/08_SCHEMAS/runpod_autonomous_campaign_contract.schema.json"
+SCHEMA_PATHS = {
+    "wave64.aqa.campaign.v1": (
+        ROOT / "Plan/08_SCHEMAS/runpod_autonomous_campaign_contract.schema.json"
+    ),
+    "wave64.aqa.campaign.v2": (
+        ROOT / "Plan/08_SCHEMAS/runpod_autonomous_campaign_contract_v2.schema.json"
+    ),
+}
 ID_PLACEHOLDER = "0" * 64
 IMPLEMENTER = "W64-AQA-ROLE-IMPLEMENTER"
 REVIEWER = "W64-AQA-ROLE-REVIEWER"
@@ -51,8 +58,12 @@ def canonical_bytes(document: dict[str, Any]) -> bytes:
     return json.dumps(document, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
 
 
-def _schema() -> dict[str, Any]:
-    return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+def _schema(schema_version: str) -> dict[str, Any]:
+    try:
+        path = SCHEMA_PATHS[schema_version]
+    except KeyError as exc:
+        raise CampaignError(f"unsupported campaign schema version: {schema_version}") from exc
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _is_safe_relative(path: str) -> bool:
@@ -119,8 +130,12 @@ def semantic_validate(contract: dict[str, Any]) -> list[str]:
         families = [by_role[role]["family_id"] for role in REVIEW_CHAIN_ROLES]
         if len(set(families)) != 4:
             errors.append("implementer, reviewer, juror, and arbiter must use independent model families")
-        checkpoints = [by_role[role]["checkpoint_sha256"] for role in REVIEW_CHAIN_ROLES]
-        if len(set(checkpoints)) != 4:
+        checkpoints = [
+            by_role[role]["checkpoint_sha256"]
+            for role in REVIEW_CHAIN_ROLES
+            if "checkpoint_sha256" in by_role[role]
+        ]
+        if len(set(checkpoints)) != len(checkpoints):
             errors.append("implementer, reviewer, juror, and arbiter must use independent checkpoints")
         qualified = all(by_role[role]["qualification_state"] == "QUALIFIED" for role in BUNDLE_ROLES)
         expected_admission = (
@@ -162,7 +177,10 @@ def compile_contract(draft: dict[str, Any]) -> dict[str, Any]:
         else "BLOCKED_UNQUALIFIED"
     )
     contract["campaign_id"] = ID_PLACEHOLDER
-    validator = jsonschema.Draft7Validator(_schema(), format_checker=jsonschema.FormatChecker())
+    validator = jsonschema.Draft7Validator(
+        _schema(contract.get("schema_version", "")),
+        format_checker=jsonschema.FormatChecker(),
+    )
     try:
         validator.validate(contract)
     except jsonschema.ValidationError as exc:
@@ -177,7 +195,10 @@ def compile_contract(draft: dict[str, Any]) -> dict[str, Any]:
 
 
 def verify_contract(contract: dict[str, Any]) -> None:
-    jsonschema.Draft7Validator(_schema(), format_checker=jsonschema.FormatChecker()).validate(contract)
+    jsonschema.Draft7Validator(
+        _schema(contract.get("schema_version", "")),
+        format_checker=jsonschema.FormatChecker(),
+    ).validate(contract)
     errors = semantic_validate(contract)
     if errors:
         raise CampaignError("; ".join(errors))

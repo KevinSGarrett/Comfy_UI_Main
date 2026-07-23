@@ -1,0 +1,138 @@
+{
+  "admission_disposition": "BLOCKED_UNQUALIFIED",
+  "authority": {
+    "final_acceptance_authority": "CODEX",
+    "runpod_may_execute_isolated_batches": true,
+    "runpod_may_override_foreign_lease": false,
+    "runpod_may_promote": false,
+    "runpod_may_propose_deltas": true,
+    "runpod_may_push_git": false,
+    "runpod_may_spend": false
+  },
+  "bulk_manifest": null,
+  "campaign_id": "12841cebcb0c1dc9e94e44b50b21dded7cbba19de98cf61f8771fa69782e0cb6",
+  "campaign_name": "w64-aqa-real-role-bundle-static-preflight-v2",
+  "campaign_profile": "DEVELOPMENT_CAMPAIGN",
+  "dag": [
+    {
+      "depends_on": [],
+      "node_id": "real_role_bundle_static_preflight"
+    }
+  ],
+  "jobs": [
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "042dafbc795f1f62efc442b727cedc5807422c75fe6722d4f55d4255b4109df3",
+      "contract_path": "contracts/real_role_bundle_preflight.json",
+      "contract_sha256": "955c2ca45e07c69cfdbadc2f6823a3a25fc0b1c0a57d40ce802f7d016eaa1074",
+      "environment_sha256": "9a085a896b7d5a0d27b1fc530cd4fd6b7e244546e09073190df58004f3814ccb",
+      "estimated_vram_gib": 0,
+      "input_sha256": "85750288389381f5b0d21aa6f395ec0ec9d7fba35107d523155317a0a9d9f80f",
+      "modality": "CODE",
+      "node_id": "real_role_bundle_static_preflight",
+      "phase": "CPU",
+      "prompt_sha256": "16ce25e0fc570391e032b76002766b1a4fe97a5bccb6d30b23ed67a7d5057af4",
+      "residency_group": "cpu",
+      "risk_tier": "CRITICAL",
+      "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+      "runtime_sha256": "9a085a896b7d5a0d27b1fc530cd4fd6b7e244546e09073190df58004f3814ccb",
+      "stage": "DETERMINISTIC_QA"
+    }
+  ],
+  "model_bindings": [
+    {
+      "binding_kind": "MODEL_PACKAGE",
+      "capacity_state": "NOT_MEASURED",
+      "checkpoint_sha256": "89dd14c6054e3f8f15882d59480cb0b3972b497d4825302c9749346291ae397c",
+      "environment_sha256": "fe58969cd945b1088f74b3cc9b9a15527d9b7031ed88afd39c4791b848fa7159",
+      "family_id": "W64-AQA-FAMILY-QWEN36-CONTROLLER",
+      "package_id": "W64-AQA-PKG-QWEN36-35B-A3B",
+      "qualification_state": "UNQUALIFIED",
+      "residency_group": "controller",
+      "role_id": "W64-AQA-ROLE-CONTROLLER"
+    },
+    {
+      "binding_kind": "MODEL_PACKAGE",
+      "capacity_state": "NOT_MEASURED",
+      "family_id": "W64-AQA-FAMILY-QWEN3-CODER",
+      "package_id": "W64-AQA-PKG-QWEN3-CODER-NEXT",
+      "qualification_state": "UNQUALIFIED",
+      "residency_group": "code",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER"
+    },
+    {
+      "binding_kind": "MODEL_PACKAGE",
+      "capacity_state": "NOT_MEASURED",
+      "checkpoint_sha256": "3edc3a52fe988de3e8ba4f99ac1f21a1bbc35e1af32a74983fe4e1667d6b6188",
+      "family_id": "W64-AQA-FAMILY-QWEN25VL",
+      "package_id": "W64-AQA-PKG-QWEN25VL32",
+      "qualification_state": "UNQUALIFIED",
+      "residency_group": "visual",
+      "role_id": "W64-AQA-ROLE-REVIEWER"
+    },
+    {
+      "binding_kind": "MODEL_PACKAGE",
+      "capacity_state": "NOT_MEASURED",
+      "family_id": "W64-AQA-FAMILY-INTERNVL35",
+      "package_id": "W64-AQA-PKG-INTERNVL35-241B-A28B",
+      "qualification_state": "UNQUALIFIED",
+      "residency_group": "juror",
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR"
+    },
+    {
+      "binding_kind": "MODEL_PACKAGE",
+      "capacity_state": "NOT_MEASURED",
+      "family_id": "W64-AQA-FAMILY-QWEN35-ARBITER",
+      "package_id": "W64-AQA-PKG-QWEN35-397B-A17B",
+      "qualification_state": "UNQUALIFIED",
+      "residency_group": "arbiter",
+      "role_id": "W64-AQA-ROLE-ARBITER"
+    },
+    {
+      "binding_kind": "MODEL_PACKAGE",
+      "capacity_state": "NOT_MEASURED",
+      "checkpoint_sha256": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "family_id": "W64-AQA-FAMILY-QWEN25TEXT-REPAIR",
+      "package_id": "W64-AQA-PKG-QWEN25TEXT7",
+      "qualification_state": "UNQUALIFIED",
+      "residency_group": "code",
+      "role_id": "W64-AQA-ROLE-REPAIR-PLANNER"
+    },
+    {
+      "binding_kind": "CERTIFIED_COMPONENT",
+      "capacity_state": "QUALIFIED",
+      "certificate_id": "c5f5e1216f524b8761e3876b944993f481a8b70b00b94179b5082b0e46ab16f4",
+      "checkpoint_sha256": "1e237182c477904524523b62b2f66050769d5f59c4e9203f115352412c1957e4",
+      "environment_sha256": "9a085a896b7d5a0d27b1fc530cd4fd6b7e244546e09073190df58004f3814ccb",
+      "family_id": "W64-AQA-FAMILY-DETERMINISTIC",
+      "qualification_state": "QUALIFIED",
+      "residency_group": "cpu",
+      "role_id": "W64-AQA-ROLE-DETERMINISTIC"
+    },
+    {
+      "binding_kind": "CERTIFIED_COMPONENT",
+      "capacity_state": "QUALIFIED",
+      "certificate_id": "a68804596307ed48054c88602e4fb76e8bc0ea16c157b1a61ba857d10c510031",
+      "checkpoint_sha256": "16a01a1df12e862ad8d87561525f1102fec2064af93725a3f215c4c202b0dc25",
+      "environment_sha256": "2e4aa78a3d83fe5c7840f59a779d287eb4bd3818ba70f3afe8b1e4e0a41db403",
+      "family_id": "W64-AQA-FAMILY-DETERMINISTIC-EVIDENCE",
+      "qualification_state": "QUALIFIED",
+      "residency_group": "cpu",
+      "role_id": "W64-AQA-ROLE-EVIDENCE-COMPILER"
+    }
+  ],
+  "policy": {
+    "abstain_on_unqualified_role": true,
+    "max_attempts": 1,
+    "policy_id": "W64-AQA-TOOL-POLICY-002",
+    "policy_sha256": "3b6de8a7bdc400fbe4e9fa2bbbc1161a340865b1b26a0f25f2626462b308850b",
+    "repair_attempts": 0
+  },
+  "qualification_mode": "STATIC_SHADOW",
+  "repository": {
+    "commit_sha256": "fc855c346dc3224bcc35cc2cdbbb37bf96fef6c0804d1b3f2b17b1c2b19daa7f",
+    "remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+    "tree_sha256": "c8a69acbae4ecdbc2c1f67bb9bf763598a07c926da2b2c5a71130094f26a1671"
+  },
+  "schema_version": "wave64.aqa.campaign.v2"
+}
