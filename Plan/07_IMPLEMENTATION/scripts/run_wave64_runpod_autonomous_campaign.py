@@ -23,7 +23,12 @@ LEGAL_EVENT_TRANSITIONS = {
     "JOB_DISPATCH": {"JOB_DISPATCH", "JOB_TERMINAL", "RESTART_REPLAY"},
     "JOB_TERMINAL": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL", "RESTART_REPLAY"},
     "RESTART_REPLAY": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL"},
-    "BLOCKED": {"JOB_TERMINAL", "RESTART_REPLAY", "CAMPAIGN_TERMINAL"},
+    "BLOCKED": {
+        "CPU_PHASE_ACTIVE",
+        "JOB_TERMINAL",
+        "RESTART_REPLAY",
+        "CAMPAIGN_TERMINAL",
+    },
     "CAMPAIGN_TERMINAL": set(),
 }
 
@@ -161,7 +166,11 @@ class CampaignExecutor:
     def _ordered_ready(self, remaining: set[str], dependencies: dict[str, set[str]], jobs: dict[str, dict[str, Any]], current_checkpoint: str | None) -> list[str]:
         completed = {node for node, result in self.results.items() if result["terminal_state"] == "PASS"}
         ready = [node for node in remaining if dependencies[node].issubset(completed)]
-        binding = {item["role_id"]: item["checkpoint_sha256"] for item in self.contract["model_bindings"]}
+        binding = {
+            item["role_id"]: item.get("checkpoint_sha256")
+            or f"UNQUALIFIED::{item['role_id']}"
+            for item in self.contract["model_bindings"]
+        }
         return sorted(ready, key=lambda node: (jobs[node]["phase"] == "GPU", current_checkpoint is not None and binding[jobs[node]["role_id"]] != current_checkpoint, jobs[node].get("environment_sha256", ""), binding[jobs[node]["role_id"]], node))
 
     def run(self, runner: Callable[[dict[str, Any], int, bool], JobOutcome]) -> dict[str, Any]:
@@ -178,7 +187,10 @@ class CampaignExecutor:
                 raise ValueError("restored campaign must resume from a restart replay event")
         jobs = {job["node_id"]: job for job in self.contract["jobs"]}
         dependencies = {node["node_id"]: set(node["depends_on"]) for node in self.contract["dag"]}
-        if self.contract.get("admission_disposition") == "BLOCKED_UNQUALIFIED":
+        if (
+            self.contract.get("admission_disposition") == "BLOCKED_UNQUALIFIED"
+            and self.contract.get("qualification_mode") != "STATIC_SHADOW"
+        ):
             for node in sorted(jobs):
                 artifact = canonical_bytes({"node": node, "reason": "BLOCKED_UNQUALIFIED"})
                 sha, path = self._store(artifact)
@@ -210,6 +222,22 @@ class CampaignExecutor:
                 role = bindings[job["role_id"]]
                 if role["qualification_state"] != "QUALIFIED":
                     outcome = JobOutcome("ABSTAINED", canonical_bytes({"node": node, "reason": "ROLE_UNQUALIFIED"}), "ROLE_UNQUALIFIED")
+                    attempts = 0
+                elif (
+                    job["phase"] == "GPU"
+                    and self.contract.get("admission_disposition")
+                    == "BLOCKED_UNQUALIFIED"
+                ):
+                    outcome = JobOutcome(
+                        "BLOCKED",
+                        canonical_bytes(
+                            {
+                                "node": node,
+                                "reason": "GPU_ADMISSION_BLOCKED_UNQUALIFIED",
+                            }
+                        ),
+                        "GPU_ADMISSION_BLOCKED_UNQUALIFIED",
+                    )
                     attempts = 0
                 else:
                     if current_checkpoint != role["checkpoint_sha256"]:
@@ -329,7 +357,11 @@ class CampaignExecutor:
         self.verify_journal(self.events)
         jobs = [self.results[node] for node in sorted(self.results)]
         passed = sum(item["terminal_state"] == "PASS" for item in jobs)
-        complete = passed == len(jobs)
+        complete = (
+            passed == len(jobs)
+            and self.contract.get("admission_disposition")
+            != "BLOCKED_UNQUALIFIED"
+        )
         evidence = [{"sha256": item["evidence_sha256"], "relative_path": item["evidence_path"], "media_type": "application/json", "size_bytes": (self.workspace / item["evidence_path"]).stat().st_size} for item in jobs]
         total = len(jobs)
         abstained = sum(item["terminal_state"] == "ABSTAINED" for item in jobs)

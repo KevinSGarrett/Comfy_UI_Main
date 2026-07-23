@@ -1666,9 +1666,21 @@ The campaign executor replaces per-child micro-handoffs with one immutable admis
 
 The closed loop is `GENERATE_OR_IMPLEMENT -> DETERMINISTIC_QA -> PRIMARY_REVIEW -> INDEPENDENT_FAMILY_JUROR -> CONSENSUS_OR_ARBITER -> DEFECT_TAXONOMY -> TARGETED_REPAIR -> REGRESSION_QA -> RE_REVIEW -> TERMINALIZE`. Ordinary retries, repairs, model reloads, and child completion remain internal. Only authority or scope changes, unknown credential/license decisions, exhausted immutable budgets, foreign-lease conflicts, destructive actions, and final sealed acceptance escalate to Codex.
 
-Bulk manifests freeze prompt and negative-prompt hashes, seeds, source assets, workflow/node/model/environment hashes, dimensions, FPS, duration, audio parameters, candidate counts, quality tiers, expected outputs, sampling seeds, and strata. Scheduling groups by checkpoint, environment, modality, resolution, capacity, and residency group. GPU phases are serialized behind a valid shared-coordinator campaign lease; CPU-only branches continue without a lease when their dependencies are unaffected.
+Bulk manifests freeze prompt and negative-prompt hashes, seeds, source assets, workflow/node/model/environment hashes, dimensions, FPS, duration, audio parameters, candidate counts, quality tiers, expected outputs, sampling seeds, and strata. Scheduling groups by checkpoint, environment, modality, resolution, capacity, and residency group. GPU phases require a fresh direct per-session target, process, and workload preflight; no Windows-local coordinator or lease token is a prerequisite. CPU-only branches continue without RunPod contact when their dependencies are unaffected.
 
 The executor cannot push Git, spend money, read credentials, weaken thresholds, perform destructive actions, override foreign leases, grant product or golden-mask promotion authority, or self-promote. Every implementer/generator, primary reviewer, independent juror, and arbiter binding uses a distinct independently qualified family and checkpoint. Unqualified roles remain representable and produce `BLOCKED_UNQUALIFIED` or `ABSTAINED`.
+
+The accepted CPU branch-partition increment at
+`Plan/Tracker/Evidence/W64_AQA_CPU_BRANCH_PARTITION_20260723T091937Z`
+keeps the campaign-wide `BLOCKED_UNQUALIFIED` authority state while allowing
+only dependency-ready, qualified CPU children to execute during
+`STATIC_SHADOW`. Unqualified roots abstain, their transitive dependents block,
+and every GPU node is denied before preflight, lease acquisition, or dispatch.
+A globally blocked campaign seals `PARTIAL_BLOCKED` even if every admitted CPU
+child passes. The real eight-role bundle probe passed its certified
+deterministic CPU child with zero RunPod contact and zero GPU admission while
+retaining six unqualified model roles and no product, multimodal, or
+golden-mask authority.
 
 Commit `aa0474d2` is a provisional static checkpoint only. The corrected framework adds sealed child-byte/ID verification, a separate campaign lease, legal state transitions and genesis hash, crash cursor with no assumed in-flight success, path-safe proposed deltas, a result content ID, CAS/Merkle evidence, measured-or-`null` metrics, targeted repair and rollback, risk-tiered review, and modality QA. The exact 18-task CPU shadow is evidence for static orchestration only. Production roles remain `BLOCKED_UNQUALIFIED`; the 5–10-artifact image/short-video/audio shadow, 25–100-artifact expansion, and 24–72-hour campaigns remain gated.
 

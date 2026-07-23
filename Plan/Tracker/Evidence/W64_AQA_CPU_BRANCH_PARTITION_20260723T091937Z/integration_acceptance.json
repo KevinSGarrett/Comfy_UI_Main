@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "artifact_type": "wave64_aqa_cpu_branch_partition_integration_acceptance",
+  "recorded_at": "2026-07-23T09:19:37Z",
+  "tracker_row": "W64-AQA-019",
+  "decision": "PARTIALLY_ADOPTED",
+  "scope": "STATIC_SHADOW dependency-aware CPU branch continuation under campaign-wide BLOCKED_UNQUALIFIED",
+  "source_contract": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_REAL_ROLE_BUNDLE_PREFLIGHT_20260723T085643Z/campaign_contract.json",
+    "campaign_id": "12841cebcb0c1dc9e94e44b50b21dded7cbba19de98cf61f8771fa69782e0cb6",
+    "admission_disposition": "BLOCKED_UNQUALIFIED",
+    "qualification_mode": "STATIC_SHADOW",
+    "qualified_components": 2,
+    "unqualified_model_roles": 6
+  },
+  "signed_claude_review": {
+    "request_id": "p020_20260723T090107609Z_cpu_shadow_unqualified_branch_partition_077c7a3d",
+    "worker_status": "PASS",
+    "worker_classification": "CLAUDE_SUBSCRIPTION_HANDOFF_COMPLETED_WITH_FINDINGS",
+    "adoption_status": "PARTIALLY_ADOPTED",
+    "adoption_percent": 90,
+    "worker_changed_paths": []
+  },
+  "accepted_behavior": {
+    "campaign_admission_remains_blocked_unqualified": true,
+    "qualified_cpu_siblings_may_continue_in_static_shadow": true,
+    "unqualified_nodes_abstain": true,
+    "transitive_dependents_block": true,
+    "gpu_nodes_are_blocked_before_lease_or_dispatch": true,
+    "non_shadow_blocked_campaigns_abstain_without_dispatch": true,
+    "globally_blocked_campaign_cannot_seal_complete": true,
+    "deterministic_replay_preserved": true
+  },
+  "real_bundle_cpu_partition_probe": {
+    "result_id": "a19a63ac34117241dc9493a8faf2e72f1328d2242205dfa646af68c0eb7d511a",
+    "disposition": "PARTIAL_BLOCKED",
+    "cpu_job": "real_role_bundle_static_preflight",
+    "cpu_job_terminal_state": "PASS",
+    "cpu_job_evidence_sha256": "81918ef68b7bd2fcae7c786a69962c216dc2b5d0b5c310095f2551662b022ef0",
+    "journal_event_types": [
+      "CAMPAIGN_CREATED",
+      "BLOCKED",
+      "CPU_PHASE_ACTIVE",
+      "JOB_DISPATCH",
+      "JOB_TERMINAL",
+      "CAMPAIGN_TERMINAL"
+    ],
+    "gpu_lease_acquisitions": 0,
+    "coordinator_churn": 0,
+    "runpod_contact": false,
+    "runtime_workspace": "temporary_and_removed"
+  },
+  "reviewed_files": [
+    {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_campaign.py",
+      "sha256": "b8e72f339136308f04db289027509d8cbd62e9a7b508fd8a0796924c44deeeb7",
+      "bytes": 21336
+    },
+    {
+      "path": "Plan/Instructions/QA/Scripts/test_run_wave64_runpod_autonomous_campaign.py",
+      "sha256": "7805d8ad36198a9571b5a4ff9330edaea4ff8896fad8b05125cf73aff514f43e",
+      "bytes": 15971
+    }
+  ],
+  "validators": [
+    {
+      "command": "pytest -q <8 campaign/mission/role/control-package test files>",
+      "result": "PASS",
+      "tests_passed": 66
+    },
+    {
+      "command": "ruff check <campaign/mission/role scripts and tests>",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check -- <2 implementation/test paths>",
+      "result": "PASS_WITH_LINE_ENDING_WARNING_ONLY"
+    }
+  ],
+  "known_unrelated_regressions": {
+    "scope": "sole-pod qualification queue compiler and checked-in queue",
+    "changed_by_this_increment": false,
+    "diagnostic_result": "80 passed, 2 failed",
+    "failures": [
+      "test_exact_strict_role_is_prepared_but_downgraded_identity_fails_closed",
+      "test_checked_in_queue_matches_compiler"
+    ],
+    "next_cpu_safe_action": "Reconcile the controller readiness expectation and regenerate or correct the checked-in queue from current hash-bound inputs in a separate bounded increment."
+  },
+  "authority": {
+    "a6000_execution_target": "1q4ji0gg1fkhvt",
+    "a6000_contacted": false,
+    "two_a40_target": "migration_only_not_contacted",
+    "aws_s3_ec2_contacted": false,
+    "docker_contacted": false,
+    "cursor_used": false,
+    "product_authority_granted": false,
+    "model_role_authority_granted": false,
+    "multimodal_authority_granted": false,
+    "golden_mask_authority_granted": false,
+    "thresholds_weakened": false,
+    "final_acceptance_authority": "CODEX"
+  },
+  "remaining_gate": "Six model roles remain independently unqualified. Continue CPU-safe corpus and contract work until the A6000 transfer activity and unresolved GPU context are absent, then perform a fresh direct A6000 preflight before any GPU-affecting role qualification."
+}

@@ -132,6 +132,145 @@ def test_lease_loss_and_unqualified_role_abstain(tmp_path: Path) -> None:
     assert result["jobs"][0]["terminal_state"] == "ABSTAINED"
 
 
+def test_static_shadow_continues_qualified_cpu_sibling_and_blocks_dependents(
+    tmp_path: Path,
+) -> None:
+    value = {
+        "campaign_id": H,
+        "qualification_mode": "STATIC_SHADOW",
+        "admission_disposition": "BLOCKED_UNQUALIFIED",
+        "policy": {"max_attempts": 2, "repair_attempts": 1},
+        "jobs": [
+            {
+                "node_id": "unqualified",
+                "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+                "phase": "CPU",
+                "contract_path": "contracts/unqualified.json",
+            },
+            {
+                "node_id": "qualified-sibling",
+                "role_id": "W64-AQA-ROLE-REVIEWER",
+                "phase": "CPU",
+                "contract_path": "contracts/qualified-sibling.json",
+            },
+            {
+                "node_id": "dependent",
+                "role_id": "W64-AQA-ROLE-REVIEWER",
+                "phase": "CPU",
+                "contract_path": "contracts/dependent.json",
+            },
+        ],
+        "dag": [
+            {"node_id": "unqualified", "depends_on": []},
+            {"node_id": "qualified-sibling", "depends_on": []},
+            {"node_id": "dependent", "depends_on": ["unqualified"]},
+        ],
+        "model_bindings": [
+            {
+                "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+                "family_id": "F1",
+                "qualification_state": "UNQUALIFIED",
+            },
+            {
+                "role_id": "W64-AQA-ROLE-REVIEWER",
+                "family_id": "F2",
+                "checkpoint_sha256": "2" * 64,
+                "qualification_state": "QUALIFIED",
+            },
+        ],
+    }
+    executor = MODULE.CampaignExecutor(
+        value, tmp_path, MODULE.MemoryLeaseAdapter()
+    )
+    result = executor.run(passing)
+    states = {job["node_id"]: job["terminal_state"] for job in result["jobs"]}
+    assert states == {
+        "dependent": "BLOCKED",
+        "qualified-sibling": "PASS",
+        "unqualified": "ABSTAINED",
+    }
+    assert result["disposition"] == "PARTIAL_BLOCKED"
+    assert all(
+        event["event_type"] != "GPU_LEASE_WAIT" for event in executor.events
+    )
+
+
+def test_static_shadow_blocked_admission_never_acquires_gpu_lease(
+    tmp_path: Path,
+) -> None:
+    value = contract(1)
+    value["qualification_mode"] = "STATIC_SHADOW"
+    value["admission_disposition"] = "BLOCKED_UNQUALIFIED"
+    value["jobs"][0]["phase"] = "GPU"
+    lease = MODULE.MemoryLeaseAdapter()
+    executor = MODULE.CampaignExecutor(value, tmp_path, lease)
+    result = executor.run(passing)
+    assert result["jobs"][0]["terminal_state"] == "BLOCKED"
+    assert result["jobs"][0]["reason"] == "GPU_ADMISSION_BLOCKED_UNQUALIFIED"
+    assert result["jobs"][0]["attempts"] == 0
+    assert lease.releases == []
+    assert all(event["event_type"] != "GPU_LEASE_WAIT" for event in executor.events)
+
+
+def test_static_shadow_cpu_pass_cannot_promote_globally_blocked_campaign(
+    tmp_path: Path,
+) -> None:
+    value = contract(1)
+    value["qualification_mode"] = "STATIC_SHADOW"
+    value["admission_disposition"] = "BLOCKED_UNQUALIFIED"
+    result = MODULE.CampaignExecutor(
+        value, tmp_path, MODULE.MemoryLeaseAdapter()
+    ).run(passing)
+    assert result["jobs"][0]["terminal_state"] == "PASS"
+    assert result["disposition"] == "PARTIAL_BLOCKED"
+    assert result["authority"]["self_promoted"] is False
+
+
+def test_non_shadow_blocked_admission_still_abstains_every_job(
+    tmp_path: Path,
+) -> None:
+    value = contract(2)
+    value["qualification_mode"] = "RUNTIME_QUALIFICATION"
+    value["admission_disposition"] = "BLOCKED_UNQUALIFIED"
+    calls: list[str] = []
+
+    def runner(job: dict, attempt: int, repair: bool) -> MODULE.JobOutcome:
+        calls.append(job["node_id"])
+        return passing(job, attempt, repair)
+
+    result = MODULE.CampaignExecutor(
+        value, tmp_path, MODULE.MemoryLeaseAdapter()
+    ).run(runner)
+    assert calls == []
+    assert {job["terminal_state"] for job in result["jobs"]} == {"ABSTAINED"}
+    assert {
+        job["reason"] for job in result["jobs"]
+    } == {"BLOCKED_UNQUALIFIED"}
+
+
+def test_static_shadow_blocked_partition_replays_deterministically(
+    tmp_path: Path,
+) -> None:
+    value = contract(2)
+    value["qualification_mode"] = "STATIC_SHADOW"
+    value["admission_disposition"] = "BLOCKED_UNQUALIFIED"
+    value["model_bindings"][0]["qualification_state"] = "UNQUALIFIED"
+    value["model_bindings"][0].pop("checkpoint_sha256")
+    first = MODULE.CampaignExecutor(
+        value, tmp_path / "first", MODULE.MemoryLeaseAdapter()
+    ).run(passing)
+    second = MODULE.CampaignExecutor(
+        value, tmp_path / "second", MODULE.MemoryLeaseAdapter()
+    ).run(passing)
+    assert [
+        (job["node_id"], job["terminal_state"], job["evidence_sha256"])
+        for job in first["jobs"]
+    ] == [
+        (job["node_id"], job["terminal_state"], job["evidence_sha256"])
+        for job in second["jobs"]
+    ]
+
+
 def test_coordinator_adapter_fails_closed_and_never_overrides_foreign_lease() -> None:
     releases: list[tuple[str, str]] = []
     adapter = MODULE.CoordinatorLeaseAdapter(

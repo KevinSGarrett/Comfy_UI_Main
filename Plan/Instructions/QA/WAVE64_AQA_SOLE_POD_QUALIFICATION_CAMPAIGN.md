@@ -253,4 +253,14 @@ unload cleanup. A passing certificate must be
 
 W64-AQA-019 is the CPU-safe orchestration and evidence-compaction lane for the sole production RunPod architecture. Its static schemas, journal, CAS/Merkle, result seal, policy, role families, historical coordinator adapter contract, renderer, proposed-delta compiler, and exact 18-task CPU shadow require no GPU admission. They grant no model, media, workflow, reviewer, golden-mask, runtime, or product authority.
 
+During `STATIC_SHADOW`, `BLOCKED_UNQUALIFIED` remains the campaign-wide
+authority truth but is not a reason to suppress unrelated certified CPU work.
+The executor may run only dependency-ready nodes whose exact role binding is
+qualified and whose phase is `CPU`. An unqualified root terminalizes
+`ABSTAINED`; its transitive dependents terminalize `BLOCKED`; any GPU node is
+denied before preflight, lease acquisition, or dispatch. Non-shadow blocked
+campaigns still abstain without dispatch. The sealed campaign result must
+remain `PARTIAL_BLOCKED` while global admission is blocked, even if every
+admitted CPU child passes.
+
 The role registry remains `BLOCKED_UNQUALIFIED`. After static and crash/restart replay acceptance, a 5–10-artifact isolated image/short-video/audio shadow may run only when its exact generator, deterministic QA, primary reviewer, independent juror, arbiter, audio/Omni, repair, and evidence roles are independently qualified. Each GPU phase requires a fresh direct per-session preflight; CPU-only work does not. A passing small multimodal shadow permits only a 25–100-artifact qualification expansion, not production promotion or long-duration operation.
