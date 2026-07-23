@@ -204,3 +204,26 @@ def test_live_lease_binding_rejects_token_bearing_receipt() -> None:
             receipt,
             validator=lambda **_: lease(),
         )
+
+
+def test_heartbeat_guard_fails_closed_after_sender_error() -> None:
+    module = load_module()
+    calls = []
+
+    def sender(phase: str) -> None:
+        calls.append(phase)
+        if len(calls) > 1:
+            raise module.FastTriageCanaryError("heartbeat rejected")
+
+    with pytest.raises(
+        module.FastTriageCanaryError,
+        match="heartbeat guard failed",
+    ):
+        with module.CoordinatorHeartbeatGuard(
+            interval_seconds=0.01,
+            sender=sender,
+        ):
+            import time
+
+            time.sleep(0.05)
+    assert calls[0] == "fast_triage_refusal_canary"

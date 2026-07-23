@@ -8,7 +8,9 @@ import base64
 import hashlib
 import json
 import math
+import os
 import subprocess
+import threading
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -21,10 +23,88 @@ SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/runpod_autonomous_fast_triage_refusal_admission.schema.json"
 )
 ZERO_HASH = "0" * 64
+HEARTBEAT_COMMAND = (
+    Path.home()
+    / ".codex/shared_runpod_coordinator/commands/Send-SharedRunPodHeartbeat.ps1"
+)
 
 
 class FastTriageCanaryError(RuntimeError):
     """Raised when the bounded refusal canary must fail closed."""
+
+
+def send_coordinator_heartbeat(phase: str) -> None:
+    if not HEARTBEAT_COMMAND.is_file():
+        raise FastTriageCanaryError(
+            f"shared coordinator heartbeat command is absent: {HEARTBEAT_COMMAND}"
+        )
+    completed = subprocess.run(
+        [
+            "powershell",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-Command",
+            (
+                f"& '{HEARTBEAT_COMMAND}' "
+                "-LeaseId $env:SHARED_RUNPOD_LEASE_ID "
+                "-LeaseToken $env:SHARED_RUNPOD_LEASE_TOKEN "
+                f"-Phase '{phase}'"
+            ),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+        env=os.environ.copy(),
+    )
+    if completed.returncode:
+        detail = (completed.stderr or completed.stdout).strip()[-500:]
+        raise FastTriageCanaryError(
+            f"shared coordinator heartbeat failed: {detail}"
+        )
+
+
+class CoordinatorHeartbeatGuard:
+    def __init__(
+        self,
+        *,
+        interval_seconds: float = 90,
+        sender: Callable[[str], None] = send_coordinator_heartbeat,
+    ) -> None:
+        self._interval_seconds = interval_seconds
+        self._sender = sender
+        self._stop = threading.Event()
+        self._errors: list[Exception] = []
+        self._thread: threading.Thread | None = None
+
+    def __enter__(self) -> CoordinatorHeartbeatGuard:
+        self._sender("fast_triage_refusal_canary")
+        self._thread = threading.Thread(target=self._loop, daemon=True)
+        self._thread.start()
+        return self
+
+    def _loop(self) -> None:
+        while not self._stop.wait(self._interval_seconds):
+            try:
+                self._sender("fast_triage_refusal_canary")
+            except Exception as exc:
+                self._errors.append(exc)
+                self._stop.set()
+
+    def check(self) -> None:
+        if self._errors:
+            raise FastTriageCanaryError(
+                f"shared coordinator heartbeat guard failed: {self._errors[0]}"
+            )
+
+    def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> bool:
+        self._stop.set()
+        if self._thread is not None:
+            self._thread.join(timeout=5)
+        if exc is None:
+            self.check()
+        return False
 
 
 REMOTE_PROGRAM = r"""import json, os, shutil, subprocess, sys, time, urllib.request
@@ -390,15 +470,22 @@ def main() -> int:
         json.loads(args.lease_receipt.read_text(encoding="utf-8")),
     )
 
-    def remote(action: str, timeout_seconds: int, **kwargs: Any) -> dict[str, Any]:
-        return ssh_json(
-            args.host,
-            args.port,
-            {"action": action, **kwargs},
-            timeout_seconds=timeout_seconds,
-        )
+    with CoordinatorHeartbeatGuard() as heartbeat:
 
-    result = run_canary(admission, lease, remote=remote)
+        def remote(
+            action: str, timeout_seconds: int, **kwargs: Any
+        ) -> dict[str, Any]:
+            heartbeat.check()
+            result = ssh_json(
+                args.host,
+                args.port,
+                {"action": action, **kwargs},
+                timeout_seconds=timeout_seconds,
+            )
+            heartbeat.check()
+            return result
+
+        result = run_canary(admission, lease, remote=remote)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
