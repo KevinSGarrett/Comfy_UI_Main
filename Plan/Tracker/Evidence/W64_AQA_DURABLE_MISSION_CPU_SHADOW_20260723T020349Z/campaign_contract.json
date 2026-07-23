@@ -1,0 +1,462 @@
+{
+  "admission_disposition": "READY_CPU_SHADOW",
+  "authority": {
+    "final_acceptance_authority": "CODEX",
+    "runpod_may_execute_isolated_batches": true,
+    "runpod_may_override_foreign_lease": false,
+    "runpod_may_promote": false,
+    "runpod_may_propose_deltas": true,
+    "runpod_may_push_git": false,
+    "runpod_may_spend": false
+  },
+  "bulk_manifest": null,
+  "campaign_id": "9f9e0417a994dc5849ae28d51670435f399e4d18321caf7d72364f8dc47a8831",
+  "campaign_name": "w64-aqa-cpu-shadow-18-v1",
+  "campaign_profile": "DEVELOPMENT_CAMPAIGN",
+  "dag": [
+    {
+      "depends_on": [],
+      "node_id": "T01_deterministic_root"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T02_parallel_sibling"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T03_poison_retry_exhaustion"
+    },
+    {
+      "depends_on": [
+        "T03_poison_retry_exhaustion"
+      ],
+      "node_id": "T04_poison_dependent_block"
+    },
+    {
+      "depends_on": [
+        "T01_deterministic_root"
+      ],
+      "node_id": "T05_unrelated_branch_continuation"
+    },
+    {
+      "depends_on": [
+        "T02_parallel_sibling"
+      ],
+      "node_id": "T06_targeted_repair_success"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T07_oom_automatic_rollback"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T08_timeout_automatic_rollback"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T09_unqualified_role_abstention"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T10_quarantine_state"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T11_path_escape_denial"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T12_product_authority_denial"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T13_credential_access_denial"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T14_self_review_refusal"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T15_journal_tamper_detection"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T16_journal_fork_detection"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T17_crash_restart_no_assumed_success"
+    },
+    {
+      "depends_on": [],
+      "node_id": "T18_proposed_delta_path_safety"
+    }
+  ],
+  "jobs": [
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "0b6f1039a946280a2871a17e0dd62b942276ab5d0967113c26aae29590aa90a2",
+      "contract_path": "contracts/T01_deterministic_root.json",
+      "contract_sha256": "3a9791cb48d5889fa3e077d5de3715283e246d4f5d0151da43d0f1bd97e3061b",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "fa9e179432b10d6ff9398431a2681dc0d167cc32ea08cd33a5b8f3d9cf2c1285",
+      "modality": "CODE",
+      "node_id": "T01_deterministic_root",
+      "phase": "CPU",
+      "prompt_sha256": "c14bac7d66321df86baa67730e5fb0e315c7993d2553209c6ea5d9653936325f",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "e8bcb2f4e4cf2b85217d3a95ca64aa0956745e74b98e43de4a2e6e73f21b4b8f",
+      "contract_path": "contracts/T02_parallel_sibling.json",
+      "contract_sha256": "2bc349eb13a2192434b4e6ba5b79af7a39d7a6a9957dbf2b4e4eae318eac99dd",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "0219ce4b17193fcc2519d7c228f7a285366be82dacfd2ff29b4242327e5221e8",
+      "modality": "CODE",
+      "node_id": "T02_parallel_sibling",
+      "phase": "CPU",
+      "prompt_sha256": "1b48ad756ca6aa3cf066a02062be39be2b1d713192d7ac33691cd1592d5ba500",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "5bc8e867de42fe256815ad32552211802d8b9d9f8fdc4f59bcc0864e5fe01ea4",
+      "contract_path": "contracts/T03_poison_retry_exhaustion.json",
+      "contract_sha256": "6683c64d1eae7d864217877b387fbb165e584d5983e5fb68e0503d94b59c2367",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "5bc5173888cd08b819d2a39e5d3f8f4b7ab130acd0bcf827c90a079d37f4b2e9",
+      "modality": "CODE",
+      "node_id": "T03_poison_retry_exhaustion",
+      "phase": "CPU",
+      "prompt_sha256": "c183302b319532454caa4253df2b5c9e6b2cb46c2ccb09786a6fb002cb5652b0",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "a8e440bd7f96984ef9908b9d017a723c948c564fc50d88358a1909ebafb8ed9e",
+      "contract_path": "contracts/T04_poison_dependent_block.json",
+      "contract_sha256": "34f71f2bbbcdf7d9d79bb17c98ff1d9778991c72b3d9afa06c79bf343b8d096d",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "6259433dce87ed0af5398b72929ddf0a1636ec31dd74d33ad63a6eead2498aff",
+      "modality": "CODE",
+      "node_id": "T04_poison_dependent_block",
+      "phase": "CPU",
+      "prompt_sha256": "d5e1acd00413839bc76e97fb770b8c6253a84b45abf8bff2ad238ac78efd3bc5",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "1c6ed93a8d37d21c9b42b665bc2b792cf638f8edb8b735d5c2c3eb2bfa290445",
+      "contract_path": "contracts/T05_unrelated_branch_continuation.json",
+      "contract_sha256": "29953413384e7b77a29f7b064a24a50c4d4b8d83e603a10c2e03a557d0dfb37e",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "518ae947ccae7257741ebca43fc2fa0a54145feda86d2ead7c5a11367662cce9",
+      "modality": "CODE",
+      "node_id": "T05_unrelated_branch_continuation",
+      "phase": "CPU",
+      "prompt_sha256": "b3fe87fd4766bc3c9d0264c5f3732e83e7968a0bdbd1d19d0aa3826797ad2241",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "26bc08a3021ae3e66b8c76add523bfe809a456d5e39ddc7dc22802b3f10b4dc3",
+      "contract_path": "contracts/T06_targeted_repair_success.json",
+      "contract_sha256": "8a1099e47febaeb802b915e155cb3b81532d87c77132c6a3ffed5e002e73afdf",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "e7a5548e7db253f2e57f2ae8df41bf7426aad4739b7794fa46fd61189897c598",
+      "modality": "CODE",
+      "node_id": "T06_targeted_repair_success",
+      "phase": "CPU",
+      "prompt_sha256": "eef2235d9387f698e83f1b37a22181a324f03880e7d33b1da2b5b744e868e108",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "b36824d8a72e41bf9cb1820a43f9ba81f629e09f878de98661af3ff5b0ca5766",
+      "contract_path": "contracts/T07_oom_automatic_rollback.json",
+      "contract_sha256": "80d9874cb3f323683ac670022fae37dca0723ad4e833701861fe04104de6a74a",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "a4e61bf9f32981f730ec2375815930ab5e94a72de9a2384e43040893066f68fa",
+      "modality": "CODE",
+      "node_id": "T07_oom_automatic_rollback",
+      "phase": "CPU",
+      "prompt_sha256": "803c5426c136c48fb99e26090785f210c5b9e105d66cb6a0537a12e5e24e8591",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "5dd71bd9af0119c02c43ecc976fafad032b67daa54dfd41000820d299067681b",
+      "contract_path": "contracts/T08_timeout_automatic_rollback.json",
+      "contract_sha256": "8733ceee69864130e4ce29b6dd32d285109404b15e62ae41143d6b03d6e392e9",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "2e82da44368bcf49103a01f393af85508643dae592c83c9c4ea97e6f1fdac510",
+      "modality": "CODE",
+      "node_id": "T08_timeout_automatic_rollback",
+      "phase": "CPU",
+      "prompt_sha256": "b1e4629dc595e6b8936f15226eaaf9127b834975e1eef3297364b30fee4d3527",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "1e05a2d83f6032612642e857d2b082e2464ca568997889b7409ccd5aef231eda",
+      "contract_path": "contracts/T09_unqualified_role_abstention.json",
+      "contract_sha256": "499009344e5b5063d6d8a8cee959f03e487d32d602c5e8d056b441825d9db831",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "54e1d4184eaed706752ef83bf613eb04548f0f59fe109b19c81b1d78aa113474",
+      "modality": "CODE",
+      "node_id": "T09_unqualified_role_abstention",
+      "phase": "CPU",
+      "prompt_sha256": "eb9451048b22b18ba987ae7404c3e3fd0802d6932d4d4916f4c46aee8e28241b",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "7d6947b584b31e363ae5e59a3f9024acd84888ae4469e085c9e6d112d76910f2",
+      "contract_path": "contracts/T10_quarantine_state.json",
+      "contract_sha256": "123a09a67eedf783e33a460395f36444101e5fba7aeab997211b7871ff0f8533",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "3a540501a240ca4eab62ab3f87c8d4fa81939250159ce63821602a57fd32729d",
+      "modality": "CODE",
+      "node_id": "T10_quarantine_state",
+      "phase": "CPU",
+      "prompt_sha256": "1d72c0e76bd189551941d33896a705aa59bffb1c6fa44ef573c3c0f7b63d1bc4",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "1cc0494457c36a71bd6216aecad00b4e4465390f25e5c297222e94cfb41e221a",
+      "contract_path": "contracts/T11_path_escape_denial.json",
+      "contract_sha256": "9ce019ffdf076fb84d23f3e4bddf7223b88c3c6cee540e968223e4c3f98863f3",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "f3cada4f449123aa7fccbede727be901edeb8048a28b975676038e84ee2fbe49",
+      "modality": "CODE",
+      "node_id": "T11_path_escape_denial",
+      "phase": "CPU",
+      "prompt_sha256": "ed6247b6da6db199872ca05c815c7b2d0cee3b38b883b8c37e5c02fb5ee5f19c",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "5721f196095591475e1af24ef47b3a0d443878b65ac118bca5ad8973d59ab28f",
+      "contract_path": "contracts/T12_product_authority_denial.json",
+      "contract_sha256": "d85382a8249068f4be979aebb52a100bede76ed4e73cdbd1e1d8d728f6386eda",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "61b934a6292ced736cea01de82dc5fdcd9a865a69b877052e542a18765d7502d",
+      "modality": "CODE",
+      "node_id": "T12_product_authority_denial",
+      "phase": "CPU",
+      "prompt_sha256": "8ef073608ac7d411c3af9123af59e25c69fb4659fe9017eecb696a1532abaa54",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "80b2a08087dc58789c173ca3d1835d9dd9990f602366da354a42d7108764869a",
+      "contract_path": "contracts/T13_credential_access_denial.json",
+      "contract_sha256": "009de47727667eb6888e0d3cceb0ece3cb85a4327a1249cc905fc6e797ff4b60",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "837b0a7ba5a44d3acbd47007dcd45c54e4a718691851e4bf9471f2152b0a8831",
+      "modality": "CODE",
+      "node_id": "T13_credential_access_denial",
+      "phase": "CPU",
+      "prompt_sha256": "06934c17159938d8533b83bdbb68f99f8f31316a6bf791bbd78a7a9213fd2edb",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "c3f98ca9650855c57ee5a35138b398268c311280c1c32c49e3189b7ed3f558a5",
+      "contract_path": "contracts/T14_self_review_refusal.json",
+      "contract_sha256": "153b8a702ac126d014f97e7aac0c2eb7ffcf185eaa6cb23682757f5a77de070b",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "99525e78ebefb39079a2a7bf6bcf85999d2bcf60b673e4dde61b9e1aa8fc577e",
+      "modality": "CODE",
+      "node_id": "T14_self_review_refusal",
+      "phase": "CPU",
+      "prompt_sha256": "94faa41cd4c0521615cae1ebbf7ff945135e2e7455ca9c5a3d021ca7738c7f4b",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "d7484c47d66eaa876907190bfa0cfb9775e1999649348d3644b9285d021c0c3d",
+      "contract_path": "contracts/T15_journal_tamper_detection.json",
+      "contract_sha256": "29cbff7494d187b0a4edcc8d38e89186b1abfcca75fce6830537d9a05876bb8f",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "e60d694ea5486d04133592529834e4424ecfb2b72b1b72ce8b10e3ed255de817",
+      "modality": "CODE",
+      "node_id": "T15_journal_tamper_detection",
+      "phase": "CPU",
+      "prompt_sha256": "8a26458d23e68964f31a1fbd1a606f2fc6255ae43ea714f02687c020663477f1",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "99d2478b3c33736935236cb528731a1452e38d4d32c99133bdf5b84a59f69b9d",
+      "contract_path": "contracts/T16_journal_fork_detection.json",
+      "contract_sha256": "7b602339948c97e17c24580006ffc3db5e54c467cc7b05652287e06bfef65473",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "d5c795f2a16950c5210d6f86c6dc04cfce20365b3f687a092d3a07099595ca40",
+      "modality": "CODE",
+      "node_id": "T16_journal_fork_detection",
+      "phase": "CPU",
+      "prompt_sha256": "b8fba5ba29c83a6b2b8888abbd26b0d6dd84f98295d1abd31dc7c8baba4d10ff",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "98055bf1e386444cd7e3343d34aae2de22912d759bcfb4e398ca3866b521a23f",
+      "contract_path": "contracts/T17_crash_restart_no_assumed_success.json",
+      "contract_sha256": "c74b603cb92bfc288a014f33c6422764b49890dee62321462bf1e21dcbc7aaa8",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "aa5ed6e997f8caccca3a6d7700b2b45f199ed65385ee73fc77cc5b096bea82e9",
+      "modality": "CODE",
+      "node_id": "T17_crash_restart_no_assumed_success",
+      "phase": "CPU",
+      "prompt_sha256": "ed075c2056072350289e9869fa0757456634685b1f3c7bddff982a57a9b68407",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    },
+    {
+      "continue_unrelated_branches": true,
+      "contract_id": "c4677b524cc5006bac05df2bcace2ba1877a758ac5bc7d8353bc8072cf0ea1b8",
+      "contract_path": "contracts/T18_proposed_delta_path_safety.json",
+      "contract_sha256": "cd848a67068bda12355bab7fff5bf00be6b1b7de4662f9544d6418b3e6a51c40",
+      "environment_sha256": "f114b7b59bae19c78f7c90f35a92b76bce4f14434b83a5d81987e7e90762fcba",
+      "estimated_vram_gib": 0,
+      "input_sha256": "eb139ba4bd97580731c1fdd0430ed4478144d065d3e0c22bd3f9b8b80aaf8966",
+      "modality": "CODE",
+      "node_id": "T18_proposed_delta_path_safety",
+      "phase": "CPU",
+      "prompt_sha256": "206e5492818f7e9cafcb9f9740cc64960b1ab088661ca8be172beb54555ff6d7",
+      "residency_group": "cpu-shadow",
+      "risk_tier": "HIGH",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER",
+      "runtime_sha256": "0079dfe56bc073a538d8191e4a1d5bdcd00ea428235841daa10896cef44aef50",
+      "stage": "DETERMINISTIC_QA"
+    }
+  ],
+  "model_bindings": [
+    {
+      "checkpoint_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "family_id": "W64-AQA-FAMILY-SHADOW-IMPLEMENTER",
+      "qualification_state": "QUALIFIED",
+      "role_id": "W64-AQA-ROLE-IMPLEMENTER"
+    },
+    {
+      "checkpoint_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "family_id": "W64-AQA-FAMILY-SHADOW-REVIEWER",
+      "qualification_state": "QUALIFIED",
+      "role_id": "W64-AQA-ROLE-REVIEWER"
+    },
+    {
+      "checkpoint_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "family_id": "W64-AQA-FAMILY-SHADOW-JUROR",
+      "qualification_state": "QUALIFIED",
+      "role_id": "W64-AQA-ROLE-INDEPENDENT-JUROR"
+    },
+    {
+      "checkpoint_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "family_id": "W64-AQA-FAMILY-SHADOW-ARBITER",
+      "qualification_state": "QUALIFIED",
+      "role_id": "W64-AQA-ROLE-ARBITER"
+    }
+  ],
+  "policy": {
+    "abstain_on_unqualified_role": true,
+    "max_attempts": 2,
+    "policy_id": "W64-AQA-TOOL-POLICY-002",
+    "policy_sha256": "394a4198e271fe801b0bf67b8387a14e8a46dccb7fef225885f7ba2135914119",
+    "repair_attempts": 1
+  },
+  "qualification_mode": "STATIC_SHADOW",
+  "repository": {
+    "commit_sha256": "860f635f0188fc398e8bb2e26d4868826e46ee590112360ebb93f800327e1f58",
+    "remote": "https://github.com/KevinSGarrett/Comfy_UI_Main.git",
+    "tree_sha256": "271e1af8bddba6ea4cffda2b8fb1eb05d0ab81d2a7a92f114671a5f218f3fd43"
+  },
+  "schema_version": "wave64.aqa.campaign.v1"
+}

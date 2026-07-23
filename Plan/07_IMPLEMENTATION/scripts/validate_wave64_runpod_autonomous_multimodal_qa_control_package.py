@@ -102,7 +102,7 @@ PATHS = {
     "campaign_cpu_shadow_acceptance": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_AUTONOMOUS_CAMPAIGN_CPU_SHADOW_20260722T224015Z/integration_acceptance.json",
     "durable_mission_cpu_shadow_acceptance": ROOT
-    / "Plan/Tracker/Evidence/W64_AQA_DURABLE_MISSION_CPU_SHADOW_20260723T014000Z/integration_acceptance.json",
+    / "Plan/Tracker/Evidence/W64_AQA_DURABLE_MISSION_CPU_SHADOW_20260723T020349Z/integration_acceptance.json",
     "registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
     "role_package_inventory": ROOT

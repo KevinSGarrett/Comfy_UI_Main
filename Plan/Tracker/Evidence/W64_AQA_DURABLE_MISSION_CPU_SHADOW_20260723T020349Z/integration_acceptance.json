@@ -2,18 +2,18 @@
   "schema_version": "wave64.aqa.durable_mission_cpu_shadow_acceptance.v1",
   "program_id": "W64-AQA",
   "tracker_id": "W64-AQA-019",
-  "status": "SUPERSEDED_EVIDENCE_HEAD_MISMATCH_NOT_ACCEPTED",
-  "superseded_by": "Plan/Tracker/Evidence/W64_AQA_DURABLE_MISSION_CPU_SHADOW_20260723T020349Z/integration_acceptance.json",
-  "source_head": "431d830575c7b0aa5ba290aed5352c2fc6d347fe",
-  "mission_id": "c609fdea5aa1fba7b81af98c867f620f04df10e4b21acba8bd36c18ba133e311",
-  "campaign_id": "3cfa4175cedf501e61e3ccc5085eb75027875608e4e00d1a0bd0f40f56c8fda4",
-  "result_id": "67ca1d7fd2366fe40757fe5d724cb0d92d51612e444ec7cfcd8a79202d5cd73c",
+  "status": "PASS_STATIC_CPU_DURABLE_MISSION_CONTROL_RUNTIME_UNQUALIFIED",
+  "source_head": "35feeb780878c308a565e8e94aecf9c127e64351",
+  "mission_id": "662caa7b5a839a728563f89a93ed9de81eb220d76529b0898a5a17841cd5347a",
+  "campaign_id": "9f9e0417a994dc5849ae28d51670435f399e4d18321caf7d72364f8dc47a8831",
+  "result_id": "2684a97c4de55e075f1d172c8c4473f9e986628d6a34b0e059c3ea456495d2de",
   "qualification": {
     "task_count": 18,
     "expected_states_match": true,
     "deterministic_replay": true,
     "durable_mission_terminal": true,
     "durable_mission_result_bound": true,
+    "single_durable_mission_lifecycle": true,
     "deliberate_crash_recovered": true,
     "in_flight_success_assumed": false,
     "journal_replay": true,
@@ -33,7 +33,10 @@
     "RESTORED_EXECUTOR_LOST_MEASUREMENT_AND_CLEANUP_STATE",
     "SQLITE_CONNECTION_HANDLE_PREVENTED_QUEUE_CLEANUP",
     "UNAUTHORIZED_CHECKPOINT_OR_RESULT_COULD_PRECEDE_CAS_AUTHORITY_CHECK",
-    "TERMINAL_RESULT_CHILD_EVIDENCE_BYTES_NOT_INDEPENDENTLY_REHASHED"
+    "TERMINAL_RESULT_CHILD_EVIDENCE_BYTES_NOT_INDEPENDENTLY_REHASHED",
+    "SEALED_EVIDENCE_PARENT_HEAD_MISMATCH",
+    "DISPOSABLE_TERMINAL_QUEUE_BROKE_SINGLE_LIFECYCLE_PROOF",
+    "PRE_RECHECK_RESULT_CAS_COULD_ORPHAN_ON_CONCURRENT_RECOVERY"
   ],
   "runtime_claims": {
     "runpod_contacted": false,
@@ -47,13 +50,13 @@
     "golden_mask_authority_granted": false
   },
   "critical_file_sha256": {
-    "campaign_contract.json": "49d664ae8f967350911ca09fdbabb0f0f3c03ae8915a6cc8b97855f67c7a3597",
-    "mission_envelope.json": "35c0231005d3c2ce93d1d7baf9e8d4e24b2769ba70b31ffa2b95d8fa1dbf3990",
-    "mission_recovery_journal.json": "06b3c972b24a332478d37d37ede8f629df7ec6d3cc9fe22095a756b8f5e17b57",
-    "mission_queue_state.json": "a451afa38e269fcbd2dfeb516469dc1bb2f3618ce996133b82fdf246179e0ffd",
-    "mission_journal.json": "956f8141d9babec2ed5bcffe06d59839fbe5a004c6898185d39ef44714e31f4a",
-    "sealed_result.json": "c8100a28d27784b032949f71e5da97c40e6835d85fa7c67cb2c1fed23917e8fb",
-    "shadow_assertions.json": "85b1b08c2cee4ef517af378113da490c42a95b334eaef84d42b0e84a1a74d5e2"
+    "campaign_contract.json": "ba8b42d4708f8db922fc6d5edf2473cbc12a0f1291389c236da75b5ecbbcf832",
+    "mission_envelope.json": "b514170601fcf19137dcb0aa616ea6c8af415a7ee325f4d0f6a277e79ceef3b4",
+    "mission_recovery_journal.json": "245d2de9df079dca5267fb38fb8077e7bd675a8189d0564c35da1b5d5d874c20",
+    "mission_queue_state.json": "951e1bf77adeb4a1fb4733e57a183821d15ccdfc8dd16b9c7dcaa9ac108243b7",
+    "mission_journal.json": "21858f9f168f3914aa2cc8fc21d06123a04721fbc466cabe28cc96dd30216c6b",
+    "sealed_result.json": "0708aa2b635573c1cc6d7027cdeb4110dcd8c58d474ddfa34554af2b5d674811",
+    "shadow_assertions.json": "0818be4e2567f21a311d6054b9bf994030131d879661dfa60196d1e5d8532292"
   },
   "remaining_gates": [
     "DEPLOY_AND_REPLAY_DURABLE_CONTROLLER_ON_CURRENT_RUNPOD_CPU_STORAGE",
