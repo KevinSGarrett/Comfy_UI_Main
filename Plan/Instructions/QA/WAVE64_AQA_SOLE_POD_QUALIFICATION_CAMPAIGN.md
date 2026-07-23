@@ -17,7 +17,17 @@ authority. Replay it before selecting a campaign:
 python Plan/07_IMPLEMENTATION/scripts/compile_wave64_aqa_sole_pod_qualification_queue.py --validate Plan/Tracker/Evidence/W64_AQA_SOLE_POD_QUALIFICATION_CAMPAIGN_QUEUE_20260722.json
 ```
 
-The first GPU campaign is the exact Wav2Vec2 expanded-alignment admission.
+The first GPU campaign was the exact Wav2Vec2 expanded-alignment admission. Its
+retained 2026-07-22 execution is partially adopted under evidence-set identity
+`6f7d8add2df118bbfed3926b472d919765973fbaf472983d37537731aab06c3b`:
+three calibration cases and five held-out cases passed under one released 4 GiB
+exclusive lease, with process-exit cleanup deltas of 0 MiB and 6 MiB. This
+qualifies only the frozen English transcript-bound controls and the exact
+non-speech, mismatch, and overlap refusal behavior. Spanish and code-switch
+remain diagnostic; general alignment, multilingual, overlap, audio-event,
+audio-semantic, product, and promotion authority remain false. The next GPU
+campaign is MIT AST under its own exact lease. An unchanged Wav2Vec2 rerun is
+forbidden.
 Acquire a fresh `comfyui_main` / `comfyui_model_qualification` exclusive lease,
 run calibration, freeze the observed thresholds, run held-out once, verify child
 exit and VRAM cleanup, release the lease, and retain immutable receipts. The

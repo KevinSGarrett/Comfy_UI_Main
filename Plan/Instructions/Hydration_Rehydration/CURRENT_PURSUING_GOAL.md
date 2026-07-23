@@ -7543,3 +7543,28 @@ deterministic evidence into runtime quality, independent review, golden-mask,
 activation, promotion, or project completion. Continue until one exact product
 vertical slice has independent semantic review and promotion remains fail
 closed unless every required gate passes.
+
+## Current Goal Correction - W64-AQA Campaign Executor And Audio Dependency Progress - 2026-07-22
+
+The Wav2Vec2 expanded-alignment campaign is no longer pending. Its retained
+three-case calibration and five-case held-out execution is partially adopted
+under evidence-set SHA-256
+`6f7d8add2df118bbfed3926b472d919765973fbaf472983d37537731aab06c3b`.
+The one 4 GiB exclusive coordinator lease was released, both partitions passed,
+and process-exit cleanup deltas were 0 MiB and 6 MiB. Do not rerun unchanged
+inputs. This grants only the frozen English alignment controls and exact refusal
+controls; it does not grant broad alignment, multilingual, overlap, audio-event,
+audio-semantic-role, product, or promotion authority.
+
+Continue the RunPod Autonomous Campaign Execution and Evidence Compaction
+package as the highest-value throughput milestone. Execute MIT AST next only
+under its own exact coordinator lease and immutable admission. If GPU admission
+is unavailable, immediately advance another CPU-safe executor qualification or
+evidence-integrity milestone. Preserve RunPod as the sole production platform,
+the singleton migration watcher, all foreign dirty ownership boundaries, and
+Codex-only Git, coordinator, project-state, and final acceptance authority.
+Claude Sonnet remains the bulk architecture, semantic, contradiction,
+test-strategy, and bounded acceptance-review route. No other implementation
+worker route is part of this package. Operational autonomy remains false until
+the shadow, replay, scope, authority, evidence, cleanup, agreement,
+false-accept, and modality promotion gates are all durably evidenced.

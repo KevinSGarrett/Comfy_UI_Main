@@ -1,0 +1,53 @@
+{
+  "schema_version": "wave64.aqa.wav2vec2_expanded_alignment.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-135"],
+  "recorded_at_utc": "2026-07-23T00:08:00Z",
+  "status": "PARTIALLY_ADOPTED_EXACT_WAV2VEC2_ALIGNMENT_CONTROLS_ONLY",
+  "campaign_id": "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT",
+  "evidence_set_sha256": "6f7d8add2df118bbfed3926b472d919765973fbaf472983d37537731aab06c3b",
+  "bindings": {
+    "calibration_receipt.json": {
+      "sha256": "533cd88a1205468e78087335ede874754bcbbfc14037344d533d5d14206e6361"
+    },
+    "held_out_receipt.json": {
+      "sha256": "f1797ededd4665829fe9be7d715ff42fa39cf4a0482fa3558a16756593be5292"
+    },
+    "coordinator_lease_granted.json": {
+      "sha256": "9252dedd6b7b6db4ee07f35721e3f57ebbfb94aa66c70d433c02bd2f9513dfb3"
+    },
+    "coordinator_lease_released.json": {
+      "sha256": "5eb656eccdb2b7448adbecbed43adffcca81fd8accf7aebf139e508205b3f0f5"
+    }
+  },
+  "contract_bindings": {
+    "admission_sha256": "b9f8eb96d9a19029d8da744ac243d56527ec2c2a6f4530e9d0c95a6bc750c983",
+    "executor_sha256": "8bbdf7aa5c29afdd23a261feec4711fdd3e92af1c272e97380474b67618b9e9c",
+    "plan_sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+    "model_revision": "ae45363bf3413b374fecd9dc8bc1df0e24c3b7f4",
+    "weight_sha256": "3173bde9e9ce490fa0f989e413c42f25bc1820c020adc1e6b9b87025b3cfcc5e"
+  },
+  "observations": {
+    "lease_id": "lease_dee638deca444748a72ef3b813c4f6a5",
+    "lease_mode": "exclusive",
+    "reserved_peak_gib": 4.0,
+    "calibration_cases_passed": 3,
+    "held_out_cases_passed": 5,
+    "calibration_cleanup_delta_mib": 0,
+    "held_out_cleanup_delta_mib": 6,
+    "known_bad_false_accepts": 0,
+    "unchanged_rerun_performed": false
+  },
+  "authority": {
+    "exact_english_transcript_bound_alignment_controls": true,
+    "exact_non_speech_mismatch_and_overlap_refusal_controls": true,
+    "spanish_or_code_switch_diagnostic_authority": false,
+    "general_forced_alignment": false,
+    "multilingual_alignment": false,
+    "overlap_alignment": false,
+    "audio_event_recognition": false,
+    "audio_semantic_role_qualification": false,
+    "product_or_role_promotion": false
+  },
+  "next_action": "Execute the separately leased MIT AST AudioSet calibration and held-out campaign only after replaying its exact admission; otherwise continue a CPU-safe campaign-executor qualification lane."
+}

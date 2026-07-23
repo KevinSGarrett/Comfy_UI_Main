@@ -1672,3 +1672,20 @@ The executor cannot push Git, spend money, read credentials, weaken thresholds, 
 Commit `aa0474d2` is a provisional static checkpoint only. The corrected framework adds sealed child-byte/ID verification, a separate campaign lease, legal state transitions and genesis hash, crash cursor with no assumed in-flight success, path-safe proposed deltas, a result content ID, CAS/Merkle evidence, measured-or-`null` metrics, targeted repair and rollback, risk-tiered review, and modality QA. The exact 18-task CPU shadow is evidence for static orchestration only. Production roles remain `BLOCKED_UNQUALIFIED`; the 5–10-artifact image/short-video/audio shadow, 25–100-artifact expansion, and 24–72-hour campaigns remain gated.
 
 Promotion requires at least 90% autonomous terminalization, less than 10% interruption, 100% evidence completeness, 100% restart replay, zero scope or authority violations, zero known-bad false accepts, at least 80–90% agreement with accepted Codex decisions, at least 70% first-pass validation progressing toward 85%, complete measured cleanup, modality thresholds, and measured reductions in reloads, coordinator churn, round trips, and evidence volume. The 80–90% RunPod execution, 5–15% Claude escalation, 5–10% Codex authority, 70–90% round-trip reduction, and 3–8x throughput figures are targets, never current claims.
+
+### Wav2Vec2 dependency campaign acceptance
+
+The frozen Wav2Vec2 expanded-alignment campaign is partially adopted under
+evidence-set SHA-256
+`6f7d8add2df118bbfed3926b472d919765973fbaf472983d37537731aab06c3b`.
+One 4 GiB exclusive `comfyui_model_qualification` lease covered calibration and
+held-out execution and was released as `completed_and_evidenced`. All three
+calibration and all five held-out cases passed; process-exit cleanup deltas were
+0 MiB and 6 MiB. The accepted authority is limited to the exact English
+transcript-bound alignment controls and the frozen non-speech, transcript
+mismatch, and multi-speaker refusal controls. Spanish and code-switch results
+remain diagnostics. This is dependency evidence, not general forced-alignment,
+multilingual, overlap, event-recognition, audio-semantic-role, product, or
+promotion authority. The unchanged campaign must not be rerun. MIT AST is the
+next separately leased audio dependency campaign; CPU-safe executor work remains
+the fallback if GPU admission is unavailable.
