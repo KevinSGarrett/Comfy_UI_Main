@@ -1,0 +1,277 @@
+{
+  "authority": {
+    "beats_equivalence": false,
+    "exact_partition_measurement": false,
+    "general_audio_event_recognition": false,
+    "operational_activation": false,
+    "product_promotion": false
+  },
+  "cases": [
+    {
+      "calibration_top3_gate": false,
+      "case": {
+        "case_id": "event_room_ambience",
+        "partition": "calibration",
+        "policy": "REQUIRE_ONE_FAMILY_IN_TOP_3",
+        "required_label_families": [
+          "room ambience",
+          "background noise"
+        ],
+        "source_id": "room_ambience"
+      },
+      "family_hits": {
+        "background noise": [
+          5
+        ],
+        "room ambience": []
+      },
+      "predictions": [
+        {
+          "label": "Silence",
+          "rank": 1,
+          "score": 0.17464393377304077
+        },
+        {
+          "label": "Music",
+          "rank": 2,
+          "score": 0.04321833699941635
+        },
+        {
+          "label": "Static",
+          "rank": 3,
+          "score": 0.03398878127336502
+        },
+        {
+          "label": "Sound effect",
+          "rank": 4,
+          "score": 0.03112899884581566
+        },
+        {
+          "label": "White noise",
+          "rank": 5,
+          "score": 0.030646389350295067
+        },
+        {
+          "label": "Sine wave",
+          "rank": 6,
+          "score": 0.030171262100338936
+        },
+        {
+          "label": "Speech",
+          "rank": 7,
+          "score": 0.029936468228697777
+        },
+        {
+          "label": "Animal",
+          "rank": 8,
+          "score": 0.022160161286592484
+        },
+        {
+          "label": "Mouse",
+          "rank": 9,
+          "score": 0.020414896309375763
+        },
+        {
+          "label": "Microwave oven",
+          "rank": 10,
+          "score": 0.017875880002975464
+        }
+      ],
+      "source": {
+        "bytes": 391724,
+        "inference_sample_rate_hz": 16000,
+        "original_sample_rate_hz": 48000,
+        "resampled_frame_count": 32640,
+        "sha256": "bacdda22287b5965538187cfd657bf5094f08420290aa2b71416a31ad1b0f0ff",
+        "source_id": "room_ambience"
+      }
+    },
+    {
+      "calibration_top3_gate": true,
+      "case": {
+        "case_id": "event_cloth_body_shift",
+        "partition": "calibration",
+        "policy": "REQUIRE_ONE_FAMILY_IN_TOP_3",
+        "required_label_families": [
+          "cloth movement",
+          "body movement",
+          "rustling"
+        ],
+        "source_id": "cloth_body_shift_foley"
+      },
+      "family_hits": {
+        "body movement": [],
+        "cloth movement": [
+          1,
+          5
+        ],
+        "rustling": [
+          5
+        ]
+      },
+      "predictions": [
+        {
+          "label": "Zipper (clothing)",
+          "rank": 1,
+          "score": 0.6353629231452942
+        },
+        {
+          "label": "Whoosh, swoosh, swish",
+          "rank": 2,
+          "score": 0.1014164611697197
+        },
+        {
+          "label": "Sound effect",
+          "rank": 3,
+          "score": 0.017215289175510406
+        },
+        {
+          "label": "Scrape",
+          "rank": 4,
+          "score": 0.013968623243272305
+        },
+        {
+          "label": "Rustle",
+          "rank": 5,
+          "score": 0.009341527707874775
+        },
+        {
+          "label": "Flap",
+          "rank": 6,
+          "score": 0.008741340599954128
+        },
+        {
+          "label": "Bang",
+          "rank": 7,
+          "score": 0.008373691700398922
+        },
+        {
+          "label": "Crunch",
+          "rank": 8,
+          "score": 0.007565000094473362
+        },
+        {
+          "label": "Biting",
+          "rank": 9,
+          "score": 0.007476864382624626
+        },
+        {
+          "label": "Whip",
+          "rank": 10,
+          "score": 0.006572585552930832
+        }
+      ],
+      "source": {
+        "bytes": 391758,
+        "inference_sample_rate_hz": 16000,
+        "original_sample_rate_hz": 48000,
+        "resampled_frame_count": 32640,
+        "sha256": "8fd1261c0fedb166ef96476ea2f1364541f2ca3338449457528bfb75aed0b939",
+        "source_id": "cloth_body_shift_foley"
+      }
+    }
+  ],
+  "environment_versions": {
+    "numpy": "2.4.6",
+    "safetensors": "0.8.0",
+    "torch": "2.4.1+cu124",
+    "transformers": "5.2.0"
+  },
+  "error": null,
+  "lease": {
+    "expires_at": "2026-07-23T02:47:23Z",
+    "lease_id": "lease_188da91d9bbb4c768b4bab996ecf4a48",
+    "lease_mode": "exclusive",
+    "profile": "comfyui_model_qualification",
+    "project": "comfyui_main",
+    "reserved_peak_gib": 4,
+    "safety_reserve_gib": 1,
+    "valid": true
+  },
+  "model_files": [
+    {
+      "bytes": 1477,
+      "identity": "c7d9f3332a950355d5a77d85000f05e6f45435ea",
+      "identity_kind": "git_blob_sha1",
+      "path": ".gitattributes"
+    },
+    {
+      "bytes": 1165,
+      "identity": "fc4ece98b629cab4731db057bebdc4240fda9239",
+      "identity_kind": "git_blob_sha1",
+      "path": "README.md"
+    },
+    {
+      "bytes": 26763,
+      "identity": "9b822c630bc1a61312ac702cca4d8fb5a524e729",
+      "identity_kind": "git_blob_sha1",
+      "path": "config.json"
+    },
+    {
+      "bytes": 346404948,
+      "identity": "ae0c1e2ad4e1381d851fa9bf298ba13ebc9c5a914cdee2dbe427a6583869924d",
+      "identity_kind": "sha256",
+      "path": "model.safetensors"
+    },
+    {
+      "bytes": 297,
+      "identity": "d93e9e561c374604096fd5868c97e08130638f72",
+      "identity_kind": "git_blob_sha1",
+      "path": "preprocessor_config.json"
+    },
+    {
+      "bytes": 1546,
+      "identity": "45acf496dee55bce1bfe906e5083347bb6c84b8946ce670b9e92f151a4afe6fa",
+      "identity_kind": "sha256",
+      "path": ".w64_aqa_install_receipt.json"
+    }
+  ],
+  "model_revision": "f826b80d28226b62986cc218e5cec390b1096902",
+  "partition": "calibration",
+  "plan_sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+  "program_id": "W64-AQA",
+  "runtime": {
+    "duration_seconds": 2.213038831949234,
+    "gpu_after_in_process_cleanup": {
+      "free_mib": 47459,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 1182,
+      "utilization_percent": 2
+    },
+    "gpu_after_worker_exit": {
+      "free_mib": 47993,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 648,
+      "utilization_percent": 0
+    },
+    "gpu_before": {
+      "free_mib": 47993,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 648,
+      "utilization_percent": 0
+    },
+    "gpu_before_worker": {
+      "free_mib": 47993,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 648,
+      "utilization_percent": 0
+    },
+    "gpu_loaded": {
+      "free_mib": 47383,
+      "name": "NVIDIA RTX 6000 Ada Generation",
+      "total_mib": 49140,
+      "used_mib": 1258,
+      "utilization_percent": 7
+    },
+    "host_available_before_bytes": 458532589568,
+    "process_exit_cleanup_delta_mib": 0,
+    "process_exit_cleanup_pass": true,
+    "worker_returncode": 1
+  },
+  "schema_version": "wave64.aqa.mit_ast_event_canary.v1",
+  "status": "FAIL_EVENT_PARTITION_RUNTIME_OR_PROCESS_EXIT_CLEANUP"
+}

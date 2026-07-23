@@ -105,7 +105,7 @@
         "generation_stack": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/generationStackBinding"}]},
         "depends_on": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
         "execution_steps": {"type": "array", "minItems": 1, "items": {"type": "string"}},
-        "readiness": {"enum": ["ADMITTED_COORDINATOR_GATE_REQUIRED", "COMPLETED_ACCEPTED_EXACT_SCOPE", "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED", "QUALIFIED_DECLARED_LOCAL_SCOPE", "HELD_PREREQUISITES_INCOMPLETE"]},
+        "readiness": {"enum": ["ADMITTED_COORDINATOR_GATE_REQUIRED", "COMPLETED_ACCEPTED_EXACT_SCOPE", "COMPLETED_REJECTED_EXACT_SCOPE", "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED", "QUALIFIED_DECLARED_LOCAL_SCOPE", "HELD_PREREQUISITES_INCOMPLETE"]},
         "blockers": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
         "operational": {"type": "boolean"}
       }

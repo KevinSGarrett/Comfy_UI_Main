@@ -17,7 +17,7 @@
     },
     "campaign_policy": {
       "path": "Plan/10_REGISTRIES/wave64_aqa_sole_pod_qualification_campaign_policy.json",
-      "sha256": "5016b57e5d4d07a5acf7676e90a51b0d32fc785183e6d2fbd763075d70b5db37"
+      "sha256": "ca6aca446cbc9f17b550ff6f8d9273ae73b10ac0d420ff6d342957f2ba942d90"
     },
     "generation_stack_registry": {
       "path": "Plan/10_REGISTRIES/wave64_aqa_generation_stack_registry.json",
@@ -92,7 +92,12 @@
         "status": "MIT_AST_EXACT_EVENT_CANARY_ADMITTED_EXECUTION_PENDING",
         "package_id": "W64-AQA-PKG-MIT-AST-AUDIOSET-0.4593"
       },
-      "acceptance": null,
+      "acceptance": {
+        "path": "Plan/Tracker/Evidence/W64_AQA_MIT_AST_AUDIOSET_CALIBRATION_RETRY_20260723T022620Z/integration_acceptance.json",
+        "sha256": "044738d7b56d20cc95eefbe34fd86667cbe8b9a336a6426946c0a476090813e3",
+        "status": "REJECTED_SEMANTIC_CALIBRATION_TOP3_GATE_MISS",
+        "evidence_set_sha256": "181ab4f51155e14f31fc1d1d80f3ab1895fb587503e317622012c29d818d0dbf"
+      },
       "certificate": null,
       "generation_stack": null,
       "depends_on": [
@@ -107,9 +112,9 @@
         "release_lease",
         "retain_immutable_receipts"
       ],
-      "readiness": "ADMITTED_COORDINATOR_GATE_REQUIRED",
+      "readiness": "COMPLETED_REJECTED_EXACT_SCOPE",
       "blockers": [
-        "FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"
+        "TERMINAL_SEMANTIC_CALIBRATION_REJECTION_REPLACEMENT_STRATEGY_REQUIRED"
       ],
       "operational": false
     },
@@ -723,20 +728,22 @@
     "held_campaign_count": 7
   },
   "next_action": {
-    "campaign_id": "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS",
+    "campaign_id": "W64-AQA-CAMPAIGN-ROLE-FAST-TRIAGE",
     "runnable_now": false,
     "required_transition": "FRESH_COORDINATOR_ADMISSION_AND_EXACT_LEASE_IS_GRANTED",
     "execution_steps": [
-      "acquire_exact_exclusive_lease",
+      "admit_exact_model_runtime_and_prompt_identity",
+      "acquire_exact_coordinator_lease",
       "run_calibration_partition",
       "freeze_observed_thresholds",
       "run_held_out_partition_once",
+      "compile_capacity_quality_repeatability_refusal_certificate",
       "verify_process_exit_cleanup",
       "release_lease",
-      "retain_immutable_receipts"
+      "retain_evidence_and_keep_activation_false_until_acceptance"
     ]
   },
-  "queue_sha256": "9f62ca10ce2ccc5c54a5d9f49cebc52bb42dd362670ddb8dc21e025be2fddf4b",
+  "queue_sha256": "44e1845f46d9174ebaa25bb723cfedb76481f14e10f34970de9205c43b1f76b3",
   "authority": {
     "execution_planning": true,
     "runtime": false,

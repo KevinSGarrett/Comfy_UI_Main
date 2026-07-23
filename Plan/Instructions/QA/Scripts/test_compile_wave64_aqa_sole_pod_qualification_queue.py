@@ -25,7 +25,7 @@ def test_queue_replays_with_two_support_campaigns_and_all_twelve_roles() -> None
     assert len(queue["campaigns"]) == 14
     assert queue["coverage"]["all_matrix_roles_bound"] is True
     assert queue["coverage"]["role_campaign_count"] == 12
-    assert queue["next_action"]["campaign_id"] == "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS"
+    assert queue["next_action"]["campaign_id"] == "W64-AQA-CAMPAIGN-ROLE-FAST-TRIAGE"
     assert queue["next_action"]["runnable_now"] is False
     assert queue["authority"] == {
         "execution_planning": True, "runtime": False, "capacity": False,
@@ -42,6 +42,11 @@ def test_audio_order_is_alignment_then_event_then_exact_audio_role() -> None:
     assert campaigns[0]["blockers"] == []
     assert campaigns[0]["acceptance"]["status"] == "PARTIALLY_ADOPTED_EXACT_WAV2VEC2_ALIGNMENT_CONTROLS_ONLY"
     assert campaigns[1]["component"] == "mit_ast_audioset_event_detection"
+    assert campaigns[1]["readiness"] == "COMPLETED_REJECTED_EXACT_SCOPE"
+    assert campaigns[1]["acceptance"]["status"] == "REJECTED_SEMANTIC_CALIBRATION_TOP3_GATE_MISS"
+    assert campaigns[1]["blockers"] == [
+        "TERMINAL_SEMANTIC_CALIBRATION_REJECTION_REPLACEMENT_STRATEGY_REQUIRED"
+    ]
     audio = next(item for item in campaigns if item["role_id"] == "W64-AQA-ROLE-AUDIO-SEMANTIC")
     assert audio["package_ids"] == ["W64-AQA-PKG-QWEN3-ASR-17B", "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"]
     assert audio["readiness"] == "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED"
@@ -152,9 +157,10 @@ def test_generation_stack_package_hash_drift_is_rejected(tmp_path: Path, package
     package_paths = [Path(stack["package_binding"]["path"]) for stack in registry["stacks"]]
     admission_paths = [Path(item["admission_path"]) for item in policy["pre_role_campaigns"]]
     acceptance_paths = [
-        Path(item["acceptance_path"])
+        Path(item[key])
         for item in policy["pre_role_campaigns"]
-        if item.get("acceptance_path")
+        for key in ("acceptance_path", "rejection_path")
+        if item.get(key)
     ]
     certificate_paths = [
         Path(binding[key])

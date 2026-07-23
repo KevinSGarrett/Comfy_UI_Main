@@ -96,4 +96,21 @@ def test_finalize_requires_cleanup_and_worker_success() -> None:
     assert code == 0 and result["runtime"]["process_exit_cleanup_pass"]
     failed = {"status": "PASS_EXACT_EVENT_CALIBRATION_PARTITION", "error": None, "runtime": {}, "authority": {"exact_partition_measurement": True}}
     result, code = MODULE.finalize(failed, {"used_mib": 600}, {"used_mib": 2000}, 0, 1024)
-    assert code == 1 and not result["authority"]["exact_partition_measurement"]
+    assert code == 1
+    assert result["status"] == "FAIL_EVENT_PROCESS_EXIT_CLEANUP"
+    assert not result["authority"]["exact_partition_measurement"]
+
+
+def test_finalize_preserves_semantic_calibration_failure_cause() -> None:
+    worker = {
+        "status": "FAIL_EVENT_PARTITION_OR_RUNTIME",
+        "partition": "calibration",
+        "error": None,
+        "runtime": {},
+        "authority": {"exact_partition_measurement": False},
+    }
+    result, code = MODULE.finalize(worker, {"used_mib": 648}, {"used_mib": 648}, 1, 1024)
+    assert code == 1
+    assert result["status"] == "FAIL_EVENT_CALIBRATION_SEMANTIC_GATE"
+    assert result["runtime"]["process_exit_cleanup_pass"] is True
+    assert result["runtime"]["worker_returncode"] == 1

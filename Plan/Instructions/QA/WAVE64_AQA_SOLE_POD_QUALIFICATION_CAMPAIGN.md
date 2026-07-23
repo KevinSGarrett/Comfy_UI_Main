@@ -25,23 +25,26 @@ exclusive lease, with process-exit cleanup deltas of 0 MiB and 6 MiB. This
 qualifies only the frozen English transcript-bound controls and the exact
 non-speech, mismatch, and overlap refusal behavior. Spanish and code-switch
 remain diagnostic; general alignment, multilingual, overlap, audio-event,
-audio-semantic, product, and promotion authority remain false. The next GPU
-campaign is MIT AST under its own exact lease. An unchanged Wav2Vec2 rerun is
-forbidden.
-Acquire a fresh `comfyui_main` / `comfyui_model_qualification` exclusive lease,
-run calibration, freeze the observed thresholds, run held-out once, verify child
-exit and VRAM cleanup, release the lease, and retain immutable receipts. The
-second GPU campaign is the exact MIT AST AudioSet event admission with the same
-partition discipline. Never inspect held-out results before threshold freeze or
-repeat an unchanged campaign.
+audio-semantic, product, and promotion authority remain false. An unchanged
+Wav2Vec2 rerun is forbidden.
+
+The separate MIT AST campaign reached calibration under a valid 4 GiB exclusive
+lease after the 48 kHz-to-16 kHz preprocessing repair. Runtime and process-exit
+cleanup passed, but `event_room_ambience` failed the frozen top-three semantic
+gate: Silence, Music, and Static ranked above the nearest required-family result,
+White noise at rank five. Held-out was not opened. Treat the campaign as
+`REJECTED_SEMANTIC_CALIBRATION_TOP3_GATE_MISS`; never retry it unchanged, expand
+aliases, or weaken the threshold. The checked-in queue binds this terminal
+rejection and selects the next dependency-unblocked role campaign.
 
 Idle GPU telemetry does not authorize execution. Admission must be enabled by
 the shared coordinator, and no ComfyUI action may clear, replace, or override a
 foreign recovery state or lease. Only one GPU campaign may be resident at a
 time. Alternative-pod watching and external inference remain disabled.
 
-After the two supporting audio campaigns, use the queue's role entries in
-sequence. A package is prepared only when exact identity or revision, project
+Use the queue's remaining dependency-unblocked role entries in sequence. The
+broad audio-semantic role remains blocked by the rejected MIT AST dependency. A
+package is prepared only when exact identity or revision, project
 license acceptance, installed artifact digest, and role binding are all
 present. A local digest with unverified upstream revision, an upstream model
 name without installed bytes, or the provisional InternVL3.5-8B package cannot

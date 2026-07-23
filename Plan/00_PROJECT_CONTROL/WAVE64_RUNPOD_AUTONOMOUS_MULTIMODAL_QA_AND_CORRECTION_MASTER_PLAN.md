@@ -1751,3 +1751,22 @@ CAS persistence, queue cleanup, and unchanged GPU-process snapshots pass with
 zero lease acquisitions. This qualifies only the exact CPU-volume durability
 path. Every learned role, development-campaign authority, multimodal campaign,
 media-quality gate, product decision, and golden-mask authority remains false.
+
+### MIT AST semantic calibration disposition
+
+The repaired MIT AST AudioSet campaign executed its exact calibration partition
+on pod `1q4ji0gg1fkhvt` under a validated, released 4 GiB exclusive lease. Model,
+environment, source, and 48 kHz-to-16 kHz resampling identities passed. Runtime
+completed without exception and process-exit cleanup returned from 648 MiB to
+the same 648 MiB baseline. The cloth/body-shift case passed, but room ambience
+failed the frozen top-three semantic gate: Silence, Music, and Static ranked
+first through third, while White noise was rank five. Held-out was never opened.
+
+This is a terminal exact-scope semantic rejection, not a runtime or cleanup
+failure. The controller now preserves distinct semantic, runtime, worker-exit,
+and cleanup failure labels without changing any threshold, alias, or pass/fail
+outcome. The qualification queue binds the immutable rejection evidence and no
+longer points to an unchanged MIT AST rerun. General event recognition, broad
+audio-semantic role authority, operational activation, product promotion, and
+BEATs equivalence remain false. A future replacement requires a new immutable
+model/corpus/threshold admission; it may not reinterpret this result into a pass.

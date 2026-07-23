@@ -228,6 +228,31 @@ def compile_queue(root: Path) -> dict[str, Any]:
             }
             readiness = "COMPLETED_ACCEPTED_EXACT_SCOPE"
             blockers = []
+        rejection_path_value = source.get("rejection_path")
+        if rejection_path_value:
+            if acceptance_path_value:
+                raise QueueError(f"supporting campaign cannot be both accepted and rejected: {source['campaign_id']}")
+            rejection_path = Path(rejection_path_value)
+            rejection = load_json(root / rejection_path)
+            rejection_blocker = source.get("rejection_blocker")
+            if (
+                rejection.get("status") != source.get("rejected_status")
+                or rejection.get("campaign_id") != source["campaign_id"]
+                or rejection.get("authority", {}).get("product_or_role_promotion") is not False
+                or not isinstance(rejection.get("evidence_set_sha256"), str)
+                or len(rejection["evidence_set_sha256"]) != 64
+                or not isinstance(rejection_blocker, str)
+                or not rejection_blocker
+            ):
+                raise QueueError(f"supporting campaign rejection drift: {rejection_path}")
+            acceptance_binding = {
+                "path": rejection_path.as_posix(),
+                "sha256": sha256_file(root / rejection_path),
+                "status": rejection["status"],
+                "evidence_set_sha256": rejection["evidence_set_sha256"],
+            }
+            readiness = "COMPLETED_REJECTED_EXACT_SCOPE"
+            blockers = [rejection_blocker]
         campaign = {
             "sequence": len(campaigns) + 1,
             "campaign_id": source["campaign_id"],

@@ -249,11 +249,21 @@ def run_worker(admission: dict[str, Any], lease: dict[str, Any], project_root: P
 
 def finalize(worker: dict[str, Any], before: dict[str, Any], after: dict[str, Any], returncode: int, tolerance: int) -> tuple[dict[str, Any], int]:
     cleanup_delta = after["used_mib"] - before["used_mib"]
-    passed = returncode == 0 and worker.get("error") is None and cleanup_delta <= tolerance and worker["status"].startswith("PASS_")
+    cleanup_pass = cleanup_delta <= tolerance
+    passed = returncode == 0 and worker.get("error") is None and cleanup_pass and worker["status"].startswith("PASS_")
     worker["schema_version"] = "wave64.aqa.mit_ast_event_canary.v1"
-    worker["runtime"].update({"gpu_before_worker": before, "gpu_after_worker_exit": after, "process_exit_cleanup_delta_mib": cleanup_delta, "process_exit_cleanup_pass": cleanup_delta <= tolerance, "worker_returncode": returncode})
+    worker["runtime"].update({"gpu_before_worker": before, "gpu_after_worker_exit": after, "process_exit_cleanup_delta_mib": cleanup_delta, "process_exit_cleanup_pass": cleanup_pass, "worker_returncode": returncode})
     if not passed:
-        worker["status"] = "FAIL_EVENT_PARTITION_RUNTIME_OR_PROCESS_EXIT_CLEANUP"
+        if worker.get("error") is not None:
+            worker["status"] = "FAIL_EVENT_PARTITION_RUNTIME"
+        elif not cleanup_pass:
+            worker["status"] = "FAIL_EVENT_PROCESS_EXIT_CLEANUP"
+        elif worker.get("partition") == "calibration" and worker.get("status") == "FAIL_EVENT_PARTITION_OR_RUNTIME":
+            worker["status"] = "FAIL_EVENT_CALIBRATION_SEMANTIC_GATE"
+        elif returncode != 0:
+            worker["status"] = "FAIL_EVENT_WORKER_EXIT"
+        else:
+            worker["status"] = "FAIL_EVENT_PARTITION_GATE"
         worker["authority"]["exact_partition_measurement"] = False
     return worker, 0 if passed else 1
 

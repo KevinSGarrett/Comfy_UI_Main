@@ -1,0 +1,62 @@
+{
+  "schema_version": "wave64.aqa.mit_ast_event_calibration.semantic_rejection.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-006", "TRK-W64-128", "TRK-W64-141", "TRK-W64-142"],
+  "recorded_at_utc": "2026-07-23T02:34:51Z",
+  "status": "REJECTED_SEMANTIC_CALIBRATION_TOP3_GATE_MISS",
+  "campaign_id": "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS",
+  "source_commit": "d8706fc322ef97c48ece370f27bc5ff8dee30adb",
+  "pod_id": "1q4ji0gg1fkhvt",
+  "remote_evidence_root": "/workspace/runtime_artifacts/w64_aqa_mit_ast_event_campaign_retry_20260723T022620Z",
+  "evidence_set_sha256": "181ab4f51155e14f31fc1d1d80f3ab1895fb587503e317622012c29d818d0dbf",
+  "bindings": {
+    "calibration_receipt_sha256": "d084a7a9e9df8f59131fe66c86df30ec61692c9317e50ce7b7ee8371e50d1584",
+    "coordinator_lease_granted_sha256": "f3fd0849bb5942b30820fc8986bd09ac1af709f95f6dad39489ace34a0dbcdbb",
+    "coordinator_lease_released_sha256": "b7027b6ec6db7f6a1072a692908685611612dc786dff484bc5c1039d4eaf6512",
+    "cpu_preflight_sha256": "ded5fa34144b66c081394d6a4845aacc9a42e99799677077b23cc15f830ac0b2"
+  },
+  "execution": {
+    "lease_validated": true,
+    "reserved_peak_gib": 4,
+    "calibration_executed": true,
+    "held_out_executed": false,
+    "unchanged_rerun_forbidden": true,
+    "thresholds_or_aliases_changed": false,
+    "runtime_exception": false,
+    "process_exit_cleanup_pass": true,
+    "process_exit_cleanup_delta_mib": 0,
+    "gpu_baseline_before_mib": 648,
+    "gpu_baseline_after_mib": 648,
+    "lease_released": true
+  },
+  "calibration": {
+    "required_case_count": 2,
+    "passing_case_count": 1,
+    "failed_case_id": "event_room_ambience",
+    "failed_case_top3": ["Silence", "Music", "Static"],
+    "nearest_required_family_prediction": {"label": "White noise", "rank": 5},
+    "passing_case_id": "event_cloth_body_shift",
+    "passing_case_top1": "Zipper (clothing)",
+    "classification": "AST_SEMANTIC_TOP3_GATE_MISS_ROOM_AMBIENCE"
+  },
+  "review": {
+    "request_id": "p040_20260723T023007599Z_w64_aqa_mit_ast_calibration_failure_acceptance_review_e9400b3f",
+    "adoption_status": "ADOPTED",
+    "decision": "PASS_WITH_FINDINGS",
+    "finding": "The semantic gate failed under frozen thresholds; the outer runtime-or-cleanup status was a taxonomy defect, not a runtime or cleanup failure."
+  },
+  "validators": [
+    {"command": "pytest -q Plan/Instructions/QA/Scripts/test_canary_wave64_mit_ast_audioset_events.py", "result": "PASS", "tests": 9},
+    {"command": "ruff check Plan/07_IMPLEMENTATION/scripts/canary_wave64_mit_ast_audioset_events.py Plan/Instructions/QA/Scripts/test_canary_wave64_mit_ast_audioset_events.py", "result": "PASS"},
+    {"command": "git diff --check -- <exact MIT-AST paths>", "result": "PASS"}
+  ],
+  "authority": {
+    "exact_partition_measurement": false,
+    "general_audio_event_recognition": false,
+    "beats_equivalence": false,
+    "audio_semantic_role_qualification": false,
+    "operational_activation": false,
+    "product_or_role_promotion": false
+  },
+  "next_action": "Do not retry unchanged or open held-out. Retain the semantic rejection, keep MIT-AST and dependent broad audio-semantic authority blocked, and advance another dependency-unblocked current-RunPod or CPU-safe milestone."
+}
