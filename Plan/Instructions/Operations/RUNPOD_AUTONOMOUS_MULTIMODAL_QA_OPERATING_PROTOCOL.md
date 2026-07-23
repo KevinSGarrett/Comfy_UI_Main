@@ -539,6 +539,12 @@ The local evidence compiler is qualified only under certificate `a6880459...`: c
 2. Select `DEVELOPMENT_CAMPAIGN` or `MULTIMODAL_MEDIA_CAMPAIGN`; never mix mutable profile semantics into an admitted contract.
 3. Freeze the DAG, budgets, retry/repair limits, risk tiers, sampling seed/strata, expected outputs, authority prohibitions, and cleanup plan.
 4. Run CPU phases without a lease. Before every GPU-affecting phase, acquire and validate a separate shared-coordinator campaign lease; serialize GPU work and release with the exact outcome.
+5. Treat `QUEUED` as a non-lease. The request callback must retain the one-time
+   token only long enough to cancel that exact queued request before returning
+   control to the executor. A failed cancel raises and blocks the GPU phase; it
+   must never fall through to release, polling, token recovery, or a competing
+   request. A `GRANTED` lease is validated before each GPU-affecting phase and
+   released with its exact terminal outcome.
 5. Batch ready work by environment, checkpoint, modality, resolution, capacity, and residency group. Continue dependency-independent CPU branches after failure; never treat a failed prerequisite as satisfied.
 6. Execute the internal closed loop through implementation/generation, deterministic QA, primary review, independent juror, arbiter when required, defect taxonomy, targeted repair, regression QA, re-review, and terminalization. Do not interrupt Codex for ordinary internal progress.
 7. Repair only defective artifacts, frames, spans, stems, nodes, tests, or code regions. Bind recipe versions, detect no progress, bound champion/challenger selection, roll back to the last accepted checkpoint, and never weaken thresholds.

@@ -1,0 +1,44 @@
+{
+  "schema_version": "wave64.aqa.campaign_coordinator_queue_cancel.integration_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_ids": ["W64-AQA-019"],
+  "recorded_at_utc": "2026-07-23T00:20:00Z",
+  "status": "PASS_STATIC_CPU_QUEUE_CANCEL_FAIL_CLOSED_SCOPE_ONLY",
+  "bindings": {
+    "executor_sha256": "b3fd5c84b8ec3ac987907b77b4cbd3f2aa7e709377f791278a73a80f15afd320",
+    "test_sha256": "5b990c3b7d115b70540bbc988addb7351874f9f2c1e36949cfe3e6200f5fa2e2"
+  },
+  "validation": {
+    "focused_tests_passed": 15,
+    "ruff": "PASS",
+    "cpu_shadow_tasks": 18,
+    "autonomous_terminalization_rate": 1.0,
+    "evidence_completeness_rate": 1.0,
+    "restart_replay_rate": 1.0,
+    "first_pass_validation_rate": 0.8333333333333334,
+    "known_bad_false_accepts": 0,
+    "scope_authority_violations": 0,
+    "gpu_lease_count": 0
+  },
+  "accepted_behavior": {
+    "queued_request_cancel_callback_required": true,
+    "queued_request_returns_no_lease": true,
+    "failed_cancel_raises": "queued coordinator request was not canceled",
+    "foreign_override_allowed": false
+  },
+  "negative_live_observation": {
+    "request_id": "req_c8d9cca36ee34406b45b622317a309f7",
+    "lease_id": "lease_445e4e2bc9084622ada3331fd71ddf6f",
+    "status": "QUEUED_TOKEN_LOST_CANCEL_UNAVAILABLE_EXPIRES_2026_07_23T00_47_50Z",
+    "gpu_work_started": false,
+    "foreign_lease_touched": false,
+    "disposition": "DO_NOT_POLL_OR_RECREATE; ALLOW_AUTHORITY_CONTROLLED_EXPIRY"
+  },
+  "authority": {
+    "static_adapter_behavior": true,
+    "live_coordinator_qualification": false,
+    "gpu_execution": false,
+    "foreign_lease_override": false,
+    "product_or_role_promotion": false
+  }
+}

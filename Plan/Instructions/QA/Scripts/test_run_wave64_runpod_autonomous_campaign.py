@@ -113,6 +113,7 @@ def test_coordinator_adapter_fails_closed_and_never_overrides_foreign_lease() ->
         lambda campaign_id, node_id: {"state": "GRANTED", "lease_id": "lease-1", "foreign_override_allowed": False},
         lambda lease_id: {"state": "VALID", "campaign_id": H},
         lambda lease_id, outcome: releases.append((lease_id, outcome)),
+        lambda receipt: True,
     )
     assert adapter.acquire(H, "n00") == "lease-1"
     assert adapter.validate("lease-1") is True
@@ -122,8 +123,32 @@ def test_coordinator_adapter_fails_closed_and_never_overrides_foreign_lease() ->
         lambda campaign_id, node_id: {"state": "GRANTED", "lease_id": "foreign", "foreign_override_allowed": True},
         lambda lease_id: {},
         lambda lease_id, outcome: None,
+        lambda receipt: True,
     )
     assert denied.acquire(H, "n00") is None
+
+
+def test_coordinator_adapter_cancels_queued_request_before_returning() -> None:
+    canceled: list[str] = []
+    adapter = MODULE.CoordinatorLeaseAdapter(
+        lambda campaign_id, node_id: {"state": "QUEUED", "lease_id": "queued-1"},
+        lambda lease_id: {},
+        lambda lease_id, outcome: None,
+        lambda receipt: canceled.append(receipt["lease_id"]) is None or True,
+    )
+    assert adapter.acquire(H, "n00") is None
+    assert canceled == ["queued-1"]
+
+
+def test_coordinator_adapter_fails_closed_when_queue_cancel_fails() -> None:
+    adapter = MODULE.CoordinatorLeaseAdapter(
+        lambda campaign_id, node_id: {"state": "QUEUED", "lease_id": "queued-1"},
+        lambda lease_id: {},
+        lambda lease_id, outcome: None,
+        lambda receipt: False,
+    )
+    with pytest.raises(RuntimeError, match="queued coordinator request was not canceled"):
+        adapter.acquire(H, "n00")
 
 
 def test_result_identity_and_merkle_tamper_detection(tmp_path: Path) -> None:

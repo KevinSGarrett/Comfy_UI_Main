@@ -1689,3 +1689,13 @@ multilingual, overlap, event-recognition, audio-semantic-role, product, or
 promotion authority. The unchanged campaign must not be rerun. MIT AST is the
 next separately leased audio dependency campaign; CPU-safe executor work remains
 the fallback if GPU admission is unavailable.
+
+### Coordinator queued-request discipline
+
+The production coordinator adapter treats `QUEUED` as a non-lease and requires
+the request closure to cancel that exact request while its one-time token is
+still in memory. It returns no lease after a successful cancel and raises if
+cancel fails. It never polls, releases a queued request, reconstructs a token,
+or creates a competing request. This behavior is statically CPU-qualified only;
+live coordinator qualification remains false until a bounded granted/queued
+campaign proves the same behavior with retained receipts.

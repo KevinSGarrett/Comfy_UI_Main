@@ -71,14 +71,19 @@ class MemoryLeaseAdapter:
 class CoordinatorLeaseAdapter:
     """Authenticated shared-coordinator adapter supplied with exact request functions."""
 
-    def __init__(self, request: Callable[[str, str], dict[str, Any]], status: Callable[[str], dict[str, Any]], release: Callable[[str, str], None]) -> None:
+    def __init__(self, request: Callable[[str, str], dict[str, Any]], status: Callable[[str], dict[str, Any]], release: Callable[[str, str], None], cancel: Callable[[dict[str, Any]], bool]) -> None:
         self._request = request
         self._status = status
         self._release = release
+        self._cancel = cancel
         self._campaign_by_lease: dict[str, str] = {}
 
     def acquire(self, campaign_id: str, node_id: str) -> str | None:
         receipt = self._request(campaign_id, node_id)
+        if receipt.get("state") == "QUEUED":
+            if self._cancel(receipt) is not True:
+                raise RuntimeError("queued coordinator request was not canceled")
+            return None
         if receipt.get("state") != "GRANTED" or receipt.get("foreign_override_allowed") is not False:
             return None
         lease_id = receipt.get("lease_id")
