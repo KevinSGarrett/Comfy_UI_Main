@@ -1384,11 +1384,12 @@ eleven role campaigns remain held on explicit package identity, project-license,
 installation, executor, storage, provisional-substitution, or external-release
 gates.
 
-The first GPU action is Wav2Vec2 expanded alignment: acquire one exact
-`comfyui_main` exclusive lease, execute calibration, freeze observed thresholds,
-execute held-out once, verify child-process and VRAM cleanup, release the lease,
-and retain immutable receipts. MIT AST AudioSet event calibration follows under
-a separate lease with the same discipline. Only then may the exact ASR-plus-Omni
+Wav2Vec2 expanded alignment completed under one exact released lease and is
+accepted only for its frozen narrow controls. The next GPU action is MIT AST
+AudioSet event calibration under a separate exact `comfyui_main` exclusive
+lease: execute calibration, freeze observed thresholds, execute held-out once,
+verify child-process and VRAM cleanup, release the lease, and retain immutable
+receipts. Only then may the exact ASR-plus-Omni
 audio-semantic role campaign be considered. Every later role repeats the
 matrix-defined identity, lease, calibration, threshold-freeze, held-out,
 certificate, cleanup, release, and retention sequence.
@@ -1635,7 +1636,7 @@ activation, and promotion.
 Do not overwrite or delete the existing Dev VAE. After exact-artifact license
 authority is retained and accepted, prepare a new transaction that preserves
 the existing file under an explicit non-conflicting identity and promotes the
-exact Klein VAE atomically. Until then, Wav2Vec2 remains the first admitted GPU
+exact Klein VAE atomically. Until then, MIT AST remains the next admitted GPU
 campaign; this FLUX.2 lane remains CPU-only and fail-closed.
 
 ## FLUX.2 Klein isolated dependency-overlay admission
@@ -1656,7 +1657,7 @@ runtime, quality, activation, or promotion authority is granted.
 
 ## RunPod autonomous campaign execution and evidence compaction (W64-AQA-019)
 
-The campaign registry accepts deterministic-role certificate `81329165...` only for its exact declared local CPU measurement and refusal scope. Evidence-compiler certificate `a6880459...` is separately accepted only for content-agnostic local CPU CAS storage, Merkle sealing, result identity, journal/fork verification, restart cursor, proposed-delta containment, evidence completeness, and compact rendering. Its `workflow` certificate label denotes the package carrier because the shared certificate schema requires a modality; it grants no workflow, audio, mask, media, graph, node, model, or semantic authority. Both certificates, reports, execution bundles, and Codex acceptances are hash-bound. No controller, implementer, reviewer, juror, arbiter, audio-semantic, workflow-semantic, repair, generation, visual, or promotion role is qualified. The executor therefore remains `BLOCKED_UNQUALIFIED` for any contract requiring those roles, which must terminalize as blocked or abstained.
+The campaign registry accepts current matrix-bound deterministic-role certificate `c5f5e121...` only for its exact declared local CPU measurement and refusal scope. Evidence-compiler certificate `a6880459...` is separately accepted only for content-agnostic local CPU CAS storage, Merkle sealing, result identity, journal/fork verification, restart cursor, proposed-delta containment, evidence completeness, and compact rendering. Its `workflow` certificate label denotes the package carrier because the shared certificate schema requires a modality; it grants no workflow, audio, mask, media, graph, node, model, or semantic authority. Both certificates, reports, execution bundles, and Codex acceptances are hash-bound. No controller, implementer, reviewer, juror, arbiter, audio-semantic, workflow-semantic, repair, generation, visual, or promotion role is qualified. The executor therefore remains `BLOCKED_UNQUALIFIED` for any contract requiring those roles, which must terminalize as blocked or abstained.
 
 The campaign executor replaces per-child micro-handoffs with one immutable admission contract, internal atomic checkpoints, and one sealed Codex acceptance packet. It has two profiles under identical journal, CAS/Merkle, replay, lease, and authority rules:
 

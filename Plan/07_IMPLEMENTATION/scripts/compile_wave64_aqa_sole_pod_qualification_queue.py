@@ -205,6 +205,29 @@ def compile_queue(root: Path) -> dict[str, Any]:
         if unknown_dependencies:
             raise QueueError(f"supporting campaign has unknown or forward dependencies: {sorted(unknown_dependencies)}")
         package_id = admission["model"]["package_id"]
+        acceptance_binding = None
+        readiness = "ADMITTED_COORDINATOR_GATE_REQUIRED"
+        blockers = ["FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"]
+        acceptance_path_value = source.get("acceptance_path")
+        if acceptance_path_value:
+            acceptance_path = Path(acceptance_path_value)
+            acceptance = load_json(root / acceptance_path)
+            if (
+                acceptance.get("status") != source.get("accepted_status")
+                or acceptance.get("campaign_id") != source["campaign_id"]
+                or acceptance.get("authority", {}).get("product_or_role_promotion") is not False
+                or not isinstance(acceptance.get("evidence_set_sha256"), str)
+                or len(acceptance["evidence_set_sha256"]) != 64
+            ):
+                raise QueueError(f"supporting campaign acceptance drift: {acceptance_path}")
+            acceptance_binding = {
+                "path": acceptance_path.as_posix(),
+                "sha256": sha256_file(root / acceptance_path),
+                "status": acceptance["status"],
+                "evidence_set_sha256": acceptance["evidence_set_sha256"],
+            }
+            readiness = "COMPLETED_ACCEPTED_EXACT_SCOPE"
+            blockers = []
         campaign = {
             "sequence": len(campaigns) + 1,
             "campaign_id": source["campaign_id"],
@@ -215,12 +238,13 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "package_ids": [package_id],
             "package_evidence": [],
             "admission": {"path": admission_path.as_posix(), "sha256": sha256_file(root / admission_path), "status": admission["status"], "package_id": package_id},
+            "acceptance": acceptance_binding,
             "certificate": None,
             "generation_stack": None,
             "depends_on": source.get("depends_on", []),
             "execution_steps": source["execution_steps"],
-            "readiness": "ADMITTED_COORDINATOR_GATE_REQUIRED",
-            "blockers": ["FRESH_COORDINATOR_ADMISSION_AND_EXACT_EXCLUSIVE_LEASE_REQUIRED"],
+            "readiness": readiness,
+            "blockers": blockers,
             "operational": False,
         }
         campaigns.append(campaign)
@@ -322,6 +346,7 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "package_ids": binding["package_ids"],
             "package_evidence": evidence,
             "admission": None,
+            "acceptance": None,
             "certificate": certificate_binding,
             "generation_stack": generation_stack_binding,
             "depends_on": depends_on,
@@ -334,6 +359,23 @@ def compile_queue(root: Path) -> dict[str, Any]:
     if [campaign["sequence"] for campaign in campaigns] != list(range(1, 15)):
         raise QueueError("campaign sequence is not contiguous")
     prepared = sum(campaign["readiness"] != "HELD_PREREQUISITES_INCOMPLETE" for campaign in campaigns)
+    by_campaign_id = {campaign["campaign_id"]: campaign for campaign in campaigns}
+    actionable = [
+        campaign
+        for campaign in campaigns
+        if campaign["readiness"] in {
+            "ADMITTED_COORDINATOR_GATE_REQUIRED",
+            "PREPARED_DEPENDENCIES_AND_COORDINATOR_GATE_REQUIRED",
+        }
+        and all(
+            by_campaign_id[dependency]["readiness"]
+            in {"COMPLETED_ACCEPTED_EXACT_SCOPE", "QUALIFIED_DECLARED_LOCAL_SCOPE"}
+            for dependency in campaign["depends_on"]
+        )
+    ]
+    if not actionable:
+        raise QueueError("qualification queue has no dependency-unblocked next action")
+    next_campaign = actionable[0]
     queue = {
         "schema_version": "wave64.aqa.qualification_campaign_queue.v1",
         "program_id": "W64-AQA",
@@ -359,9 +401,9 @@ def compile_queue(root: Path) -> dict[str, Any]:
             "prepared_campaign_count": prepared, "held_campaign_count": len(campaigns) - prepared,
         },
         "next_action": {
-            "campaign_id": campaigns[0]["campaign_id"], "runnable_now": False,
+            "campaign_id": next_campaign["campaign_id"], "runnable_now": False,
             "required_transition": "FRESH_COORDINATOR_ADMISSION_AND_EXACT_LEASE_IS_GRANTED",
-            "execution_steps": campaigns[0]["execution_steps"],
+            "execution_steps": next_campaign["execution_steps"],
         },
         "queue_sha256": "0" * 64,
         "authority": {"execution_planning": True, "runtime": False, "capacity": False, "quality": False, "independent_juror": False, "golden_mask": False, "activation": False, "promotion": False},

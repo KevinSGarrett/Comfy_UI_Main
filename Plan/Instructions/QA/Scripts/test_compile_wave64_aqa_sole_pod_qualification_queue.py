@@ -25,7 +25,7 @@ def test_queue_replays_with_two_support_campaigns_and_all_twelve_roles() -> None
     assert len(queue["campaigns"]) == 14
     assert queue["coverage"]["all_matrix_roles_bound"] is True
     assert queue["coverage"]["role_campaign_count"] == 12
-    assert queue["next_action"]["campaign_id"] == "W64-AQA-CAMPAIGN-WAV2VEC2-EXPANDED-ALIGNMENT"
+    assert queue["next_action"]["campaign_id"] == "W64-AQA-CAMPAIGN-MIT-AST-AUDIOSET-EVENTS"
     assert queue["next_action"]["runnable_now"] is False
     assert queue["authority"] == {
         "execution_planning": True, "runtime": False, "capacity": False,
@@ -38,6 +38,9 @@ def test_audio_order_is_alignment_then_event_then_exact_audio_role() -> None:
     module = load_module()
     campaigns = module.compile_queue(ROOT)["campaigns"]
     assert campaigns[0]["component"] == "wav2vec2_forced_alignment"
+    assert campaigns[0]["readiness"] == "COMPLETED_ACCEPTED_EXACT_SCOPE"
+    assert campaigns[0]["blockers"] == []
+    assert campaigns[0]["acceptance"]["status"] == "PARTIALLY_ADOPTED_EXACT_WAV2VEC2_ALIGNMENT_CONTROLS_ONLY"
     assert campaigns[1]["component"] == "mit_ast_audioset_event_detection"
     audio = next(item for item in campaigns if item["role_id"] == "W64-AQA-ROLE-AUDIO-SEMANTIC")
     assert audio["package_ids"] == ["W64-AQA-PKG-QWEN3-ASR-17B", "W64-AQA-PKG-QWEN3-OMNI-30B-A3B"]
@@ -54,8 +57,8 @@ def test_deterministic_role_is_qualified_only_by_current_matrix_bound_certificat
     assert campaign["readiness"] == "QUALIFIED_DECLARED_LOCAL_SCOPE"
     assert campaign["operational"] is True
     assert campaign["blockers"] == []
-    assert campaign["certificate"]["certificate_id"] == "81329165d759a60fc0b112dff3b606163a38bffa48b9c0f4d90a0ee4400296a1"
-    assert campaign["certificate"]["bundle_id"] == "f385abbb1b4eda4b7ccd84f2b277818b782a167fd48eedb4c6724d60c9464253"
+    assert campaign["certificate"]["certificate_id"] == "c5f5e1216f524b8761e3876b944993f481a8b70b00b94179b5082b0e46ab16f4"
+    assert campaign["certificate"]["bundle_id"] == "3914859c7450c0b40a54459e78fc8a1cca8ffc94a61c7f29401ce1b91a18f25d"
 
 
 def test_generation_role_binds_exact_inactive_stack_without_execution_authority() -> None:
@@ -148,6 +151,11 @@ def test_generation_stack_package_hash_drift_is_rejected(tmp_path: Path, package
     policy = json.loads((ROOT / module.POLICY_PATH).read_text(encoding="utf-8"))
     package_paths = [Path(stack["package_binding"]["path"]) for stack in registry["stacks"]]
     admission_paths = [Path(item["admission_path"]) for item in policy["pre_role_campaigns"]]
+    acceptance_paths = [
+        Path(item["acceptance_path"])
+        for item in policy["pre_role_campaigns"]
+        if item.get("acceptance_path")
+    ]
     certificate_paths = [
         Path(binding[key])
         for binding in policy["role_bindings"]
@@ -158,7 +166,14 @@ def test_generation_stack_package_hash_drift_is_rejected(tmp_path: Path, package
     for bundle_path in [path for path in certificate_paths if path.name == "execution_bundle.json"]:
         bundle = json.loads((ROOT / bundle_path).read_text(encoding="utf-8"))
         executor_paths.append(Path(bundle["inputs"]["executor"]["path"]))
-    for relative in (*relatives, *package_paths, *admission_paths, *certificate_paths, *executor_paths):
+    for relative in (
+        *relatives,
+        *package_paths,
+        *admission_paths,
+        *acceptance_paths,
+        *certificate_paths,
+        *executor_paths,
+    ):
         target = copied / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / relative).read_bytes())

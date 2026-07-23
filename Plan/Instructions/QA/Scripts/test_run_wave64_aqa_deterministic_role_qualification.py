@@ -10,7 +10,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[4]
 SCRIPT = ROOT / "Plan/07_IMPLEMENTATION/scripts/run_wave64_aqa_deterministic_role_qualification.py"
-EVIDENCE = ROOT / "Plan/Tracker/Evidence/W64_AQA_DETERMINISTIC_ROLE_QUALIFICATION_20260722T163804Z"
+EVIDENCE = ROOT / "Plan/Tracker/Evidence/W64_AQA_DETERMINISTIC_ROLE_QUALIFICATION_20260723T004500Z"
 
 
 def load_module():
@@ -26,8 +26,8 @@ def test_checked_in_bundle_replays_without_executing_held_out() -> None:
     result = module.validate(ROOT, EVIDENCE)
     assert result == {
         "status": "PASS",
-        "bundle_id": "f385abbb1b4eda4b7ccd84f2b277818b782a167fd48eedb4c6724d60c9464253",
-        "certificate_id": "81329165d759a60fc0b112dff3b606163a38bffa48b9c0f4d90a0ee4400296a1",
+        "bundle_id": "3914859c7450c0b40a54459e78fc8a1cca8ffc94a61c7f29401ce1b91a18f25d",
+        "certificate_id": "c5f5e1216f524b8761e3876b944993f481a8b70b00b94179b5082b0e46ab16f4",
     }
 
 

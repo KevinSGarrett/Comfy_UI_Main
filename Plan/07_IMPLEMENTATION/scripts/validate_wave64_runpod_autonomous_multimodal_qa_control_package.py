@@ -80,7 +80,7 @@ PATHS = {
     "campaign_role_registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_role_registry.json",
     "campaign_deterministic_role_reconciliation": ROOT
-    / "Plan/Tracker/Evidence/W64_AQA_CAMPAIGN_DETERMINISTIC_ROLE_RECONCILIATION_20260722T234000Z/integration_acceptance.json",
+    / "Plan/Tracker/Evidence/W64_AQA_CAMPAIGN_DETERMINISTIC_ROLE_RECONCILIATION_20260723T004500Z/integration_acceptance.json",
     "evidence_compiler_qualification_bundle_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_evidence_compiler_role_qualification_bundle.schema.json",
     "evidence_compiler_qualification_acceptance": ROOT
@@ -656,7 +656,7 @@ def collect_errors() -> list[str]:
     )
     if (
         campaign_deterministic_role_reconciliation.get("disposition")
-        != "ACCEPTED_EXISTING_CERTIFICATE_FOR_EXACT_DECLARED_LOCAL_SCOPE"
+        != "ACCEPTED_CURRENT_MATRIX_BOUND_CERTIFICATE_FOR_EXACT_DECLARED_LOCAL_SCOPE"
         or reconciliation_effect.get("executor_operational") is not False
         or reconciliation_effect.get("other_roles_remain_unqualified") is not True
         or reconciliation_effect.get("multimodal_campaign_admitted") is not False

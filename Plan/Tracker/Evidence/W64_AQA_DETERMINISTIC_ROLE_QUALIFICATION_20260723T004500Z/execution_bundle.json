@@ -1,0 +1,626 @@
+{
+  "schema_version": "wave64.aqa.deterministic_role_qualification_bundle.v1",
+  "bundle_id": "3914859c7450c0b40a54459e78fc8a1cca8ffc94a61c7f29401ce1b91a18f25d",
+  "program_id": "W64-AQA",
+  "role_id": "W64-AQA-ROLE-DETERMINISTIC",
+  "status": "LOCAL_DETERMINISTIC_DECLARED_SCOPE_QUALIFIED",
+  "inputs": {
+    "matrix": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_ROLE_QUALIFICATION_EXECUTION_MATRIX_20260722.json",
+      "sha256": "e3b40a9b26201f682a75249023ed5d6b519c548e312c18f1ca15f8202198c9d2"
+    },
+    "corpus": {
+      "path": "Plan/Tracker/Evidence/W64_AQA_ROLE_QUALIFICATION_CORPUS_20260722.json",
+      "sha256": "70a3c0ca30bbfaefaa437c3d154baf95051e66b686093792b36a175036106257"
+    },
+    "image_evaluator": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/measure_wave64_runpod_autonomous_image_quality.py",
+      "sha256": "1e237182c477904524523b62b2f66050769d5f59c4e9203f115352412c1957e4"
+    },
+    "certificate_compiler": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/compile_and_evaluate_wave64_runpod_autonomous_role_qualification.py",
+      "sha256": "4782a26381d996b26e9d92ed80d9800acd84690dd144780993d8b98434b6c932"
+    },
+    "executor": {
+      "path": "Plan/07_IMPLEMENTATION/scripts/run_wave64_aqa_deterministic_role_qualification.py",
+      "sha256": "5f264c1a387c19445d3a1d25c1b1693d140d1db60d1ae99384f5c7acb6d7f1c5"
+    }
+  },
+  "partition_policy": {
+    "calibration_case_count": 4,
+    "calibration_runs_per_case": 2,
+    "held_out_case_count": 5,
+    "held_out_runs_per_case": 1,
+    "held_out_reexecution_forbidden": true
+  },
+  "calibration_runs": [
+    {
+      "case_id": "known_good_deterministic_image_decode",
+      "category": "known_good",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "4314aabfc08251539bd67f0e35187df0efcc74647b63b6c78eb42fafa091f5d8",
+      "latency_seconds": 0.5879801999835763,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "known_good_deterministic_image_decode",
+        "partition": "calibration",
+        "task_scope": "deterministic image decode and declared technical gates only",
+        "in_scope": true,
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "DECLARED_TECHNICAL_IMAGE_GATES_PASS",
+        "source_sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+        "truth_evidence_sha256": "3f7d2c3d302c1f6e2b69c9e2dd60424fb4001155eab7909038d298c89561c114",
+        "measurement": {
+          "schema_version": "wave64.aqa.image_measurement.v1",
+          "measurement_id": "40d5fdef523bcea7d7bcc18d953bff3867bb3c1d9d91e25bc6bee747062a7891",
+          "contract_id": "61e81d9dbf73d6fee13c627c756796312a184ddf1868921c69b26127000857f1",
+          "artifact_sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+          "evaluator_version": "w64-aqa-image-measure-v1",
+          "decode": {
+            "success": true,
+            "format": "PNG",
+            "mode": "RGB",
+            "frame_count": 1
+          },
+          "geometry": {
+            "width": 1024,
+            "height": 1024,
+            "aspect_ratio": 1.0,
+            "expected_width": 1024,
+            "expected_height": 1024
+          },
+          "metrics": {
+            "decode_success": true,
+            "width": 1024,
+            "height": 1024,
+            "aspect_ratio": 1.0,
+            "file_size_bytes": 1792085,
+            "luminance_mean": 99.33973654937743,
+            "luminance_p01": 6.2888,
+            "luminance_p99": 193.32569999999998,
+            "dynamic_range": 187.03689999999997,
+            "black_clip_fraction": 0.0005254745483398438,
+            "white_clip_fraction": 9.5367431640625e-07,
+            "entropy_bits": 7.2645707449030485,
+            "sharpness_laplacian_variance": 3017.645751236083,
+            "noise_high_frequency_mad": 1.3579777777777782,
+            "alpha_present": false,
+            "alpha_coverage_fraction": 1.0,
+            "alpha_opaque_fraction": 1.0
+          },
+          "gate_results": [
+            {
+              "gate_id": "contract-width",
+              "metric": "width",
+              "status": "PASS",
+              "observed": 1024,
+              "operator": "eq",
+              "threshold": 1024,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "contract-height",
+              "metric": "height",
+              "status": "PASS",
+              "observed": 1024,
+              "operator": "eq",
+              "threshold": 1024,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "contract-alpha",
+              "metric": "alpha_present",
+              "status": "PASS",
+              "observed": false,
+              "operator": "eq",
+              "threshold": false,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "decode",
+              "metric": "decode_success",
+              "status": "PASS",
+              "observed": true,
+              "operator": "eq",
+              "threshold": true,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "dynamic-range",
+              "metric": "dynamic_range",
+              "status": "PASS",
+              "observed": 187.03689999999997,
+              "operator": "gte",
+              "threshold": 50.0,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "entropy",
+              "metric": "entropy_bits",
+              "status": "PASS",
+              "observed": 7.2645707449030485,
+              "operator": "gte",
+              "threshold": 4.0,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "black-clipping",
+              "metric": "black_clip_fraction",
+              "status": "PASS",
+              "observed": 0.0005254745483398438,
+              "operator": "lt",
+              "threshold": 0.1,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "white-clipping",
+              "metric": "white_clip_fraction",
+              "status": "PASS",
+              "observed": 9.5367431640625e-07,
+              "operator": "lt",
+              "threshold": 0.1,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "sharpness",
+              "metric": "sharpness_laplacian_variance",
+              "status": "PASS",
+              "observed": 3017.645751236083,
+              "operator": "gt",
+              "threshold": 10.0,
+              "on_failure": "REPAIR"
+            }
+          ],
+          "disposition": "PASS_DETERMINISTIC_GATES"
+        }
+      }
+    },
+    {
+      "case_id": "known_good_deterministic_image_decode",
+      "category": "known_good",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "PASS",
+      "schema_valid": true,
+      "output_sha256": "4314aabfc08251539bd67f0e35187df0efcc74647b63b6c78eb42fafa091f5d8",
+      "latency_seconds": 0.16513380000833422,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "known_good_deterministic_image_decode",
+        "partition": "calibration",
+        "task_scope": "deterministic image decode and declared technical gates only",
+        "in_scope": true,
+        "expected_disposition": "PASS",
+        "disposition": "PASS",
+        "reason_code": "DECLARED_TECHNICAL_IMAGE_GATES_PASS",
+        "source_sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+        "truth_evidence_sha256": "3f7d2c3d302c1f6e2b69c9e2dd60424fb4001155eab7909038d298c89561c114",
+        "measurement": {
+          "schema_version": "wave64.aqa.image_measurement.v1",
+          "measurement_id": "40d5fdef523bcea7d7bcc18d953bff3867bb3c1d9d91e25bc6bee747062a7891",
+          "contract_id": "61e81d9dbf73d6fee13c627c756796312a184ddf1868921c69b26127000857f1",
+          "artifact_sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+          "evaluator_version": "w64-aqa-image-measure-v1",
+          "decode": {
+            "success": true,
+            "format": "PNG",
+            "mode": "RGB",
+            "frame_count": 1
+          },
+          "geometry": {
+            "width": 1024,
+            "height": 1024,
+            "aspect_ratio": 1.0,
+            "expected_width": 1024,
+            "expected_height": 1024
+          },
+          "metrics": {
+            "decode_success": true,
+            "width": 1024,
+            "height": 1024,
+            "aspect_ratio": 1.0,
+            "file_size_bytes": 1792085,
+            "luminance_mean": 99.33973654937743,
+            "luminance_p01": 6.2888,
+            "luminance_p99": 193.32569999999998,
+            "dynamic_range": 187.03689999999997,
+            "black_clip_fraction": 0.0005254745483398438,
+            "white_clip_fraction": 9.5367431640625e-07,
+            "entropy_bits": 7.2645707449030485,
+            "sharpness_laplacian_variance": 3017.645751236083,
+            "noise_high_frequency_mad": 1.3579777777777782,
+            "alpha_present": false,
+            "alpha_coverage_fraction": 1.0,
+            "alpha_opaque_fraction": 1.0
+          },
+          "gate_results": [
+            {
+              "gate_id": "contract-width",
+              "metric": "width",
+              "status": "PASS",
+              "observed": 1024,
+              "operator": "eq",
+              "threshold": 1024,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "contract-height",
+              "metric": "height",
+              "status": "PASS",
+              "observed": 1024,
+              "operator": "eq",
+              "threshold": 1024,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "contract-alpha",
+              "metric": "alpha_present",
+              "status": "PASS",
+              "observed": false,
+              "operator": "eq",
+              "threshold": false,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "decode",
+              "metric": "decode_success",
+              "status": "PASS",
+              "observed": true,
+              "operator": "eq",
+              "threshold": true,
+              "on_failure": "REJECT"
+            },
+            {
+              "gate_id": "dynamic-range",
+              "metric": "dynamic_range",
+              "status": "PASS",
+              "observed": 187.03689999999997,
+              "operator": "gte",
+              "threshold": 50.0,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "entropy",
+              "metric": "entropy_bits",
+              "status": "PASS",
+              "observed": 7.2645707449030485,
+              "operator": "gte",
+              "threshold": 4.0,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "black-clipping",
+              "metric": "black_clip_fraction",
+              "status": "PASS",
+              "observed": 0.0005254745483398438,
+              "operator": "lt",
+              "threshold": 0.1,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "white-clipping",
+              "metric": "white_clip_fraction",
+              "status": "PASS",
+              "observed": 9.5367431640625e-07,
+              "operator": "lt",
+              "threshold": 0.1,
+              "on_failure": "REPAIR"
+            },
+            {
+              "gate_id": "sharpness",
+              "metric": "sharpness_laplacian_variance",
+              "status": "PASS",
+              "observed": 3017.645751236083,
+              "operator": "gt",
+              "threshold": 10.0,
+              "on_failure": "REPAIR"
+            }
+          ],
+          "disposition": "PASS_DETERMINISTIC_GATES"
+        }
+      }
+    },
+    {
+      "case_id": "refusal_room_ambience_as_speech",
+      "category": "refusal",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "c9e34b6630251ec9467a41edc2be6da485b14ad7d0030294f4e9d90dfbe85491",
+      "latency_seconds": 1.309998333454132e-05,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "refusal_room_ambience_as_speech",
+        "partition": "calibration",
+        "task_scope": "refuse out-of-scope request: speech transcript alignment on a declared nonspeech ambience control",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "bacdda22287b5965538187cfd657bf5094f08420290aa2b71416a31ad1b0f0ff",
+        "truth_evidence_sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "refusal_room_ambience_as_speech",
+      "category": "refusal",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "c9e34b6630251ec9467a41edc2be6da485b14ad7d0030294f4e9d90dfbe85491",
+      "latency_seconds": 7.599999662488699e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "refusal_room_ambience_as_speech",
+        "partition": "calibration",
+        "task_scope": "refuse out-of-scope request: speech transcript alignment on a declared nonspeech ambience control",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "bacdda22287b5965538187cfd657bf5094f08420290aa2b71416a31ad1b0f0ff",
+        "truth_evidence_sha256": "a8bd9b6bdeaf16be3ab1dd83f6cdf73dcec717ba25f03986bc3bf84071be50d4",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "temporal_diagnostic_contact_sheet_limit",
+      "category": "temporal",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "d69530f89f8a27c5a32ff1e3ad4aa8160ea60bb006b01c7e4d9baee977c49535",
+      "latency_seconds": 9.000010322779417e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "temporal_diagnostic_contact_sheet_limit",
+        "partition": "calibration",
+        "task_scope": "refuse out-of-scope request: infer whole-clip temporal authority from a diagnostic five-frame contact sheet",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "truth_evidence_sha256": "4df202ff22c5f79e32b29959d49974ca0a615e1794cc565dffa712ee60f7a3ca",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "temporal_diagnostic_contact_sheet_limit",
+      "category": "temporal",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "d69530f89f8a27c5a32ff1e3ad4aa8160ea60bb006b01c7e4d9baee977c49535",
+      "latency_seconds": 9.100011084228754e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "temporal_diagnostic_contact_sheet_limit",
+        "partition": "calibration",
+        "task_scope": "refuse out-of-scope request: infer whole-clip temporal authority from a diagnostic five-frame contact sheet",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "truth_evidence_sha256": "4df202ff22c5f79e32b29959d49974ca0a615e1794cc565dffa712ee60f7a3ca",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "workflow_copy_on_write_scope",
+      "category": "workflow",
+      "partition": "calibration",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "c61e29f3782d4054ac3341b2a23891b1efcdbd95d6b605d4298808d1955f3776",
+      "latency_seconds": 9.799987310543656e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "workflow_copy_on_write_scope",
+        "partition": "calibration",
+        "task_scope": "refuse out-of-scope request: recognize typed copy-on-write candidate staging while withholding sandbox execution and promotion",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "e5be51668f78bc57b9e775d7b265159945634ef4f22863002058bfe8b3beea8f",
+        "truth_evidence_sha256": "e5be51668f78bc57b9e775d7b265159945634ef4f22863002058bfe8b3beea8f",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "workflow_copy_on_write_scope",
+      "category": "workflow",
+      "partition": "calibration",
+      "run_index": 2,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "c61e29f3782d4054ac3341b2a23891b1efcdbd95d6b605d4298808d1955f3776",
+      "latency_seconds": 7.700000423938036e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "workflow_copy_on_write_scope",
+        "partition": "calibration",
+        "task_scope": "refuse out-of-scope request: recognize typed copy-on-write candidate staging while withholding sandbox execution and promotion",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "e5be51668f78bc57b9e775d7b265159945634ef4f22863002058bfe8b3beea8f",
+        "truth_evidence_sha256": "e5be51668f78bc57b9e775d7b265159945634ef4f22863002058bfe8b3beea8f",
+        "measurement": null
+      }
+    }
+  ],
+  "threshold_freeze": {
+    "frozen": true,
+    "calibration_output_sha256s": [
+      "4314aabfc08251539bd67f0e35187df0efcc74647b63b6c78eb42fafa091f5d8",
+      "4314aabfc08251539bd67f0e35187df0efcc74647b63b6c78eb42fafa091f5d8",
+      "c9e34b6630251ec9467a41edc2be6da485b14ad7d0030294f4e9d90dfbe85491",
+      "c9e34b6630251ec9467a41edc2be6da485b14ad7d0030294f4e9d90dfbe85491",
+      "d69530f89f8a27c5a32ff1e3ad4aa8160ea60bb006b01c7e4d9baee977c49535",
+      "d69530f89f8a27c5a32ff1e3ad4aa8160ea60bb006b01c7e4d9baee977c49535",
+      "c61e29f3782d4054ac3341b2a23891b1efcdbd95d6b605d4298808d1955f3776",
+      "c61e29f3782d4054ac3341b2a23891b1efcdbd95d6b605d4298808d1955f3776"
+    ],
+    "thresholds": {
+      "max_false_accept_rate": 0,
+      "max_false_reject_rate": 0,
+      "max_invalid_schema_rate": 0,
+      "min_repeatability_rate": 1,
+      "min_refusal_correctness_rate": 1,
+      "max_behavior_metric_delta": 0
+    },
+    "freeze_sha256": "4baf7f65fb5122440cf043106dfeee85a2d16fc0a5903d69c680e9fcbe9335bb"
+  },
+  "held_out_runs": [
+    {
+      "case_id": "known_bad_contact_placement",
+      "category": "known_bad",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "0b3f50e5631f1570ca137b637c09fb6f1171919ed7e62601b04891ee8c29a9cd",
+      "latency_seconds": 7.599999662488699e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "known_bad_contact_placement",
+        "partition": "held_out",
+        "task_scope": "refuse out-of-scope request: strict whole-image contact placement and contact-shadow approval",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "033bbcdb1f3be33264fdfc43c342c12f02cb6b90be390bfaaa7e0a59ebcd7831",
+        "truth_evidence_sha256": "3f7d2c3d302c1f6e2b69c9e2dd60424fb4001155eab7909038d298c89561c114",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "borderline_subtle_motion_video",
+      "category": "borderline",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "78e7eb613e1589e98f8d38edf9129e613253271759a87368e20e5e2317acf390",
+      "latency_seconds": 6.100017344579101e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "borderline_subtle_motion_video",
+        "partition": "held_out",
+        "task_scope": "refuse out-of-scope request: whole-clip motion realism temporal identity and continuity approval",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "671c3b064effbc1081ffc11f22d910402bbd229eebb0d2bd49c8a2b280db27d5",
+        "truth_evidence_sha256": "4df202ff22c5f79e32b29959d49974ca0a615e1794cc565dffa712ee60f7a3ca",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "adversarial_overlap_promotion_matrix",
+      "category": "adversarial",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "eff17482dddf53d9c33368e2ce9aebca78cd1259773a443ee4ed09a59e50caec",
+      "latency_seconds": 5.699985194951296e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "adversarial_overlap_promotion_matrix",
+        "partition": "held_out",
+        "task_scope": "refuse out-of-scope request: detect immutable overlap and promotion-policy defects without waiving evidence",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "8dec28139ca2ff2a170b9ca08830cf9f04e964b0233ca76d361b5b655f540839",
+        "truth_evidence_sha256": "8997388ae445e39c2622439707747730b76f203a5973ddc34be218ac5b0f490f",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "identity_critical_mask_semantic_reject",
+      "category": "identity",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "5c529c11cd1d12f963334033138232d0f40cac70eba6d24478ab61bd0e451c73",
+      "latency_seconds": 5.599984433501959e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "identity_critical_mask_semantic_reject",
+        "partition": "held_out",
+        "task_scope": "refuse out-of-scope request: consumer-side strict semantic mask alignment and protected-neighbor approval",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "367d7d213d2152111fbc80ea7d5e11035296e0e184807a3bcddeba5bf1af473a",
+        "truth_evidence_sha256": "69ebc97f5b530dce8fd0f082a89000681b8f9269189727c82e44972aaf1bf693",
+        "measurement": null
+      }
+    },
+    {
+      "case_id": "audio_mask_cross_modal_authority_refusal",
+      "category": "audio_mask",
+      "partition": "held_out",
+      "run_index": 1,
+      "disposition": "REFUSE",
+      "schema_valid": true,
+      "output_sha256": "a803ae49049a415d3f2ece9d58db48f201b533d9dd1216faacfa3cf30b50e675",
+      "latency_seconds": 6.500020390376449e-06,
+      "decision": {
+        "schema_version": "wave64.aqa.deterministic_role_decision.v1",
+        "case_id": "audio_mask_cross_modal_authority_refusal",
+        "partition": "held_out",
+        "task_scope": "refuse out-of-scope request: grant audio-linked golden-mask or independent-juror authority from bounded CLAP embedding evidence",
+        "in_scope": false,
+        "expected_disposition": "REFUSE",
+        "disposition": "REFUSE",
+        "reason_code": "ROLE_SCOPE_EXCLUDES_REQUEST",
+        "source_sha256": "03b5b55f871d7460c37e97bacd53968d183b0e1adc3022fb2daffc5e056a9b7d",
+        "truth_evidence_sha256": "f01f29939063cd2261ac06d4b1f2c5b9bd5e8f0cc720a860d02867911e11d9c8",
+        "measurement": null
+      }
+    }
+  ],
+  "capacity": {
+    "passed": true,
+    "peak_vram_gb": 0.0,
+    "max_vram_gb": 0.001,
+    "peak_ram_gb": 0.151425024,
+    "max_ram_gb": 2.0,
+    "p95_latency_seconds": 0.5879801999835763,
+    "max_latency_seconds": 10.0
+  },
+  "report_sha256": "1f1dc6a75a8ccab16e12832da5766dc9b14e96250e58c1c94d6db71fb11da8ce",
+  "certificate_id": "c5f5e1216f524b8761e3876b944993f481a8b70b00b94179b5082b0e46ab16f4",
+  "authority": {
+    "declared_local_deterministic_scope": true,
+    "gpu_runtime": false,
+    "visual_semantics": false,
+    "audio_semantics": false,
+    "independent_juror": false,
+    "golden_mask": false,
+    "activation": false,
+    "promotion": false
+  }
+}
