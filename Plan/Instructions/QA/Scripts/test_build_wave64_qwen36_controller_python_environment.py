@@ -44,3 +44,28 @@ def test_controller_receipt_adapter_preserves_fail_closed_authority(tmp_path: Pa
     assert receipt["authority"]["environment_installed"] is True
     assert receipt["authority"]["import_qualified"] is False
     assert receipt["authority"]["runtime_qualified"] is False
+
+
+def test_controller_builder_disables_duplicate_uv_cache_storage() -> None:
+    calls = []
+
+    def run(command: list[str], *, input_text: str | None = None) -> str:
+        calls.append((command, input_text))
+        return "ok"
+
+    base = SimpleNamespace(run=run, write_receipt=lambda *_: None)
+    configured = MODULE.configure_builder(base)
+    configured.run(
+        ["uv", "pip", "sync", "--python", "/staging/bin/python", "lock.toml"]
+    )
+    configured.run(["uv", "pip", "check", "--python", "/staging/bin/python"])
+    assert calls[0][0] == [
+        "uv",
+        "pip",
+        "sync",
+        "--no-cache",
+        "--python",
+        "/staging/bin/python",
+        "lock.toml",
+    ]
+    assert "--no-cache" not in calls[1][0]

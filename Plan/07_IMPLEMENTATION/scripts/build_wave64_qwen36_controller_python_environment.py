@@ -64,9 +64,23 @@ def controller_write_receipt(base: Any, path: Path, receipt: dict[str, Any]) -> 
 
 
 def configure_builder(base: Any) -> Any:
-    original = base.write_receipt
-    base.write_receipt = lambda path, receipt: controller_write_receipt(base, path, receipt)
-    base._controller_original_write_receipt = original
+    original_write_receipt = base.write_receipt
+    original_run = base.run
+
+    def controller_run(
+        command: list[str], *, input_text: str | None = None
+    ) -> str:
+        bounded = list(command)
+        if bounded[:3] == ["uv", "pip", "sync"] and "--no-cache" not in bounded:
+            bounded.insert(3, "--no-cache")
+        return original_run(bounded, input_text=input_text)
+
+    base.run = controller_run
+    base.write_receipt = lambda path, receipt: controller_write_receipt(
+        base, path, receipt
+    )
+    base._controller_original_write_receipt = original_write_receipt
+    base._controller_original_run = original_run
     return base
 
 
