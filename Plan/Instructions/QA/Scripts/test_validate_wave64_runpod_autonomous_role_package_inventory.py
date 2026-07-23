@@ -82,8 +82,16 @@ def test_qwen3vl4_official_manifest_and_license_are_exact_but_runtime_is_not_ope
     assert package["static_qualification"]["license_sha256"] == (
         "7339fa418c9ad3e8e12e74ad0fd26a9cc4be8703f9c110728a992b193be85cb2"
     )
-    assert package["qualification"]["state"] == "CURRENT_SCOPED_AUTHORITY_ONLY"
+    assert (
+        package["qualification"]["state"]
+        == "REFUSAL_BEHAVIOR_PASS_CAPACITY_REJECTED_FOREIGN_PROCESS_PREFLIGHT_BLOCKED"
+    )
+    assert package["qualification"]["evidence"].endswith(
+        "W64_AQA_QWEN3VL4_REFUSAL_DISCIPLINE_DIRECT_20260723T080343Z/integration_acceptance.json"
+    )
+    assert "capacity" in package["qualification"]["required_gates"]
     assert package["authority"]["operational"] is False
+    assert "general_visual_review" in package["authority"]["forbidden"]
 
 
 def test_qwen3vl4_official_manifest_drift_fails() -> None:
