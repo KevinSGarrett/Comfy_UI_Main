@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import ast
+import hashlib
 import importlib.util
+import json
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -51,6 +53,29 @@ def test_admission_hash_mismatch_fails(tmp_path: Path) -> None:
     path.write_text("{}", encoding="utf-8")
     with pytest.raises(RuntimeError, match="admission hash mismatch"):
         MODULE.load_admission(path)
+
+
+def test_admission_binds_exact_canary_bytes(tmp_path: Path) -> None:
+    value = {
+        "admission_id": MODULE.ZERO_HASH,
+        "status": "ADMITTED_FOR_IMPORT_ONLY_CANARY",
+        "canary": {
+            "path": "Plan/07_IMPLEMENTATION/scripts/canary_wave64_qwen36_controller_imports.py",
+            "sha256": MODULE.sha256_file(SCRIPT),
+        },
+        "authority": {
+            "environment_installed": True,
+            "import_qualified": False,
+            "runtime_qualified": False,
+            "role_operational": False,
+        },
+    }
+    value["admission_id"] = hashlib.sha256(
+        MODULE.canonical_bytes(value)
+    ).hexdigest()
+    path = tmp_path / "admission.json"
+    path.write_text(json.dumps(value), encoding="utf-8")
+    assert MODULE.load_admission(path)["admission_id"] == value["admission_id"]
 
 
 def test_source_has_no_model_construction_or_process_calls() -> None:

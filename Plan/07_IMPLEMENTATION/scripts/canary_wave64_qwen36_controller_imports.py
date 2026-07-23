@@ -17,7 +17,7 @@ import time
 from typing import Any
 
 
-EXPECTED_ADMISSION_SHA256 = "a36dc6c5a5c9cbd9fc65c3dff4722b149da2738cbe0f8a7e490baeb37cc65cbc"
+ZERO_HASH = "0" * 64
 REQUIRED_DISTRIBUTIONS = {
     "transformers": "5.2.0",
     "torch": "2.4.1+cu124",
@@ -37,15 +37,33 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def canonical_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode()
+
+
 def load_admission(path: Path) -> dict[str, Any]:
-    if sha256_file(path) != EXPECTED_ADMISSION_SHA256:
-        raise RuntimeError("controller environment reuse admission hash mismatch")
     admission = json.loads(path.read_text(encoding="utf-8"))
+    candidate = json.loads(json.dumps(admission))
+    candidate["admission_id"] = ZERO_HASH
+    if (
+        hashlib.sha256(canonical_bytes(candidate)).hexdigest()
+        != admission.get("admission_id")
+    ):
+        raise RuntimeError("controller import admission hash mismatch")
+    canary = admission.get("canary", {})
+    if (
+        canary.get("path")
+        != "Plan/07_IMPLEMENTATION/scripts/canary_wave64_qwen36_controller_imports.py"
+        or canary.get("sha256") != sha256_file(Path(__file__))
+    ):
+        raise RuntimeError("controller import canary byte identity mismatch")
     if admission.get("status") != "ADMITTED_FOR_IMPORT_ONLY_CANARY":
         raise RuntimeError("controller import-only canary is not admitted")
     authority = admission.get("authority", {})
     if authority != {
-        "environment_reuse_admitted": True,
+        "environment_installed": True,
         "import_qualified": False,
         "runtime_qualified": False,
         "role_operational": False,
