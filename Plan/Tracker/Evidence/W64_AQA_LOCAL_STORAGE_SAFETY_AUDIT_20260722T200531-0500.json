@@ -1,0 +1,65 @@
+{
+  "schema_version": "wave64.aqa.local_storage_safety_audit.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "W64-AQA-019",
+  "captured_at": "2026-07-22T20:05:31.3228358-05:00",
+  "status": "LOCAL_MATERIALIZATION_DENIED_PENDING_RECOVERY_AND_VERIFIED_CLEANUP",
+  "observations": {
+    "c_drive_used_bytes": 1013829693440,
+    "c_drive_free_bytes": 7991885824,
+    "main_checkout_logical_bytes": 160273166245,
+    "runtime_artifacts_logical_bytes": 34860768419,
+    "masked_warehouse_logical_bytes": 15448771286,
+    "dispatcher_logical_bytes": 20811936807,
+    "dispatcher_worktrees_logical_bytes": 18858702390,
+    "dispatcher_bootstrap_repairs_logical_bytes": 1882226656,
+    "visualizations_logical_bytes": 4583748730,
+    "active_docker_vhd_bytes": 73131884544,
+    "active_docker_vhd_last_write": "2026-07-22T15:03:44-05:00",
+    "stale_f_drive_docker_vhd_bytes": 73131884544,
+    "stale_f_drive_docker_vhd_last_write": "2026-07-20T03:04:25-05:00",
+    "docker_process_count": 0,
+    "claude_pipeline_process_count_after_stop": 0,
+    "files_at_least_50_mib_created_in_last_four_hours_in_audited_roots": 0
+  },
+  "audited_roots": [
+    "C:/Comfy_UI_Main",
+    "C:/w",
+    "C:/Users/kevin/.codex/ai_worker_dispatcher",
+    "C:/Users/kevin/.codex/visualizations"
+  ],
+  "incident_actions": {
+    "orphaned_pipeline_processes_stopped": [1556, 5172, 36160],
+    "new_request_id": "p025_20260723T004747978Z_w64_aqa_post_rebind_cpu_capacity_batch_f1bd53d6",
+    "new_request_terminal_state": "DEAD_LETTER_NO_RETAINED_WORKTREE",
+    "new_request_bytes_adopted": false,
+    "docker_started_by_this_response": false,
+    "files_deleted": false
+  },
+  "admission_probe": {
+    "status": "PASS",
+    "classification": "COMFYUI_LOCAL_STORAGE_CAPACITY_DENIED",
+    "observed_free_bytes": 7988846592,
+    "admission_events_before": 1124,
+    "admission_events_after": 1124,
+    "request_created": false,
+    "reasons": [
+      "FREE_SPACE_BELOW_WORKTREE_ADMISSION_FLOOR",
+      "PROJECTED_FREE_SPACE_BELOW_WORKTREE_RESERVE"
+    ]
+  },
+  "validators": {
+    "local_storage_unit_tests": "9 passed",
+    "focused_local_storage_and_control_tests": "15 passed",
+    "ruff": "PASS",
+    "powershell_parse_errors": 0,
+    "full_w64_aqa_control_package": "PASS"
+  },
+  "truth_boundaries": [
+    "Logical directory totals may overlap through Git worktrees, links, or duplicate retained bytes and must not be summed as physical allocation.",
+    "The current request did not create a file of at least 50 MiB in the audited roots during the four-hour window.",
+    "Historical local model caches, Python environments, runtime evidence, datasets, worker worktrees, and Docker state remain present.",
+    "No retained evidence, model, dataset, worktree, Docker VHD, or runtime artifact was deleted by this audit."
+  ],
+  "required_policy": "Fail closed before local worker worktree creation below a 25 GiB admission floor or 20 GiB post-write reserve; deny local Docker, model, runtime-artifact, and dataset materialization while RunPod is sole production storage."
+}

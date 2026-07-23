@@ -53,6 +53,12 @@ PATHS = {
     / "Plan/Instructions/Operations/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_OPERATING_PROTOCOL.md",
     "qa": ROOT
     / "Plan/Instructions/QA/RUNPOD_AUTONOMOUS_MULTIMODAL_QA_AND_BOUNDED_CORRECTION_PROTOCOL.md",
+    "local_storage_policy": ROOT
+    / "Plan/10_REGISTRIES/comfyui_main_local_storage_admission_policy.json",
+    "local_storage_evaluator": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/evaluate_comfyui_main_local_storage_admission.py",
+    "local_storage_audit": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_LOCAL_STORAGE_SAFETY_AUDIT_20260722T200531-0500.json",
     "campaign_contract_schema": ROOT
     / "Plan/08_SCHEMAS/runpod_autonomous_campaign_contract.schema.json",
     "campaign_journal_schema": ROOT
@@ -425,6 +431,8 @@ def collect_errors() -> list[str]:
         strict_model_admission_hold_evidence = load_json(
             PATHS["strict_model_admission_hold_evidence"]
         )
+        local_storage_policy = load_json(PATHS["local_storage_policy"])
+        local_storage_audit = load_json(PATHS["local_storage_audit"])
         registry = load_json(PATHS["registry"])
         campaign_role_registry = load_json(PATHS["campaign_role_registry"])
         campaign_deterministic_role_reconciliation = load_json(
@@ -601,6 +609,55 @@ def collect_errors() -> list[str]:
         or promoted_runtime.get("shared_coordinator_required") is not True
     ):
         errors.append("promoted-storage current-pod-only policy mismatch")
+
+    storage_thresholds = local_storage_policy.get("thresholds", {})
+    storage_operations = local_storage_policy.get("operations", {})
+    storage_observations = local_storage_audit.get("observations", {})
+    storage_actions = local_storage_audit.get("incident_actions", {})
+    storage_probe = local_storage_audit.get("admission_probe", {})
+    if (
+        local_storage_policy.get("schema_version")
+        != "comfyui.main.local_storage_admission_policy.v1"
+        or storage_thresholds.get("worker_worktree_min_free_before_bytes")
+        != 25 * 1024**3
+        or storage_thresholds.get("worker_worktree_min_free_after_bytes")
+        != 20 * 1024**3
+        or storage_thresholds.get("local_control_plane_min_free_bytes")
+        != 5 * 1024**3
+    ):
+        errors.append("local storage admission threshold mismatch")
+    if any(
+        storage_operations.get(operation) != "DENIED_RUNPOD_ONLY"
+        for operation in (
+            "docker_start",
+            "local_model_download",
+            "local_runtime_artifact_materialization",
+            "local_dataset_materialization",
+        )
+    ):
+        errors.append("local RunPod-only materialization prohibition mismatch")
+    if (
+        local_storage_audit.get("status")
+        != "LOCAL_MATERIALIZATION_DENIED_PENDING_RECOVERY_AND_VERIFIED_CLEANUP"
+        or storage_observations.get("c_drive_free_bytes", 0)
+        >= storage_thresholds.get("worker_worktree_min_free_before_bytes", 0)
+        or storage_observations.get("docker_process_count") != 0
+        or storage_actions.get("new_request_bytes_adopted") is not False
+        or storage_actions.get("files_deleted") is not False
+    ):
+        errors.append("local storage incident truth boundary mismatch")
+    if (
+        storage_probe.get("status") != "PASS"
+        or storage_probe.get("request_created") is not False
+        or storage_probe.get("admission_events_before")
+        != storage_probe.get("admission_events_after")
+        or set(storage_probe.get("reasons", []))
+        != {
+            "FREE_SPACE_BELOW_WORKTREE_ADMISSION_FLOOR",
+            "PROJECTED_FREE_SPACE_BELOW_WORKTREE_RESERVE",
+        }
+    ):
+        errors.append("local storage fail-closed admission probe mismatch")
 
     if role_package_inventory.get("schema_version") != "wave64.aqa.role_package_inventory.v1":
         errors.append("role package inventory schema version mismatch")

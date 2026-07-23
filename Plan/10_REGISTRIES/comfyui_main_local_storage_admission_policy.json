@@ -1,0 +1,27 @@
+{
+  "schema_version": "comfyui.main.local_storage_admission_policy.v1",
+  "policy_id": "COMFYUI-MAIN-LOCAL-STORAGE-001",
+  "authority": "RUNPOD_SOLE_PRODUCTION_LOCAL_CONTROL_PLANE_ONLY",
+  "storage_root": "C:\\",
+  "thresholds": {
+    "local_control_plane_min_free_bytes": 5368709120,
+    "worker_worktree_min_free_before_bytes": 26843545600,
+    "worker_worktree_min_free_after_bytes": 21474836480,
+    "worker_worktree_default_projected_write_bytes": 2147483648,
+    "local_control_plane_max_projected_write_bytes": 536870912
+  },
+  "operations": {
+    "worker_worktree": "THRESHOLD_GATED",
+    "source_edit_test": "THRESHOLD_GATED",
+    "docker_start": "DENIED_RUNPOD_ONLY",
+    "local_model_download": "DENIED_RUNPOD_ONLY",
+    "local_runtime_artifact_materialization": "DENIED_RUNPOD_ONLY",
+    "local_dataset_materialization": "DENIED_RUNPOD_ONLY"
+  },
+  "rules": [
+    "A worker worktree is denied unless free space is at least 25 GiB before admission and remains at least 20 GiB after the conservative projected write.",
+    "Local source edits and deterministic tests are denied if their projected write exceeds 512 MiB or would leave less than 5 GiB free.",
+    "Docker starts, model downloads, runtime artifact materialization, and dataset materialization are forbidden locally while RunPod is the sole production runtime and storage platform.",
+    "This policy grants no deletion, Docker, model, runtime, coordinator, product, or promotion authority."
+  ]
+}

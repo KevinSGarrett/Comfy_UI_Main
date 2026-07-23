@@ -20,6 +20,16 @@ param(
 
 $ErrorActionPreference='Stop'
 if($RouteNow-and$DeferRouting){throw 'RouteNow and DeferRouting are mutually exclusive.'}
+$canonicalProjectRoot=[IO.Path]::GetFullPath($ProjectRoot).TrimEnd('\')
+if($canonicalProjectRoot-eq'C:\Comfy_UI_Main'-and$WorkType-ne'final_authority'){
+  $storageEvaluator=Join-Path $canonicalProjectRoot 'Plan\07_IMPLEMENTATION\scripts\evaluate_comfyui_main_local_storage_admission.py'
+  $storagePolicy=Join-Path $canonicalProjectRoot 'Plan\10_REGISTRIES\comfyui_main_local_storage_admission_policy.json'
+  foreach($storageControl in @($storageEvaluator,$storagePolicy)){if(-not(Test-Path -LiteralPath $storageControl -PathType Leaf)){throw "COMFYUI_LOCAL_STORAGE_ADMISSION_CONTROL_MISSING: $storageControl"}}
+  $storageRaw=& python.exe -B $storageEvaluator --policy $storagePolicy --operation worker_worktree
+  if($LASTEXITCODE-ne0){throw 'COMFYUI_LOCAL_STORAGE_ADMISSION_EVALUATOR_FAILED'}
+  $storageAdmission=($storageRaw|Out-String)|ConvertFrom-Json
+  if([string]$storageAdmission.status-ne'ADMITTED'){throw "COMFYUI_LOCAL_STORAGE_ADMISSION_DENIED: $([string]$storageAdmission.classification); free=$([long]$storageAdmission.observed_free_bytes); reasons=$(@($storageAdmission.reasons)-join',')"}
+}
 $authority=if($WorkType-eq'final_authority'){'codex_only'}else{'worker_eligible'}
 $semanticPreflight=($WorkType-eq'implementation'-and($QualityProfile-eq'high_assurance'-or$RiskClass-in@('high','critical')))
 $attempts=if($QualityProfile-eq'high_assurance'){1}else{2}

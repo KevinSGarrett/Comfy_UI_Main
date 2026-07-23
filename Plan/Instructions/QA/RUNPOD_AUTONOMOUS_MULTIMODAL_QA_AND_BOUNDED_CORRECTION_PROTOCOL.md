@@ -324,4 +324,15 @@ Critical identity, anatomy, golden-mask, safety, release, and promotion artifact
 
 Image QA covers decode, dimensions, duplicates, prompt/subject compliance, composition, anatomy, hands/face, identity, realism, artifacts, text, masks, and consistency. Video QA covers container/codec/frame/FPS/duration, corrupt or frozen frames, flicker, identity/anatomy drift, motion/physics, camera/scene continuity, lip movement, and visual quality. Audio QA covers decode/format/duration, clipping/silence/noise/loudness, intelligibility, ASR/alignment, identity, events, spatial behavior, and mix balance. AV QA adds sync, causality, alignment, intelligibility, and truncation. Workflow QA covers schema/node/model binding, bounds, paths, static and isolated runtime, outputs, and replay. Golden-mask work remains candidate-only until independent qualified policy evidence supports a recommendation and Codex accepts it.
 
+## Gate AQA-15: local storage admission
+
+Every local worker-worktree request must replay the local storage policy before
+intent creation. Test evidence must prove denial below the 25 GiB pre-write
+floor, denial below the 20 GiB projected reserve, admission only above both
+thresholds, and unconditional RunPod-only denial for local Docker, model,
+runtime-artifact, and dataset materialization. Small source edits and
+deterministic tests remain bounded by a 512 MiB projected-write ceiling and a
+5 GiB remaining reserve. A denied evaluation creates no worker request and
+grants no deletion or RunPod authority.
+
 After static and replay gates, admit only a 5–10-artifact isolated image/short-video/audio shadow when all exact roles and runtimes are qualified and each GPU phase holds a coordinator lease. Expand to 25–100 artifacts only after modality quality, false-accept, cleanup, repair, disagreement, cost, reload, and churn gates pass. Long or 24–72-hour campaigns remain blocked until then.

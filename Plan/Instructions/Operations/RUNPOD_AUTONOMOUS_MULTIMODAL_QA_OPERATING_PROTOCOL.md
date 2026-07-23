@@ -553,3 +553,19 @@ The local evidence compiler is qualified only under certificate `a6880459...`: c
 10. Return one sealed candidate packet to Codex. RunPod may recommend but cannot commit, push, promote, spend, read credentials, destroy, override a foreign lease, or grant final authority.
 
 Escalate only for authority/scope changes, unknown credentials or licenses, exhausted immutable budgets, foreign-lease conflict, destructive action, or final sealed acceptance. Production role qualification and multimodal rollout remain blocked after the CPU shadow.
+
+## Local storage fail-closed boundary
+
+RunPod is the sole production runtime and storage platform. Local storage is a
+bounded control-plane cache only. Before creating any local worker worktree,
+evaluate `comfyui_main_local_storage_admission_policy.json`. Admission requires
+at least 25 GiB free before materialization and a conservative projection of at
+least 20 GiB free afterward. Local source edits and deterministic tests may use
+at most 512 MiB projected writes and must leave at least 5 GiB free.
+
+Local Docker starts, model downloads, runtime-artifact materialization, and
+dataset materialization are denied. Do not treat a stopped Docker service, an
+existing VHD, an old cache, or a retained worktree as permission to write more
+bytes. Cleanup is a separately authorized exact-path operation: preserve unique
+diffs and retained evidence, verify archive or RunPod identity first, and never
+delete the active Docker VHD directly.

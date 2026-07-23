@@ -1700,3 +1700,15 @@ cancel fails. It never polls, releases a queued request, reconstructs a token,
 or creates a competing request. This behavior is statically CPU-qualified only;
 live coordinator qualification remains false until a bounded granted/queued
 campaign proves the same behavior with retained receipts.
+
+### Local storage safety correction
+
+The 2026-07-22 disk audit found only 7,991,885,824 bytes free on C:, alongside
+historical local runtime caches, datasets, retained worker worktrees, and Docker
+state. No new local worker materialization is admitted at that level. The
+control plane now requires a 25 GiB free-space floor before worktree creation
+and a 20 GiB conservative post-write reserve. Local Docker, model, runtime-
+artifact, and dataset materialization are forbidden while RunPod is sole
+production storage. This is a prevention gate, not cleanup authority; unique
+evidence and dirty ownership boundaries remain preserved until exact archive or
+RunPod identity and recoverability are verified.
