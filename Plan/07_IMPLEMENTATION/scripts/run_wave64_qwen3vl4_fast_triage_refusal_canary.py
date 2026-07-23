@@ -8,9 +8,7 @@ import base64
 import hashlib
 import json
 import math
-import os
 import subprocess
-import threading
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -23,88 +21,10 @@ SCHEMA = (
     ROOT / "Plan/08_SCHEMAS/runpod_autonomous_fast_triage_refusal_admission.schema.json"
 )
 ZERO_HASH = "0" * 64
-HEARTBEAT_COMMAND = (
-    Path.home()
-    / ".codex/shared_runpod_coordinator/commands/Send-SharedRunPodHeartbeat.ps1"
-)
 
 
 class FastTriageCanaryError(RuntimeError):
     """Raised when the bounded refusal canary must fail closed."""
-
-
-def send_coordinator_heartbeat(phase: str) -> None:
-    if not HEARTBEAT_COMMAND.is_file():
-        raise FastTriageCanaryError(
-            f"shared coordinator heartbeat command is absent: {HEARTBEAT_COMMAND}"
-        )
-    completed = subprocess.run(
-        [
-            "powershell",
-            "-NoProfile",
-            "-ExecutionPolicy",
-            "Bypass",
-            "-Command",
-            (
-                f"& '{HEARTBEAT_COMMAND}' "
-                "-LeaseId $env:SHARED_RUNPOD_LEASE_ID "
-                "-LeaseToken $env:SHARED_RUNPOD_LEASE_TOKEN "
-                f"-Phase '{phase}'"
-            ),
-        ],
-        capture_output=True,
-        text=True,
-        timeout=30,
-        check=False,
-        env=os.environ.copy(),
-    )
-    if completed.returncode:
-        detail = (completed.stderr or completed.stdout).strip()[-500:]
-        raise FastTriageCanaryError(
-            f"shared coordinator heartbeat failed: {detail}"
-        )
-
-
-class CoordinatorHeartbeatGuard:
-    def __init__(
-        self,
-        *,
-        interval_seconds: float = 90,
-        sender: Callable[[str], None] = send_coordinator_heartbeat,
-    ) -> None:
-        self._interval_seconds = interval_seconds
-        self._sender = sender
-        self._stop = threading.Event()
-        self._errors: list[Exception] = []
-        self._thread: threading.Thread | None = None
-
-    def __enter__(self) -> CoordinatorHeartbeatGuard:
-        self._sender("fast_triage_refusal_canary")
-        self._thread = threading.Thread(target=self._loop, daemon=True)
-        self._thread.start()
-        return self
-
-    def _loop(self) -> None:
-        while not self._stop.wait(self._interval_seconds):
-            try:
-                self._sender("fast_triage_refusal_canary")
-            except Exception as exc:
-                self._errors.append(exc)
-                self._stop.set()
-
-    def check(self) -> None:
-        if self._errors:
-            raise FastTriageCanaryError(
-                f"shared coordinator heartbeat guard failed: {self._errors[0]}"
-            )
-
-    def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> bool:
-        self._stop.set()
-        if self._thread is not None:
-            self._thread.join(timeout=5)
-        if exc is None:
-            self.check()
-        return False
 
 
 REMOTE_PROGRAM = r"""import json, os, shutil, subprocess, sys, time, urllib.request
@@ -235,6 +155,18 @@ def ssh_json(
     return json.loads(completed.stdout)
 
 
+def remote_request(
+    action: str, timeout_seconds: int, **kwargs: Any
+) -> dict[str, Any]:
+    if timeout_seconds <= 0:
+        raise FastTriageCanaryError("remote timeout must be positive")
+    return {
+        "action": action,
+        "timeout_seconds": timeout_seconds,
+        **kwargs,
+    }
+
+
 def preflight_reasons(admission: dict[str, Any], snapshot: dict[str, Any]) -> list[str]:
     selected = admission["selected_package"]
     installed = {
@@ -273,8 +205,6 @@ def bind_live_lease_receipt(
     *,
     validator: Callable[..., dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    if any("token" in str(key).lower() for key in receipt):
-        raise FastTriageCanaryError("lease receipt must not contain coordinator tokens")
     if validator is None:
         from shared_runpod_capacity_lease import validate_shared_runpod_lease
 
@@ -282,21 +212,10 @@ def bind_live_lease_receipt(
     try:
         live = validator(expected_profile=admission["lease"]["profile"])
     except RuntimeError as exc:
-        raise FastTriageCanaryError(
-            f"live shared coordinator lease validation failed: {exc}"
-        ) from exc
-    for field in ("lease_id", "project", "profile", "lease_mode"):
-        if receipt.get(field) != live.get(field):
-            raise FastTriageCanaryError(
-                f"lease receipt does not match live coordinator field: {field}"
-            )
-    if float(receipt.get("reserved_peak_gib", 0)) != float(
-        live.get("reserved_peak_gib", 0)
-    ):
-        raise FastTriageCanaryError(
-            "lease receipt does not match live coordinator field: reserved_peak_gib"
-        )
-    return {**live, "valid": True}
+        raise FastTriageCanaryError(f"direct RunPod execution preflight failed: {exc}") from exc
+    # The compatibility helper is direct-mode only.  Old coordinator receipts
+    # have no authority to reject a newly selected pod/session.
+    return {**live, "valid": True, "governance_disabled": True}
 
 
 def run_canary(
@@ -309,12 +228,9 @@ def run_canary(
         not lease.get("valid")
         or lease.get("project") != admission["lease"]["project"]
         or lease.get("profile") != admission["lease"]["profile"]
-        or lease.get("lease_mode") != "exclusive"
-        or float(lease.get("reserved_peak_gib", 0))
-        < admission["lease"]["minimum_reserved_peak_gib"]
     ):
         raise FastTriageCanaryError(
-            "shared coordinator lease is not usable for this admission"
+            "direct RunPod execution marker is not usable for this admission"
         )
     pre = remote("probe", timeout_seconds=30)
     reasons = preflight_reasons(admission, pre)
@@ -481,22 +397,17 @@ def main() -> int:
     )
 
     try:
-        with CoordinatorHeartbeatGuard() as heartbeat:
+        def remote(
+            action: str, timeout_seconds: int, **kwargs: Any
+        ) -> dict[str, Any]:
+            return ssh_json(
+                args.host,
+                args.port,
+                remote_request(action, timeout_seconds, **kwargs),
+                timeout_seconds=timeout_seconds,
+            )
 
-            def remote(
-                action: str, timeout_seconds: int, **kwargs: Any
-            ) -> dict[str, Any]:
-                heartbeat.check()
-                result = ssh_json(
-                    args.host,
-                    args.port,
-                    {"action": action, **kwargs},
-                    timeout_seconds=timeout_seconds,
-                )
-                heartbeat.check()
-                return result
-
-            result = run_canary(admission, lease, remote=remote)
+        result = run_canary(admission, lease, remote=remote)
     except Exception as exc:
         result = {
             "schema_version": "wave64.aqa.fast_triage_refusal_runtime.v1",

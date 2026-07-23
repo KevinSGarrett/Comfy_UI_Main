@@ -49,14 +49,13 @@ def safe_probe(admission: dict) -> dict:
     }
 
 
-def lease() -> dict:
+def direct_execution() -> dict:
     return {
         "valid": True,
         "project": "comfyui_main",
         "profile": "comfyui_model_qualification",
-        "lease_mode": "exclusive",
-        "reserved_peak_gib": 8,
-        "lease_id": "lease-test",
+        "lease_mode": "direct",
+        "governance_disabled": True,
     }
 
 
@@ -126,7 +125,7 @@ def test_calibration_twice_then_held_out_once_and_no_operational_authority() -> 
     module = load_module()
     admission = module.load_admission(ADMISSION)
     remote, calls = remote_fixture(admission)
-    result = module.run_canary(admission, lease(), remote=remote)
+    result = module.run_canary(admission, direct_execution(), remote=remote)
     assert [item[0] for item in calls].count("infer") == 13
     assert (
         len(
@@ -159,7 +158,7 @@ def test_failed_calibration_keeps_held_out_sealed_and_unloads() -> None:
     remote, calls = remote_fixture(
         admission, bad_case="known_good_deterministic_image_decode"
     )
-    result = module.run_canary(admission, lease(), remote=remote)
+    result = module.run_canary(admission, direct_execution(), remote=remote)
     assert result["disposition"] == "FAIL_CALIBRATION_HELD_OUT_SEALED"
     assert [item[0] for item in calls].count("infer") == 8
     assert [item[0] for item in calls][-2:] == ["unload", "probe"]
@@ -169,65 +168,60 @@ def test_failed_calibration_keeps_held_out_sealed_and_unloads() -> None:
     )
 
 
-def test_unusable_shared_lease_blocks_before_remote_action() -> None:
+def test_direct_execution_requires_project_and_profile_before_remote_action() -> None:
     module = load_module()
     admission = module.load_admission(ADMISSION)
     remote, calls = remote_fixture(admission)
-    invalid = lease()
-    invalid["reserved_peak_gib"] = 4
-    with pytest.raises(module.FastTriageCanaryError, match="lease is not usable"):
+    invalid = direct_execution()
+    invalid["profile"] = "wrong-profile"
+    with pytest.raises(module.FastTriageCanaryError, match="not usable"):
         module.run_canary(admission, invalid, remote=remote)
     assert calls == []
 
 
-def test_lease_receipt_must_match_live_coordinator_validation() -> None:
+def test_direct_execution_ignores_stale_coordinator_receipt_profile() -> None:
     module = load_module()
     admission = module.load_admission(ADMISSION)
-    receipt = lease()
-    live = lease()
-    live["lease_id"] = "different-live-lease"
-    with pytest.raises(
-        module.FastTriageCanaryError,
-        match="does not match live coordinator field: lease_id",
-    ):
-        module.bind_live_lease_receipt(
-            admission,
-            receipt,
-            validator=lambda **_: live,
-        )
+    receipt = direct_execution()
+    live = direct_execution()
+    live["profile"] = "wrong-profile"
+    bound = module.bind_live_lease_receipt(
+        admission,
+        receipt,
+        validator=lambda **_: live,
+    )
+    assert bound["governance_disabled"] is True
 
 
-def test_live_lease_binding_rejects_token_bearing_receipt() -> None:
+def test_direct_execution_does_not_require_or_inspect_tokens() -> None:
     module = load_module()
     admission = module.load_admission(ADMISSION)
-    receipt = lease()
-    receipt["lease_token"] = "must-not-be-retained"
-    with pytest.raises(module.FastTriageCanaryError, match="must not contain"):
-        module.bind_live_lease_receipt(
-            admission,
-            receipt,
-            validator=lambda **_: lease(),
-        )
+    receipt = direct_execution()
+    receipt["lease_token"] = "ignored-by-direct-execution"
+    assert module.bind_live_lease_receipt(
+        admission,
+        receipt,
+        validator=lambda **_: direct_execution(),
+    )["valid"] is True
 
 
-def test_heartbeat_guard_fails_closed_after_sender_error() -> None:
+def test_remote_request_binds_timeout_into_ssh_payload() -> None:
     module = load_module()
-    calls = []
+    request = module.remote_request(
+        "infer",
+        300,
+        model="qwen3-vl:4b-instruct-q4_K_M",
+        reason_code="OUT_OF_SCOPE_REFUSAL",
+    )
+    assert request == {
+        "action": "infer",
+        "timeout_seconds": 300,
+        "model": "qwen3-vl:4b-instruct-q4_K_M",
+        "reason_code": "OUT_OF_SCOPE_REFUSAL",
+    }
+    with pytest.raises(module.FastTriageCanaryError, match="timeout must be positive"):
+        module.remote_request("probe", 0)
 
-    def sender(phase: str) -> None:
-        calls.append(phase)
-        if len(calls) > 1:
-            raise module.FastTriageCanaryError("heartbeat rejected")
 
-    with pytest.raises(
-        module.FastTriageCanaryError,
-        match="heartbeat guard failed",
-    ):
-        with module.CoordinatorHeartbeatGuard(
-            interval_seconds=0.01,
-            sender=sender,
-        ):
-            import time
-
-            time.sleep(0.05)
-    assert calls[0] == "fast_triage_refusal_canary"
+def test_runner_has_no_windows_coordinator_heartbeat_dependency() -> None:
+    assert "shared_runpod_coordinator" not in SCRIPT.read_text(encoding="utf-8")
