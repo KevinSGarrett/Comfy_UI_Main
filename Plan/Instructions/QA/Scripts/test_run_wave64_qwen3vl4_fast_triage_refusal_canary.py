@@ -159,10 +159,14 @@ def test_failed_calibration_keeps_held_out_sealed_and_unloads() -> None:
     remote, calls = remote_fixture(
         admission, bad_case="known_good_deterministic_image_decode"
     )
-    with pytest.raises(module.FastTriageCanaryError, match="held-out remains sealed"):
-        module.run_canary(admission, lease(), remote=remote)
+    result = module.run_canary(admission, lease(), remote=remote)
+    assert result["disposition"] == "FAIL_CALIBRATION_HELD_OUT_SEALED"
     assert [item[0] for item in calls].count("infer") == 8
-    assert [item[0] for item in calls][-1] == "unload"
+    assert [item[0] for item in calls][-2:] == ["unload", "probe"]
+    assert all(
+        fixture["partition"] == "calibration"
+        for fixture in result["qualification_report"]["fixtures"]
+    )
 
 
 def test_unusable_shared_lease_blocks_before_remote_action() -> None:

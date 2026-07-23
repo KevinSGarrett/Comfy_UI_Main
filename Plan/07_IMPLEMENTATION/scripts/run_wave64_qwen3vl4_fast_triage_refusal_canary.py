@@ -333,9 +333,7 @@ def run_canary(
                 for fixture in fixtures
                 for run in fixture["runs"]
             ):
-                raise FastTriageCanaryError(
-                    "calibration failed; held-out remains sealed"
-                )
+                break
             for case in [
                 item for item in admission["cases"] if item["partition"] == partition
             ]:
@@ -438,6 +436,14 @@ def run_canary(
         },
         "fixtures": fixtures,
     }
+    passed = (
+        len(fixtures) == len(admission["cases"])
+        and all(
+            run["disposition"] == "REFUSE" and run["schema_valid"]
+            for fixture in fixtures
+            for run in fixture["runs"]
+        )
+    )
     return {
         "schema_version": "wave64.aqa.fast_triage_refusal_runtime.v1",
         "admission_id": admission["admission_id"],
@@ -445,7 +451,11 @@ def run_canary(
         "preflight": pre,
         "postflight": post,
         "qualification_report": report,
-        "disposition": "PASS_REFUSAL_DISCIPLINE_SCOPE_ONLY",
+        "disposition": (
+            "PASS_REFUSAL_DISCIPLINE_SCOPE_ONLY"
+            if passed
+            else "FAIL_CALIBRATION_HELD_OUT_SEALED"
+        ),
         "authority": {
             "triage_crop_capability": False,
             "general_visual_review": False,
@@ -470,36 +480,54 @@ def main() -> int:
         json.loads(args.lease_receipt.read_text(encoding="utf-8")),
     )
 
-    with CoordinatorHeartbeatGuard() as heartbeat:
+    try:
+        with CoordinatorHeartbeatGuard() as heartbeat:
 
-        def remote(
-            action: str, timeout_seconds: int, **kwargs: Any
-        ) -> dict[str, Any]:
-            heartbeat.check()
-            result = ssh_json(
-                args.host,
-                args.port,
-                {"action": action, **kwargs},
-                timeout_seconds=timeout_seconds,
-            )
-            heartbeat.check()
-            return result
+            def remote(
+                action: str, timeout_seconds: int, **kwargs: Any
+            ) -> dict[str, Any]:
+                heartbeat.check()
+                result = ssh_json(
+                    args.host,
+                    args.port,
+                    {"action": action, **kwargs},
+                    timeout_seconds=timeout_seconds,
+                )
+                heartbeat.check()
+                return result
 
-        result = run_canary(admission, lease, remote=remote)
+            result = run_canary(admission, lease, remote=remote)
+    except Exception as exc:
+        result = {
+            "schema_version": "wave64.aqa.fast_triage_refusal_runtime.v1",
+            "admission_id": admission["admission_id"],
+            "lease": lease,
+            "disposition": "FAIL_CLOSED_RUNTIME_EXCEPTION",
+            "failure": {
+                "error_type": type(exc).__name__,
+                "message": str(exc)[:500],
+            },
+            "authority": {
+                "triage_crop_capability": False,
+                "general_visual_review": False,
+                "product_promotion": False,
+            },
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
+    passed = result["disposition"] == "PASS_REFUSAL_DISCIPLINE_SCOPE_ONLY"
     print(
         json.dumps(
             {
-                "status": "PASS",
+                "status": "PASS" if passed else "FAIL",
                 "output": str(args.output),
                 "disposition": result["disposition"],
             }
         )
     )
-    return 0
+    return 0 if passed else 1
 
 
 if __name__ == "__main__":
