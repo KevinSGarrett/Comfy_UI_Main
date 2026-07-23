@@ -69,3 +69,20 @@ def test_controller_builder_disables_duplicate_uv_cache_storage() -> None:
         "lock.toml",
     ]
     assert "--no-cache" not in calls[1][0]
+
+
+def test_non_pep751_canonical_lock_gets_hash_exact_transient_alias(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "wave64_controller_lock.pylock.toml"
+    source.write_bytes(b"qualified lock bytes")
+    original = MODULE.EXPECTED_LOCK_SHA256
+    MODULE.EXPECTED_LOCK_SHA256 = MODULE.sha256_file(source)
+    try:
+        with MODULE.pep751_lock_alias(source) as alias:
+            assert alias.name == "pylock.qwen36.toml"
+            assert alias.read_bytes() == source.read_bytes()
+        assert not alias.exists()
+        assert source.read_bytes() == b"qualified lock bytes"
+    finally:
+        MODULE.EXPECTED_LOCK_SHA256 = original

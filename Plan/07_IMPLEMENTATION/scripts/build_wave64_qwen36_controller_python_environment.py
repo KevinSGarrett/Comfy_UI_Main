@@ -4,13 +4,15 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import hashlib
 import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import sys
-from typing import Any
+from typing import Any, Iterator
 
 
 EXPECTED_ADMISSION_SHA256 = "3d9fb161f2801d82e14ace86641501443b804e9a476ccc9b76182825e3058f2f"
@@ -84,9 +86,30 @@ def configure_builder(base: Any) -> Any:
     return base
 
 
+@contextmanager
+def pep751_lock_alias(lock: Path) -> Iterator[Path]:
+    if lock.name == "pylock.toml" or (
+        lock.name.startswith("pylock.") and lock.name.endswith(".toml")
+    ):
+        yield lock
+        return
+    alias = lock.with_name("pylock.qwen36.toml")
+    if alias.exists() or alias.is_symlink():
+        raise RuntimeError("transient PEP 751 lock alias already exists")
+    try:
+        shutil.copyfile(lock, alias)
+        if sha256_file(alias) != EXPECTED_LOCK_SHA256:
+            raise RuntimeError("transient PEP 751 lock alias hash mismatch")
+        yield alias
+    finally:
+        if alias.exists() and not alias.is_symlink():
+            alias.unlink()
+
+
 def build(admission: Path, lock: Path, receipt: Path, active_python: str) -> dict[str, Any]:
     base = configure_builder(load_base_builder())
-    result = base.build(admission, lock, receipt, active_python)
+    with pep751_lock_alias(lock) as accepted_lock:
+        result = base.build(admission, accepted_lock, receipt, active_python)
     if result["status"] not in {"CREATED_VERIFIED_ENVIRONMENT", "REUSED_VERIFIED_ENVIRONMENT"}:
         raise base.BuildError("unexpected controller environment build disposition")
     return result
