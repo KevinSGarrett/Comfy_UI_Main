@@ -1787,3 +1787,11 @@ schema-valid, capacity-safe, and cleanup-safe. A fresh 8 GiB exclusive shared
 coordinator lease is still required for execution. Fast triage, visual review,
 independent juror, product, multimodal, and golden-mask authority remain
 `BLOCKED_UNQUALIFIED` until their distinct quality gates pass.
+
+The first runtime attempt did not acquire a lease or reach RunPod. The
+coordinator request failed with `sqlite3.OperationalError: database is locked`;
+the existing coordinator then remained unhealthy with admission `OFF`, zero
+active or queued leases, and fresh idle telemetry. One bounded restart through
+the existing command did not restore health. No competing daemon, retry loop,
+model load, inference, or local payload was created. Preserve the unopened
+admission and advance CPU-safe work until the coordinator authority is healthy.

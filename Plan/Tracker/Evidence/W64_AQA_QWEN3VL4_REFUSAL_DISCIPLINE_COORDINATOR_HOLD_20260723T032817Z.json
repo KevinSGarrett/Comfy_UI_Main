@@ -1,0 +1,46 @@
+{
+  "schema_version": "wave64.aqa.coordinator_admission_hold.v1",
+  "program_id": "W64-AQA",
+  "campaign_id": "W64-AQA-CAMPAIGN-ROLE-FAST-TRIAGE",
+  "admission_id": "be5e68a0dd87b4f0ea1356f9012f4be9dc5358ec1b852c97d05741d75a10d931",
+  "source_commit": "7d717bcf543006491357435712daf7439fa9392b",
+  "observed_at": "2026-07-23T03:28:17Z",
+  "status": "GPU_EXECUTION_NOT_STARTED_COORDINATOR_ADMISSION_OFF",
+  "attempt": {
+    "lease_requested": true,
+    "lease_granted": false,
+    "model_loaded": false,
+    "inference_count": 0,
+    "evidence_output_created": false,
+    "failure_class": "COORDINATOR_SQLITE_DATABASE_LOCKED"
+  },
+  "post_attempt_coordinator": {
+    "admission_enabled": false,
+    "mode": "OFF",
+    "daemon_alive": false,
+    "active_lease_count": 0,
+    "queued_request_count": 0,
+    "telemetry_fresh": true,
+    "gpu_used_mib": 648,
+    "gpu_free_mib": 47993
+  },
+  "recovery_attempt": {
+    "existing_coordinator_start_command_invoked_once": true,
+    "healthy_within_20_seconds": false,
+    "competing_coordinator_or_watcher_created": false,
+    "repeated_restart_loop_created": false
+  },
+  "local_storage": {
+    "model_or_media_bytes_downloaded": 0,
+    "runtime_payload_retained": false,
+    "compact_receipt_only": true
+  },
+  "authority": {
+    "refusal_discipline_qualified": false,
+    "triage_crop_capability": false,
+    "general_visual_review": false,
+    "product_promotion": false,
+    "golden_mask": false
+  },
+  "next_action": "Restore the existing shared coordinator to healthy admission through its exact authority path, then execute this still-unopened immutable admission once. Until then, continue CPU-safe RunPod or local control-plane work without AWS fallback."
+}
