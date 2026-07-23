@@ -1,7 +1,20 @@
 {
   "schema_version": "wave64.aqa.campaign_policy.v1",
   "policy_id": "W64-AQA-TOOL-POLICY-002",
-  "status": "STATIC_QUALIFICATION_ONLY",
+  "status": "DURABLE_MISSION_CPU_SHADOW_PASS_RUNTIME_UNQUALIFIED",
+  "mission_control": {
+    "envelope_schema": "Plan/08_SCHEMAS/runpod_autonomous_mission_envelope.schema.json",
+    "queue_state_schema": "Plan/08_SCHEMAS/runpod_autonomous_mission_queue_state.schema.json",
+    "controller": "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_mission_controller.py",
+    "durability": "SQLITE_WAL_FULL_SYNC_APPEND_ONLY_HASH_JOURNAL",
+    "idempotent_admission": true,
+    "immutable_mission_and_campaign_bytes": true,
+    "atomic_claim_heartbeat_checkpoint_recovery_terminalization": true,
+    "in_flight_success_assumption_allowed": false,
+    "result_cas_required": true,
+    "runtime_qualification": false,
+    "shadow_acceptance": "Plan/Tracker/Evidence/W64_AQA_DURABLE_MISSION_CPU_SHADOW_20260723T014000Z/integration_acceptance.json"
+  },
   "max_attempts": 2,
   "max_repair_attempts": 1,
   "continue_unrelated_branches": true,

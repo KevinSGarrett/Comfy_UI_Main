@@ -1,0 +1,65 @@
+{
+  "schema_version": "wave64.aqa.durable_mission_cpu_shadow_acceptance.v1",
+  "program_id": "W64-AQA",
+  "tracker_id": "W64-AQA-019",
+  "status": "PASS_STATIC_CPU_DURABLE_MISSION_CONTROL_RUNTIME_UNQUALIFIED",
+  "source_head": "431d830575c7b0aa5ba290aed5352c2fc6d347fe",
+  "mission_id": "c609fdea5aa1fba7b81af98c867f620f04df10e4b21acba8bd36c18ba133e311",
+  "campaign_id": "3cfa4175cedf501e61e3ccc5085eb75027875608e4e00d1a0bd0f40f56c8fda4",
+  "result_id": "67ca1d7fd2366fe40757fe5d724cb0d92d51612e444ec7cfcd8a79202d5cd73c",
+  "qualification": {
+    "task_count": 18,
+    "expected_states_match": true,
+    "deterministic_replay": true,
+    "durable_mission_terminal": true,
+    "durable_mission_result_bound": true,
+    "deliberate_crash_recovered": true,
+    "in_flight_success_assumed": false,
+    "journal_replay": true,
+    "mission_queue_cleanup_complete": true,
+    "evidence_completeness_rate": 1.0,
+    "restart_replay_rate": 1.0,
+    "interruption_count": 1,
+    "interruption_rate": 0.05555555555555555,
+    "first_pass_validation_rate": 0.8333333333333334,
+    "known_bad_false_accepts": 0,
+    "known_good_false_rejects": 0,
+    "scope_authority_violations": 0,
+    "gpu_lease_acquisitions": 0
+  },
+  "defects_detected_and_corrected": [
+    "RESTORED_EXECUTOR_DUPLICATE_CAMPAIGN_CREATION",
+    "RESTORED_EXECUTOR_LOST_MEASUREMENT_AND_CLEANUP_STATE",
+    "SQLITE_CONNECTION_HANDLE_PREVENTED_QUEUE_CLEANUP",
+    "UNAUTHORIZED_CHECKPOINT_OR_RESULT_COULD_PRECEDE_CAS_AUTHORITY_CHECK",
+    "TERMINAL_RESULT_CHILD_EVIDENCE_BYTES_NOT_INDEPENDENTLY_REHASHED"
+  ],
+  "runtime_claims": {
+    "runpod_contacted": false,
+    "gpu_used": false,
+    "coordinator_lease_acquired": false,
+    "self_hosted_model_loaded": false,
+    "development_campaign_operational": false,
+    "multimodal_campaign_operational": false,
+    "production_roles_qualified": false,
+    "product_authority_granted": false,
+    "golden_mask_authority_granted": false
+  },
+  "critical_file_sha256": {
+    "campaign_contract.json": "49d664ae8f967350911ca09fdbabb0f0f3c03ae8915a6cc8b97855f67c7a3597",
+    "mission_envelope.json": "35c0231005d3c2ce93d1d7baf9e8d4e24b2769ba70b31ffa2b95d8fa1dbf3990",
+    "mission_recovery_journal.json": "06b3c972b24a332478d37d37ede8f629df7ec6d3cc9fe22095a756b8f5e17b57",
+    "mission_queue_state.json": "a451afa38e269fcbd2dfeb516469dc1bb2f3618ce996133b82fdf246179e0ffd",
+    "mission_journal.json": "956f8141d9babec2ed5bcffe06d59839fbe5a004c6898185d39ef44714e31f4a",
+    "sealed_result.json": "c8100a28d27784b032949f71e5da97c40e6835d85fa7c67cb2c1fed23917e8fb",
+    "shadow_assertions.json": "85b1b08c2cee4ef517af378113da490c42a95b334eaef84d42b0e84a1a74d5e2"
+  },
+  "remaining_gates": [
+    "DEPLOY_AND_REPLAY_DURABLE_CONTROLLER_ON_CURRENT_RUNPOD_CPU_STORAGE",
+    "QUALIFY_EXACT_SELF_HOSTED_CONTROLLER_CODER_REVIEWER_JUROR_ARBITER_REPAIR_AND_EVIDENCE_ROLES",
+    "RUN_5_TO_10_ARTIFACT_IMAGE_SHORT_VIDEO_AUDIO_SHADOW_AFTER_ROLE_AND_GPU_LEASE_GATES",
+    "MEASURE_REAL_CODEX_AGREEMENT_FALSE_ACCEPT_FALSE_REJECT_THROUGHPUT_AND_EVIDENCE_COMPACTION",
+    "PROVE_RUNTIME_CLEANUP_AND_LONG_DURATION_RECOVERY_BEFORE_OPERATIONAL_AUTONOMY"
+  ],
+  "authority": "CODEX_FINAL_ACCEPTANCE_REQUIRED"
+}

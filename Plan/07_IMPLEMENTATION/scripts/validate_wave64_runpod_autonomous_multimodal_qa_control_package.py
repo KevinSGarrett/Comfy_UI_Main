@@ -79,6 +79,12 @@ PATHS = {
     / "Plan/07_IMPLEMENTATION/scripts/compile_wave64_runpod_autonomous_campaign_proposed_delta.py",
     "campaign_executor": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_campaign.py",
+    "mission_envelope_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_mission_envelope.schema.json",
+    "mission_queue_state_schema": ROOT
+    / "Plan/08_SCHEMAS/runpod_autonomous_mission_queue_state.schema.json",
+    "mission_controller": ROOT
+    / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_mission_controller.py",
     "campaign_cpu_shadow": ROOT
     / "Plan/07_IMPLEMENTATION/scripts/run_wave64_runpod_autonomous_campaign_cpu_shadow.py",
     "campaign_policy": ROOT
@@ -95,6 +101,8 @@ PATHS = {
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_campaign_multimodal_qa_registry.json",
     "campaign_cpu_shadow_acceptance": ROOT
     / "Plan/Tracker/Evidence/W64_AQA_AUTONOMOUS_CAMPAIGN_CPU_SHADOW_20260722T224015Z/integration_acceptance.json",
+    "durable_mission_cpu_shadow_acceptance": ROOT
+    / "Plan/Tracker/Evidence/W64_AQA_DURABLE_MISSION_CPU_SHADOW_20260723T014000Z/integration_acceptance.json",
     "registry": ROOT
     / "Plan/10_REGISTRIES/wave64_runpod_autonomous_multimodal_qa_role_registry.json",
     "role_package_inventory": ROOT
@@ -433,6 +441,12 @@ def collect_errors() -> list[str]:
         )
         local_storage_policy = load_json(PATHS["local_storage_policy"])
         local_storage_audit = load_json(PATHS["local_storage_audit"])
+        mission_envelope_schema = load_json(PATHS["mission_envelope_schema"])
+        mission_queue_state_schema = load_json(PATHS["mission_queue_state_schema"])
+        campaign_policy = load_json(PATHS["campaign_policy"])
+        durable_mission_cpu_shadow_acceptance = load_json(
+            PATHS["durable_mission_cpu_shadow_acceptance"]
+        )
         registry = load_json(PATHS["registry"])
         campaign_role_registry = load_json(PATHS["campaign_role_registry"])
         campaign_deterministic_role_reconciliation = load_json(
@@ -658,6 +672,81 @@ def collect_errors() -> list[str]:
         }
     ):
         errors.append("local storage fail-closed admission probe mismatch")
+
+    mission_control = campaign_policy.get("mission_control", {})
+    if (
+        mission_envelope_schema.get("title")
+        != "Wave64 RunPod Autonomous Work-Cell Mission Envelope"
+        or mission_queue_state_schema.get("title")
+        != "Wave64 RunPod Autonomous Work-Cell Mission Queue State"
+        or mission_control.get("durability")
+        != "SQLITE_WAL_FULL_SYNC_APPEND_ONLY_HASH_JOURNAL"
+        or mission_control.get("idempotent_admission") is not True
+        or mission_control.get("immutable_mission_and_campaign_bytes") is not True
+        or mission_control.get("in_flight_success_assumption_allowed") is not False
+        or mission_control.get("result_cas_required") is not True
+        or mission_control.get("runtime_qualification") is not False
+    ):
+        errors.append("durable autonomous mission control policy mismatch")
+    mission_source = PATHS["mission_controller"].read_text(encoding="utf-8")
+    for required_control in (
+        "PRAGMA journal_mode=WAL",
+        "PRAGMA synchronous=FULL",
+        "MISSION_JOURNAL_APPEND_ONLY",
+        "MISSION_IDENTITY_IMMUTABLE",
+        "MISSION_RECORD_RETENTION_REQUIRED",
+        '"in_flight_assumed_complete": False',
+        "verify_result_identity",
+    ):
+        if required_control not in mission_source:
+            errors.append(
+                f"durable mission controller control missing: {required_control}"
+            )
+    durable_qualification = durable_mission_cpu_shadow_acceptance.get(
+        "qualification", {}
+    )
+    durable_runtime_claims = durable_mission_cpu_shadow_acceptance.get(
+        "runtime_claims", {}
+    )
+    if (
+        durable_mission_cpu_shadow_acceptance.get("status")
+        != "PASS_STATIC_CPU_DURABLE_MISSION_CONTROL_RUNTIME_UNQUALIFIED"
+        or durable_qualification.get("task_count") != 18
+        or durable_qualification.get("deterministic_replay") is not True
+        or durable_qualification.get("deliberate_crash_recovered") is not True
+        or durable_qualification.get("in_flight_success_assumed") is not False
+        or durable_qualification.get("mission_queue_cleanup_complete") is not True
+        or durable_qualification.get("evidence_completeness_rate") != 1.0
+        or durable_qualification.get("restart_replay_rate") != 1.0
+        or durable_qualification.get("known_bad_false_accepts") != 0
+        or durable_qualification.get("scope_authority_violations") != 0
+        or durable_qualification.get("gpu_lease_acquisitions") != 0
+    ):
+        errors.append("durable mission CPU shadow qualification mismatch")
+    if any(
+        durable_runtime_claims.get(key) is not False
+        for key in (
+            "runpod_contacted",
+            "gpu_used",
+            "coordinator_lease_acquired",
+            "self_hosted_model_loaded",
+            "development_campaign_operational",
+            "multimodal_campaign_operational",
+            "production_roles_qualified",
+            "product_authority_granted",
+            "golden_mask_authority_granted",
+        )
+    ):
+        errors.append("durable mission CPU shadow overclaims runtime authority")
+    durable_evidence_root = PATHS["durable_mission_cpu_shadow_acceptance"].parent
+    for relative_path, expected_sha256 in durable_mission_cpu_shadow_acceptance.get(
+        "critical_file_sha256", {}
+    ).items():
+        evidence_path = durable_evidence_root / relative_path
+        if not evidence_path.is_file():
+            errors.append(f"durable mission shadow evidence missing: {relative_path}")
+        elif hashlib.sha256(evidence_path.read_bytes()).hexdigest() != expected_sha256:
+            errors.append(f"durable mission shadow evidence hash mismatch: {relative_path}")
 
     if role_package_inventory.get("schema_version") != "wave64.aqa.role_package_inventory.v1":
         errors.append("role package inventory schema version mismatch")

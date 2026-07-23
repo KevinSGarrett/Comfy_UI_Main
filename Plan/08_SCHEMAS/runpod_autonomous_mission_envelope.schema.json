@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_mission_envelope.schema.json",
+  "title": "Wave64 RunPod Autonomous Work-Cell Mission Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mission_id", "mission_name", "campaign", "execution", "authority"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.mission_envelope.v1"},
+    "mission_id": {"$ref": "#/definitions/sha256"},
+    "mission_name": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"},
+    "campaign": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "sha256", "campaign_id"],
+      "properties": {
+        "relative_path": {"$ref": "#/definitions/safe_path"},
+        "sha256": {"$ref": "#/definitions/sha256"},
+        "campaign_id": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_paths", "allowed_tools", "allowed_repair_operations",
+        "max_child_operations", "max_wall_seconds", "max_gpu_seconds",
+        "max_storage_growth_bytes", "checkpoint_interval_seconds",
+        "reporting_interval_seconds", "terminal_states", "escalation_conditions",
+        "gpu_lease_profile"
+      ],
+      "properties": {
+        "allowed_paths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/definitions/safe_path"}},
+        "allowed_tools": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z0-9_]{1,96}$"}},
+        "allowed_repair_operations": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z0-9_]{1,96}$"}},
+        "max_child_operations": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "max_wall_seconds": {"type": "integer", "minimum": 1, "maximum": 604800},
+        "max_gpu_seconds": {"type": "integer", "minimum": 0, "maximum": 604800},
+        "max_storage_growth_bytes": {"type": "integer", "minimum": 0},
+        "checkpoint_interval_seconds": {"type": "integer", "minimum": 30, "maximum": 3600},
+        "reporting_interval_seconds": {"type": "integer", "minimum": 300, "maximum": 86400},
+        "terminal_states": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["COMPLETE", "PARTIAL_BLOCKED", "ABSTAINED", "FAILED", "CANCELED"]}},
+        "escalation_conditions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["AUTHORITY_CHANGE", "SCOPE_CHANGE", "FROZEN_POLICY_MISMATCH", "UNKNOWN_CREDENTIAL_OR_LICENSE", "BUDGET_EXHAUSTED", "FOREIGN_LEASE_CONFLICT", "DESTRUCTIVE_ACTION", "PERSISTENT_INFRASTRUCTURE_FAILURE", "ADOPTION_REQUEST", "DURABLE_MILESTONE", "FINAL_SEALED_ACCEPTANCE"]}},
+        "gpu_lease_profile": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[a-z0-9_]{1,96}$"}]}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["may_push_git", "may_grant_product_authority", "may_weaken_thresholds", "may_spend_money", "may_read_credentials", "may_perform_destructive_actions", "may_override_foreign_lease", "may_self_promote", "final_acceptance_authority"],
+      "properties": {
+        "may_push_git": {"const": false},
+        "may_grant_product_authority": {"const": false},
+        "may_weaken_thresholds": {"const": false},
+        "may_spend_money": {"const": false},
+        "may_read_credentials": {"const": false},
+        "may_perform_destructive_actions": {"const": false},
+        "may_override_foreign_lease": {"const": false},
+        "may_self_promote": {"const": false},
+        "final_acceptance_authority": {"const": "CODEX"}
+      }
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "safe_path": {"type": "string", "pattern": "^(?![A-Za-z]:|/|.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"}
+  }
+}

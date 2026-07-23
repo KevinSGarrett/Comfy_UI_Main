@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://comfy-ui-main.local/schemas/runpod_autonomous_mission_queue_state.schema.json",
+  "title": "Wave64 RunPod Autonomous Work-Cell Mission Queue State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mission_id", "campaign_id", "contract_sha256", "state", "event_count", "journal_head_sha256", "worker_id", "heartbeat_at", "checkpoint_sha256", "result_id", "in_flight_assumed_complete"],
+  "properties": {
+    "schema_version": {"const": "wave64.aqa.mission_queue_state.v1"},
+    "mission_id": {"$ref": "#/definitions/sha256"},
+    "campaign_id": {"$ref": "#/definitions/sha256"},
+    "contract_sha256": {"$ref": "#/definitions/sha256"},
+    "state": {"enum": ["QUEUED", "RUNNING", "TERMINAL"]},
+    "event_count": {"type": "integer", "minimum": 1},
+    "journal_head_sha256": {"$ref": "#/definitions/sha256"},
+    "worker_id": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$"}]},
+    "heartbeat_at": {"anyOf": [{"type": "null"}, {"type": "string", "format": "date-time"}]},
+    "checkpoint_sha256": {"anyOf": [{"type": "null"}, {"$ref": "#/definitions/sha256"}]},
+    "result_id": {"anyOf": [{"type": "null"}, {"$ref": "#/definitions/sha256"}]},
+    "in_flight_assumed_complete": {"const": false}
+  },
+  "definitions": {"sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

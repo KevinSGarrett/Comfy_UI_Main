@@ -569,3 +569,20 @@ existing VHD, an old cache, or a retained worktree as permission to write more
 bytes. Cleanup is a separately authorized exact-path operation: preserve unique
 diffs and retained evidence, verify archive or RunPod identity first, and never
 delete the active Docker VHD directly.
+
+## Durable mission queue and controller
+
+Large campaigns are admitted through
+`run_wave64_runpod_autonomous_mission_controller.py`, never by copying an
+unsealed draft into a runtime directory. Compile the mission envelope against
+the exact repository-root campaign contract, admit it once, then use the
+mission ID for claim, heartbeat, checkpoint, stale recovery, status, journal
+verification, and terminalization. The queue must live on RunPod production
+storage for runtime use; local queue creation is limited to bounded static tests.
+
+Every claim is exclusive and idempotent only for the same worker ID. A foreign
+worker cannot heartbeat, checkpoint, terminalize, or write CAS bytes. Recovery
+requires an expired heartbeat cutoff and never assumes an in-flight operation
+succeeded. Verify the complete journal before resuming or accepting a terminal
+packet. Do not delete or mutate mission rows or journal events. A final result
+is still a prepared recommendation until Codex accepts it.

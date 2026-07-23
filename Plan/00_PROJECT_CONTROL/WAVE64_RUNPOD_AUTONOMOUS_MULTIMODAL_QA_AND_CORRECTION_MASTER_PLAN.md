@@ -1712,3 +1712,32 @@ artifact, and dataset materialization are forbidden while RunPod is sole
 production storage. This is a prevention gate, not cleanup authority; unique
 evidence and dirty ownership boundaries remain preserved until exact archive or
 RunPod identity and recoverability are verified.
+
+### Persistent autonomous work-cell mission control
+
+The campaign executor now has a provisional durable mission-control layer. An
+immutable mission envelope binds the exact campaign bytes and ID, allowed paths,
+tools, repairs, resource ceilings, checkpoint/reporting intervals, terminal
+states, escalation conditions, GPU lease profile, and authority ceiling before
+admission. The RunPod queue stores the sealed mission and campaign bytes in a
+SQLite WAL database with full synchronous writes, immutable-identity and
+retention triggers, atomic state transitions, and an append-only canonical hash
+journal rooted at a fixed genesis hash.
+
+Claims are idempotent only for the same active worker. Heartbeats and
+checkpoints require exact ownership; checkpoint and final-result bytes enter a
+content-addressed store only after authority checks. Stale recovery returns a
+mission to the queue while explicitly preserving
+`in_flight_assumed_complete=false`. Final results must retain the campaign ID,
+pass canonical result/Merkle verification, and use a terminal disposition
+frozen by the mission. This is static CPU qualification only. It does not yet
+make the work-cell operational or authorize a development or multimodal mission.
+
+The corrected controller subsequently passed the exact 18-task CPU-safe shadow
+through the durable queue, including one deliberate process crash, stale
+recovery, re-claim, deterministic replay, terminal result binding, and temporary
+queue cleanup. Measured shadow results are 100% terminalization, evidence, and
+restart replay; 5.56% interruption; 83.33% first-pass validation; and zero
+known-bad accepts, scope violations, or GPU leases. These are synthetic static
+metrics, not RunPod throughput or learned-role quality. Current-RunPod CPU
+deployment and every learned and multimodal role remain unqualified.

@@ -20,7 +20,7 @@ LEGAL_EVENT_TRANSITIONS = {
     "ADMITTED": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL"},
     "CPU_PHASE_ACTIVE": {"JOB_DISPATCH", "JOB_TERMINAL"},
     "GPU_LEASE_WAIT": {"JOB_DISPATCH", "JOB_TERMINAL"},
-    "JOB_DISPATCH": {"JOB_DISPATCH", "JOB_TERMINAL"},
+    "JOB_DISPATCH": {"JOB_DISPATCH", "JOB_TERMINAL", "RESTART_REPLAY"},
     "JOB_TERMINAL": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL", "RESTART_REPLAY"},
     "RESTART_REPLAY": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL"},
     "BLOCKED": {"JOB_TERMINAL", "RESTART_REPLAY", "CAMPAIGN_TERMINAL"},
@@ -166,11 +166,16 @@ class CampaignExecutor:
 
     def run(self, runner: Callable[[dict[str, Any], int, bool], JobOutcome]) -> dict[str, Any]:
         self.workspace.mkdir(parents=True, exist_ok=True)
-        self._event("CAMPAIGN_CREATED", "CAMPAIGN_CREATED")
-        if self.contract.get("admission_disposition") == "BLOCKED_UNQUALIFIED":
-            self._event("BLOCKED", "BLOCKED", payload={"reason": "BLOCKED_UNQUALIFIED"})
+        if not self.events:
+            self._event("CAMPAIGN_CREATED", "CAMPAIGN_CREATED")
+            if self.contract.get("admission_disposition") == "BLOCKED_UNQUALIFIED":
+                self._event("BLOCKED", "BLOCKED", payload={"reason": "BLOCKED_UNQUALIFIED"})
+            else:
+                self._event("ADMITTED", "ADMITTED")
         else:
-            self._event("ADMITTED", "ADMITTED")
+            self.verify_journal(self.events)
+            if self.events[-1]["event_type"] != "RESTART_REPLAY":
+                raise ValueError("restored campaign must resume from a restart replay event")
         jobs = {job["node_id"]: job for job in self.contract["jobs"]}
         dependencies = {node["node_id"]: set(node["depends_on"]) for node in self.contract["dag"]}
         if self.contract.get("admission_disposition") == "BLOCKED_UNQUALIFIED":
@@ -180,7 +185,7 @@ class CampaignExecutor:
                 self.results[node] = {"node_id": node, "terminal_state": "ABSTAINED", "attempts": 0, "evidence_sha256": sha, "evidence_path": path, "reason": "BLOCKED_UNQUALIFIED"}
                 self._event("JOB_TERMINAL", "DAG_ADVANCE", node_id=node, phase=jobs[node]["phase"], payload=self.results[node])
             return self._result()
-        remaining = set(jobs)
+        remaining = set(jobs) - set(self.results)
         current_checkpoint: str | None = None
         bindings = {item["role_id"]: item for item in self.contract["model_bindings"]}
         max_attempts = self.contract["policy"]["max_attempts"]
@@ -255,14 +260,39 @@ class CampaignExecutor:
         return {"last_sequence": len(self.events) - 1, "last_event_hash": self.events[-1]["event_hash"], "completed_nodes": sorted(node for node, result in self.results.items() if result["terminal_state"] == "PASS"), "in_flight_nodes_assumed_complete": False}
 
     @classmethod
-    def restore(cls, contract: dict[str, Any], workspace: Path, lease_adapter: LeaseAdapter, events: list[dict[str, Any]], results: dict[str, dict[str, Any]]) -> "CampaignExecutor":
+    def restore(
+        cls,
+        contract: dict[str, Any],
+        workspace: Path,
+        lease_adapter: LeaseAdapter,
+        events: list[dict[str, Any]],
+        results: dict[str, dict[str, Any]],
+        *,
+        measurements: dict[str, Any] | None = None,
+        cleanup: dict[str, Any] | None = None,
+    ) -> "CampaignExecutor":
         cls.verify_journal(events)
-        if events and events[-1]["event_type"] == "JOB_DISPATCH":
-            raise ValueError("restart refuses to assume an in-flight job completed")
-        restored = cls(contract, workspace, lease_adapter)
+        if not events:
+            raise ValueError("restart requires a non-empty verified journal")
+        if events[-1]["event_type"] == "CAMPAIGN_TERMINAL":
+            raise ValueError("terminal campaign cannot be restarted")
+        restored = cls(
+            contract,
+            workspace,
+            lease_adapter,
+            measurements=measurements,
+            cleanup=cleanup,
+        )
         restored.events = copy.deepcopy(events)
         restored.results = copy.deepcopy(results)
-        restored._event("RESTART_REPLAY", "RESTART_REPLAY", payload={"completed_nodes": sorted(results)})
+        restored._event(
+            "RESTART_REPLAY",
+            "RESTART_REPLAY",
+            payload={
+                "completed_nodes": sorted(results),
+                "in_flight_nodes_assumed_complete": False,
+            },
+        )
         return restored
 
     @staticmethod

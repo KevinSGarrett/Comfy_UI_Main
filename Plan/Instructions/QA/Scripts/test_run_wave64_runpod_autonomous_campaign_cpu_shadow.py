@@ -16,6 +16,10 @@ def test_exact_18_task_cpu_shadow(tmp_path: Path) -> None:
     packet = MODULE.execute(tmp_path / "shadow")
     assert packet["assertions"]["task_count"] == 18
     assert packet["assertions"]["all_static_shadow_gates_pass"] is True
+    assert packet["assertions"]["durable_mission_terminal"] is True
+    assert packet["assertions"]["durable_mission_result_bound"] is True
+    assert packet["assertions"]["deliberate_crash_recovered"] is True
+    assert packet["assertions"]["mission_queue_cleanup_complete"] is True
     assert packet["assertions"]["production_roles_qualified"] is False
     assert packet["result"]["metrics"]["evidence_completeness_rate"] == 1.0
     assert packet["result"]["metrics"]["known_bad_false_accepts"] == 0

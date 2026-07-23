@@ -96,6 +96,31 @@ def test_crash_cursor_and_journal_tamper_fork_detection(tmp_path: Path) -> None:
         MODULE.CampaignExecutor.verify_journal(illegal)
 
 
+def test_crash_restart_replays_without_assuming_in_flight_success(tmp_path: Path) -> None:
+    executor = MODULE.CampaignExecutor(
+        contract(2), tmp_path / "execution", MODULE.MemoryLeaseAdapter()
+    )
+
+    def crash(job: dict, attempt: int, repair: bool) -> MODULE.JobOutcome:
+        raise RuntimeError("injected process crash")
+
+    with pytest.raises(RuntimeError, match="injected process crash"):
+        executor.run(crash)
+    assert executor.events[-1]["event_type"] == "JOB_DISPATCH"
+    restored = MODULE.CampaignExecutor.restore(
+        contract(2),
+        tmp_path / "execution",
+        MODULE.MemoryLeaseAdapter(),
+        executor.events,
+        executor.results,
+    )
+    assert restored.events[-1]["event_type"] == "RESTART_REPLAY"
+    result = restored.run(passing)
+    assert result["disposition"] == "COMPLETE"
+    assert {job["node_id"] for job in result["jobs"]} == {"n00", "n01"}
+    assert restored.restart_cursor()["in_flight_nodes_assumed_complete"] is False
+
+
 def test_lease_loss_and_unqualified_role_abstain(tmp_path: Path) -> None:
     value = contract(2)
     value["jobs"][0]["phase"] = "GPU"

@@ -335,4 +335,16 @@ deterministic tests remain bounded by a 512 MiB projected-write ceiling and a
 5 GiB remaining reserve. A denied evaluation creates no worker request and
 grants no deletion or RunPod authority.
 
+## Gate AQA-16: persistent mission-control durability
+
+Before any development or multimodal campaign uses the persistent work-cell,
+prove exact mission/campaign byte and ID binding, path-escape rejection,
+idempotent admission and same-worker claim replay, foreign-owner refusal,
+heartbeat ownership, content-addressed checkpoints, stale recovery without
+assumed in-flight success, immutable mission identity, append-only journal
+enforcement, hash/fork detection, terminal-disposition restriction, canonical
+result identity, and CAS retention. SQLite transactions must atomically update
+the snapshot and journal under WAL/full-sync settings. Static unit tests do not
+grant RunPod runtime, GPU, role, media-quality, product, or promotion authority.
+
 After static and replay gates, admit only a 5–10-artifact isolated image/short-video/audio shadow when all exact roles and runtimes are qualified and each GPU phase holds a coordinator lease. Expand to 25–100 artifacts only after modality quality, false-accept, cleanup, repair, disagreement, cost, reload, and churn gates pass. Long or 24–72-hour campaigns remain blocked until then.
