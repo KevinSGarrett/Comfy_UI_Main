@@ -178,12 +178,17 @@ gates pass, installed small models provide bounded triage and deterministic code
 owns decisions.
 
 The CPU-only metadata preflight binds four exact admitted JSON files and confirms
-that the package identifies as `qwen3_5_moe`. Although a diagnostic import-only
-attempt resolved the expected classes with no weight or GPU access, the proposed
-shared environment failed its immutable-tree identity check (`2ae77089...`
-expected, `67890cf5...` observed). The reuse decision is rejected and retained
-for audit. The next controller action is a fresh lock-addressed environment
-build followed by a new import-only canary; no runtime or role authority exists.
+that the package identifies as `qwen3_5_moe`. The rejected shared-environment
+tree remains retained for audit. Its replacement fresh immutable environment
+subsequently passed import-only class resolution with tree SHA-256
+`fe58969cd945b1088f74b3cc9b9a15527d9b7031ed88afd39c4791b848fa7159`,
+23,097 files, 5,749,105,831 bytes, and 75 distributions. No model construction,
+weight load, inference, or GPU access occurred. The controller package is
+therefore prepared for its remaining runtime gate, but it retains no capacity,
+quality, refusal, cleanup, or operational authority. Runtime qualification may
+start on the A6000 only after transfer activity and the unresolved GPU context
+are absent and a fresh direct per-session preflight passes; the 2xA40 remains
+migration-only until explicit transfer verification.
 
 ### Primary visual reviewer
 
