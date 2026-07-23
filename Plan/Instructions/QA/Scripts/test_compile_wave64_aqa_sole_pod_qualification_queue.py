@@ -107,6 +107,16 @@ def test_exact_strict_role_is_prepared_but_downgraded_identity_fails_closed() ->
     assert any("EXACT_UPSTREAM_REVISION_OR_IDENTITY_NOT_VERIFIED" in value for value in blockers)
 
 
+def test_not_accepted_license_text_never_satisfies_project_acceptance() -> None:
+    module = load_module()
+    inventory = json.loads((ROOT / module.INVENTORY_PATH).read_text(encoding="utf-8"))
+    llava = next(item for item in inventory["packages"] if item["package_id"] == "W64-AQA-PKG-LLAVA13")
+    evidence, blockers = module.package_evidence(llava)
+    assert evidence["license_state"].endswith("NOT_ACCEPTED")
+    assert evidence["exact_identity_installed_and_license_accepted"] is False
+    assert blockers == ["W64-AQA-PKG-LLAVA13:PROJECT_LICENSE_ACCEPTANCE_MISSING"]
+
+
 def test_provisional_juror_and_external_mask_release_fail_closed() -> None:
     module = load_module()
     campaigns = module.compile_queue(ROOT)["campaigns"]

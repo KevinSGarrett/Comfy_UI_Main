@@ -58,7 +58,7 @@ def package_evidence(package: dict[str, Any]) -> tuple[dict[str, Any], list[str]
         identity_state.startswith("LOCAL_DIGEST_VERIFIED")
         and "UPSTREAM_REVISION_UNVERIFIED" not in identity_state
     )
-    license_accepted = "ACCEPTED" in license_state
+    license_accepted = license_state.endswith("_ACCEPTED_FOR_COMFY_UI_MAIN_PROJECT_USE")
     installed = artifact_digest is not None and (
         "INSTALLED" in installation_state or "PROMOTED" in installation_state
     )
