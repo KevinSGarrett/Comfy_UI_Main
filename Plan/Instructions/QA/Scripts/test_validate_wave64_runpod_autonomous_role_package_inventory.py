@@ -23,13 +23,25 @@ def test_inventory_is_valid() -> None:
     assert MODULE.validate(load_inventory()) == []
 
 
-def test_only_authorized_alternative_hardware_watcher_is_enabled() -> None:
+def test_historical_watcher_cannot_be_reactivated_or_replaced() -> None:
     data = copy.deepcopy(load_inventory())
-    data["runtime_policy"]["current_pod_only"]["authorized_watcher_id"] = "competing-watcher"
+    data["runtime_policy"]["current_pod_only"]["alternative_hardware_watcher"] = True
     assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
 
 
-def test_current_pod_must_remain_authoritative_during_candidate_creation() -> None:
+def test_windows_local_coordinator_cannot_be_restored_as_prerequisite() -> None:
+    data = copy.deepcopy(load_inventory())
+    data["runtime_policy"]["current_pod_only"]["windows_local_coordinator_required"] = True
+    assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
+
+
+def test_manual_target_cannot_claim_authority_before_transfer_completion() -> None:
+    data = copy.deepcopy(load_inventory())
+    data["runtime_policy"]["current_pod_only"]["manual_migration_target"]["state"] = "AUTHORITATIVE"
+    assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)
+
+
+def test_current_pod_must_remain_authoritative_during_transfer() -> None:
     data = copy.deepcopy(load_inventory())
     data["runtime_policy"]["current_pod_only"]["current_pod_authoritative_until_verified_migration_complete"] = False
     assert "current-pod-only runtime policy mismatch" in MODULE.validate(data)

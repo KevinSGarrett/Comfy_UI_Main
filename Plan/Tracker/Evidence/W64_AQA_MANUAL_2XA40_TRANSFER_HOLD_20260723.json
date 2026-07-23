@@ -1,0 +1,63 @@
+{
+  "schema_version": "wave64.aqa.manual_2xa40_transfer_hold.v1",
+  "evidence_id": "W64_AQA_MANUAL_2XA40_TRANSFER_HOLD_20260723",
+  "observed_at_utc": "2026-07-23T07:46:03Z",
+  "status": "TRANSFER_INCOMPLETE_CURRENT_POD_REMAINS_AUTHORITATIVE",
+  "authority": {
+    "current_production_pod_id": "1q4ji0gg1fkhvt",
+    "current_production_pod_name": "hyperreal-flux",
+    "continued_work_authorized_by_user": true,
+    "migration_target_authoritative": false,
+    "switch_requires_verified_migration_complete_evidence": true
+  },
+  "migration_target": {
+    "pod_id": "7oehmw538jykh1",
+    "pod_name": "MaskFactory-ComfyUI-2xA40-CA-MTL-1",
+    "desired_status": "RUNNING",
+    "user_asserted_gpu_type": "2x NVIDIA A40",
+    "control_plane_gpu_count": 2,
+    "cost_per_hour_usd": 0.88,
+    "container_disk_gb": 100,
+    "workspace_mount_path": "/workspace",
+    "workspace_storage_gb": 1150,
+    "workspace_storage_class": "POD_LOCAL_VOLUME",
+    "network_volume_id": null,
+    "transfer_state": "IN_PROGRESS",
+    "workload_admission": "MIGRATION_ONLY_NO_PROJECT_WORK"
+  },
+  "historical_watcher": {
+    "automation_id": "runpod-us-wa-1-2xa40-guarded-migration-watcher",
+    "state": "PAUSED",
+    "performed_this_migration": false,
+    "automation_sha256": "3d4c061bb316dca40b9b1008abf890034c91611d736200536b0e6d77a641a49a",
+    "memory_sha256": "fca4bb4729685eab5ba2c6bdd9cba421f95b945603ad1566ee902e6c9aef6ecf"
+  },
+  "runtime_policy": {
+    "source": "C:/Users/kevin/.codex/AGENTS.md",
+    "source_sha256": "60ab064179c50609068e805444e27bb9680bf92e4df9f0619c270d9bf283f3f8",
+    "windows_local_coordinator_required": false,
+    "lease_token_required": false,
+    "cross_pod_admission_required": false,
+    "gpu_actions_require_direct_session_preflight": true,
+    "cpu_actions_require_gpu_admission": false
+  },
+  "migration_completion_gates": [
+    "TRANSFER_PROCESS_TERMINAL_SUCCESS",
+    "SOURCE_AND_DESTINATION_MANIFEST_HASH_EQUALITY",
+    "EXPECTED_ROOTS_AND_FREE_SPACE_VERIFIED",
+    "DUAL_A40_IDENTITY_AND_MEMORY_VERIFIED",
+    "NO_FOREIGN_GPU_PROCESS_CONFLICT",
+    "COMFYUI_AND_REQUIRED_SERVICE_SMOKES_PASS",
+    "MODEL_AND_ENVIRONMENT_PATHS_RESOLVE",
+    "BOUNDED READ_ONLY_OR NO_OUTPUT ROLE_SMOKE_PASS",
+    "CLEANUP_AND_ROLLBACK_PATH_VERIFIED",
+    "AUTHORITATIVE_POD_POINTER_UPDATED_ONLY_AFTER_ACCEPTANCE"
+  ],
+  "prohibitions": [
+    "NO_WORKLOAD_ON_MIGRATION_TARGET_BEFORE_ACCEPTANCE",
+    "NO_WATCHER_REACTIVATION",
+    "NO_AWS_S3_EC2_ACCESS",
+    "NO_LOCAL_LARGE_PAYLOAD",
+    "NO_DOCKER"
+  ]
+}

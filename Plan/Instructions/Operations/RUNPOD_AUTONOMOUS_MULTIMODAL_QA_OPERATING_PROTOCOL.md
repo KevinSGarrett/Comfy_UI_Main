@@ -14,12 +14,13 @@ Program: `W64-AQA`
    MaskFactory stores, and `F:/Models` as read-only evidence unless a separate
    exact-path reconciliation authorizes bytes.
 6. An idle ComfyUI queue and empty Ollama residency are necessary but not
-   sufficient. Before every GPU-affecting action, obtain and validate an exact
-   shared-coordinator lease with fresh telemetry, reserved peak VRAM, intensity,
-   and lease-mode evidence. Retain foreign process and internal lock observations
-   in the receipt, but do not treat process presence or a project-internal lock as
-   cross-project authority. Never kill, unload, or steal another owner's process,
-   model, or lease.
+   sufficient. Before every GPU-affecting action, directly verify the exact pod,
+   GPU type and memory, GPU process ownership, ComfyUI queue and service state,
+   free VRAM and host memory, model residency, storage reserve, exact workload
+   identity, and cleanup/rollback path. A Windows-local coordinator, lease token,
+   capacity reservation, or cross-pod admission service is not a production
+   prerequisite. Retain foreign process observations in the receipt and never
+   kill, unload, or steal another owner's process or model.
 
 ## 2. Storage rules
 
@@ -28,11 +29,13 @@ Program: `W64-AQA`
 - Keep model binaries, ComfyUI inputs/outputs, reviewer artifacts, and evidence
   off the 20 GB overlay.
 - Warn at 75% overlay use; block new downloads at 85% until reconciled.
-- S3 writes require an exact bucket/prefix, content hash, manifest, encryption
-  policy, cost posture, and a non-secret receipt.
-- The qualified evidence-staging boundary is Codex integration authority only,
-  bucket `comfy-ui-main-runtime-029530099913-us-east-1`, prefix
-  `evidence/w64-aqa/qualification/objects`, a SHA-256-derived key, conditional
+- AWS, S3, and EC2 are historical audit evidence only and are not production
+  storage or fallback paths. Do not access them without a new exact user
+  authorization for archival, recovery, cost, shutdown, or reconciliation.
+- Preserve the historical evidence-staging records, including bucket
+  `comfy-ui-main-runtime-029530099913-us-east-1` and prefix
+  `evidence/w64-aqa/qualification/objects`, without rerun, deletion, or treating
+  them as current authority. Their earlier SHA-256-derived key and conditional
   create, AES-256, versioning, and checksum-enabled `HeadObject` replay. Never
   overwrite or delete qualification objects. This boundary does not authorize
   an LLM cloud tool, a full bundle promotion, or product acceptance.
@@ -127,11 +130,12 @@ video and whole-clip temporal review execute after the typed GPU hold clears.
    49,140 MiB VRAM. The latest direct probe measured 540,844,122,112 total host-
    memory bytes, 438,214,877,184 available bytes, 128 CPUs, and
    142,706,362,155,008 filesystem-reported free bytes under `/workspace`.
-2. Alternative pod stock watching, candidate creation, migration, and external
-   inference are disabled. Do not wait for future hardware before installing or
-   qualifying a required role on the current pod.
-3. Run at most one heavy GPU role at a time unless the shared coordinator has
-   separately qualified the exact shared profiles. Use sequential unload/reload,
+2. User-started pod `7oehmw538jykh1` is a 2xA40 migration target with a 100 GB
+   container disk and 1.15 TB pod-local `/workspace`. Its transfer is incomplete,
+   it has no attached network volume, and it is not authoritative. Do not run
+   project workloads there until the migration-completion gates pass.
+3. Run at most one heavy GPU role at a time unless direct capacity qualification
+   proves the exact shared profiles safe. Use sequential unload/reload,
    quantization, CPU offload, NVMe offload, bounded context, and chunked media.
 4. Before authority, record exact package hashes, precision, peak VRAM, peak host
    RAM, storage, latency, quality, cleanup, failure recovery, and cost. A role
@@ -142,8 +146,9 @@ video and whole-clip temporal review execute after the typed GPU hold clears.
 6. Keep the current pod authoritative while each package independently proves
    identity, license, dependencies, capacity, runtime, quality, cleanup, failure
    recovery, cost, replay, and rollback. Storage presence never activates a role.
-7. Do not create, watch, or wait for replacement or burst pods. A second
-   inference pod remains forbidden unless the user later changes this policy.
+7. The historical US-WA-1 watcher is paused and did not create the current
+   migration target. Do not reactivate it or create a competing watcher. Continue
+   on `1q4ji0gg1fkhvt` while the user-authorized transfer runs.
 8. When one role is held, record its exact gate and continue the next
    dependency-unblocked current-pod role; never reduce the required role set.
 
@@ -294,13 +299,13 @@ only that the publisher repository exists; it grants no download, load,
 inference, tool, review, or promotion authority. Pin the revision, accept and
 record licensing, hash every artifact, keep it under `/workspace`, and issue
 separate capacity, calibration, runtime, quality, cost, and failure certificates.
-Only one heavy GPU role may be resident unless the exact pair of coordinator
-profiles has passed shared-capacity and cleanup qualification. The authorized
-singleton 2xA40 watcher is active, but no migration candidate or authority
-switch is verified. All required Qwen, InternVL, Omni, Coder, generation, QA,
-and MaskFactory packages target `/workspace` on the current production pod and
-execute sequentially through the shared coordinator until verified migration
-completion.
+Only one heavy GPU role may be resident unless direct capacity and cleanup
+qualification proves the exact shared profiles safe. The historical singleton
+2xA40 watcher is paused. User-started pod `7oehmw538jykh1` is receiving a manual
+copy into pod-local storage but is not authoritative. All required Qwen,
+InternVL, Omni, Coder, generation, QA, and MaskFactory packages continue to
+target `/workspace` on `1q4ji0gg1fkhvt` and execute sequentially after direct
+per-session preflight until verified migration completion.
 
 For the admitted Qwen3-ASR package, use only revision
 `7278e1e70fe206f11671096ffdd38061171dd6e5` and the exact twelve-file install
@@ -487,16 +492,18 @@ billing are independently verified. The current pod reported
 weights leave no safe runtime headroom. Installation and execution therefore
 require a separately admitted reproducible current-pod quantized/offloaded
 artifact. This runtime constraint must not block other current-pod lanes.
-# Authorized guarded 2xA40 watcher (2026-07-22)
+# Manual 2xA40 transfer hold (2026-07-23)
 
-One migration watcher is active:
-`runpod-us-wa-1-2xa40-guarded-migration-watcher`. Do not create or run another
-watcher and do not initiate migration from project tooling. Continue all work
-against pod `1q4ji0gg1fkhvt` with the shared capacity coordinator. Change the
-authoritative pod only after verified migration-complete evidence binds the
-exact candidate, volume `o9qv2ld91c`, 100 GB disk, dual-A40 telemetry,
-coordinator rollback checks, and safe old-pod stop. The watcher has no AWS or
-pod-termination authority.
+The historical automation
+`runpod-us-wa-1-2xa40-guarded-migration-watcher` is paused and did not perform
+this migration. The user started pod `7oehmw538jykh1` as a 2xA40 target with a
+100 GB container disk and 1.15 TB pod-local `/workspace`; the API reports no
+network volume. Its copy from `1q4ji0gg1fkhvt` is still in progress, so the
+A6000 pod remains authoritative and the user explicitly authorized continued
+work there. Do not run project workloads on the 2xA40 target until source and
+destination manifests match, dual-GPU and service smokes pass, storage and
+required roots are verified, cleanup/rollback is proven, and Codex accepts the
+migration-complete receipt. Do not reactivate the watcher or access AWS.
 
 # Qwen3.6 controller FP8 storage state (2026-07-22)
 
@@ -511,25 +518,18 @@ the standard receipt digest is
 All 56 primary files and 37,493,015,668 bytes pass exact identity replay with no
 extra primary file or symlink. The standard receipt is control metadata.
 
-The metadata-only preflight subsequently verified the four admitted JSON files
-and found `qwen3_5_moe` support in Transformers 5.2.0. A diagnostic import-only
-canary resolved both required classes without opening weights or touching GPU,
-but the candidate Omni environment's current tree hash was `67890cf5...`, not
-its recorded `2ae77089...` identity. Reuse is therefore rejected and the import
-receipt grants no authority. Resolve and build a fresh lock-addressed controller
-environment before a new import-only canary. Do not open safetensors, construct
-tensors, load the model, request GPU capacity, start a service, run inference,
-grant tool access, or activate the controller until the fresh dependency and
-import gates pass; GPU phases additionally require a fresh exact coordinator
-lease.
-
-The fresh controller environment admission and atomic builder are prepared, but
-three CPU-only build attempts were rolled back before publication because wheel
-extraction exceeded the network-volume project quota. The target, staging, and
-receipt remain absent. Reflink cloning is unsupported; hardlink cloning and
-mutating the accepted Omni tree are forbidden because they do not provide
-independent immutable bytes. Replay only after authorized storage capacity is
-available, and work another CPU-safe qualification lane in the meantime.
+The metadata-only preflight verified the four admitted JSON files and
+`qwen3_5_moe` support in Transformers 5.2.0. Reuse of the drifted Omni
+environment remains rejected. A fresh independent Python 3.12.13 environment
+was subsequently installed at the exact Qwen3.6 lock path with 75 distributions,
+23,097 files, 5,749,105,831 bytes, and tree digest
+`fe58969cd945b1088f74b3cc9b9a15527d9b7031ed88afd39c4791b848fa7159`.
+An offline CUDA-hidden import-only canary resolved `Qwen3_5MoeConfig` and
+`Qwen3_5MoeForConditionalGeneration` without opening weights, constructing a
+model, allocating tensors, polling GPU, or running inference. These are
+dependency and import gates only. Capacity, model-load, lifecycle, calibration,
+quality, failure-injection, integrated-role, tool, and product authority remain
+false and require direct per-session preflight before GPU execution.
 
 ## Autonomous campaign operation
 
@@ -538,13 +538,12 @@ The local evidence compiler is qualified only under certificate `a6880459...`: c
 1. Admit one immutable campaign contract and verify every sealed child path, byte hash, embedded ID, repository identity, input, prompt, model, runtime, environment, policy, threshold, and manifest hash.
 2. Select `DEVELOPMENT_CAMPAIGN` or `MULTIMODAL_MEDIA_CAMPAIGN`; never mix mutable profile semantics into an admitted contract.
 3. Freeze the DAG, budgets, retry/repair limits, risk tiers, sampling seed/strata, expected outputs, authority prohibitions, and cleanup plan.
-4. Run CPU phases without a lease. Before every GPU-affecting phase, acquire and validate a separate shared-coordinator campaign lease; serialize GPU work and release with the exact outcome.
-5. Treat `QUEUED` as a non-lease. The request callback must retain the one-time
-   token only long enough to cancel that exact queued request before returning
-   control to the executor. A failed cancel raises and blocks the GPU phase; it
-   must never fall through to release, polling, token recovery, or a competing
-   request. A `GRANTED` lease is validated before each GPU-affecting phase and
-   released with its exact terminal outcome.
+4. Run CPU phases without GPU admission. Before every GPU-affecting phase,
+   perform and retain the direct pod/process/queue/memory/residency/storage/
+   workload/cleanup preflight. Serialize GPU work unless exact shared-capacity
+   qualification exists. The RunPod-local scheduler owns internal claims,
+   heartbeats, model residency, checkpoints, and cleanup; it may never infer
+   authority from a Windows-local coordinator or override a foreign process.
 5. Batch ready work by environment, checkpoint, modality, resolution, capacity, and residency group. Continue dependency-independent CPU branches after failure; never treat a failed prerequisite as satisfied.
 6. Execute the internal closed loop through implementation/generation, deterministic QA, primary review, independent juror, arbiter when required, defect taxonomy, targeted repair, regression QA, re-review, and terminalization. Do not interrupt Codex for ordinary internal progress.
 7. Repair only defective artifacts, frames, spans, stems, nodes, tests, or code regions. Bind recipe versions, detect no progress, bound champion/challenger selection, roll back to the last accepted checkpoint, and never weaken thresholds.

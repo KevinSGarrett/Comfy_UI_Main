@@ -21,18 +21,36 @@
         "current_pod_only": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["pod_id", "gpu", "physical_vram_mib", "shared_coordinator_required", "sequential_residency_required", "cpu_nvme_offload_allowed", "alternative_hardware_watcher", "alternative_pod_creation", "authorized_watcher_candidate_creation", "authorized_watcher_id", "current_pod_authoritative_until_verified_migration_complete", "external_inference"],
+          "required": ["pod_id", "gpu", "physical_vram_mib", "runtime_admission_mode", "windows_local_coordinator_required", "sequential_residency_required", "cpu_nvme_offload_allowed", "alternative_hardware_watcher", "alternative_hardware_watcher_state", "alternative_pod_creation", "authorized_watcher_candidate_creation", "authorized_watcher_id", "watcher_performed_current_migration", "manual_migration_target", "current_pod_authoritative_until_verified_migration_complete", "external_inference"],
           "properties": {
             "pod_id": {"const": "1q4ji0gg1fkhvt"},
             "gpu": {"const": "NVIDIA RTX 6000 Ada Generation"},
             "physical_vram_mib": {"const": 49140},
-            "shared_coordinator_required": {"const": true},
+            "runtime_admission_mode": {"const": "DIRECT_PER_SESSION_PREFLIGHT"},
+            "windows_local_coordinator_required": {"const": false},
             "sequential_residency_required": {"const": true},
             "cpu_nvme_offload_allowed": {"const": true},
-            "alternative_hardware_watcher": {"const": true},
-            "alternative_pod_creation": {"const": false},
-            "authorized_watcher_candidate_creation": {"const": true},
+            "alternative_hardware_watcher": {"const": false},
+            "alternative_hardware_watcher_state": {"const": "PAUSED_HISTORICAL"},
+            "alternative_pod_creation": {"const": true},
+            "authorized_watcher_candidate_creation": {"const": false},
             "authorized_watcher_id": {"const": "runpod-us-wa-1-2xa40-guarded-migration-watcher"},
+            "watcher_performed_current_migration": {"const": false},
+            "manual_migration_target": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["pod_id", "user_asserted_gpu", "control_plane_gpu_count", "container_disk_gb", "workspace_storage_gb", "workspace_storage_class", "network_volume_id", "state"],
+              "properties": {
+                "pod_id": {"const": "7oehmw538jykh1"},
+                "user_asserted_gpu": {"const": "2x NVIDIA A40"},
+                "control_plane_gpu_count": {"const": 2},
+                "container_disk_gb": {"const": 100},
+                "workspace_storage_gb": {"const": 1150},
+                "workspace_storage_class": {"const": "POD_LOCAL_VOLUME"},
+                "network_volume_id": {"type": "null"},
+                "state": {"const": "RUNNING_TRANSFER_INCOMPLETE_NOT_AUTHORITATIVE"}
+              }
+            },
             "current_pod_authoritative_until_verified_migration_complete": {"const": true},
             "external_inference": {"const": false}
           }

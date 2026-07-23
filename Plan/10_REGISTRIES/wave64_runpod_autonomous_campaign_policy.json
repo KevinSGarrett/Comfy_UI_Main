@@ -1,5 +1,5 @@
 {
-  "schema_version": "wave64.aqa.campaign_policy.v1",
+  "schema_version": "wave64.aqa.campaign_policy.v2",
   "policy_id": "W64-AQA-TOOL-POLICY-002",
   "status": "DURABLE_MISSION_CPU_SHADOW_PASS_RUNTIME_UNQUALIFIED",
   "mission_control": {
@@ -24,9 +24,17 @@
   "profiles": ["DEVELOPMENT_CAMPAIGN", "MULTIMODAL_MEDIA_CAMPAIGN"],
   "closed_loop_stages": ["GENERATE_OR_IMPLEMENT", "DETERMINISTIC_QA", "PRIMARY_REVIEW", "INDEPENDENT_FAMILY_JUROR", "CONSENSUS_OR_ARBITER", "DEFECT_TAXONOMY", "TARGETED_REPAIR", "REGRESSION_QA", "RE_REVIEW", "TERMINALIZE"],
   "ordinary_internal_events_do_not_escalate": ["RETRY", "REPAIR", "MODEL_RELOAD", "CHILD_TERMINALIZATION"],
-  "escalation_conditions": ["AUTHORITY_CHANGE", "SCOPE_CHANGE", "UNKNOWN_CREDENTIAL_OR_LICENSE", "BUDGET_EXHAUSTED", "FOREIGN_LEASE_CONFLICT", "DESTRUCTIVE_ACTION", "FINAL_SEALED_ACCEPTANCE"],
-  "gpu_phases_require_shared_coordinator_lease": true,
-  "cpu_phases_require_lease": false,
+  "escalation_conditions": ["AUTHORITY_CHANGE", "SCOPE_CHANGE", "UNKNOWN_CREDENTIAL_OR_LICENSE", "BUDGET_EXHAUSTED", "FOREIGN_PROCESS_CONFLICT", "DESTRUCTIVE_ACTION", "FINAL_SEALED_ACCEPTANCE"],
+  "runtime_admission": {
+    "mode": "DIRECT_PER_SESSION_PREFLIGHT",
+    "windows_local_coordinator_required": false,
+    "cross_pod_admission_required": false,
+    "cpu_phases_require_admission": false,
+    "gpu_phases_require_direct_preflight": true,
+    "required_gpu_preflight": ["POD_IDENTITY", "GPU_TYPE_AND_MEMORY", "GPU_PROCESS_OWNERSHIP", "COMFYUI_QUEUE_AND_SERVICE_STATE", "FREE_VRAM_AND_HOST_MEMORY", "MODEL_RESIDENCY", "STORAGE_RESERVE", "WORKLOAD_IDENTITY", "CLEANUP_AND_ROLLBACK"],
+    "runpod_local_scheduler_required": true,
+    "foreign_process_override_forbidden": true
+  },
   "allowed_tools": [
     "HASH_FILE",
     "READ_CAMPAIGN_INPUT",

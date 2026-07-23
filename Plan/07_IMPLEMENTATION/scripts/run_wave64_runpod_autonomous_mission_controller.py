@@ -433,8 +433,36 @@ class MissionQueue:
     def recover_stale(
         self, mission_id: str, *, stale_before: str, at: str
     ) -> dict[str, Any]:
+        """Retired compatibility entry point.
+
+        A missed local heartbeat must never reclaim or requeue work that may be
+        running on a separately selected RunPod.  Completion/release is now an
+        explicit action by that session.
+        """
         self._require_mission_id(mission_id)
         _timestamp(stale_before)
+        # Verify that the requested mission exists but intentionally preserve
+        # its owner/state.  ``stale_before`` is retained only for CLI backward
+        # compatibility and has no scheduling effect.
+        self.status(mission_id)
+        return self.status(mission_id)
+
+    def recover_confirmed_crash(
+        self,
+        mission_id: str,
+        worker_id: str,
+        *,
+        at: str,
+    ) -> dict[str, Any]:
+        """Requeue an exact checkpointed mission after its owner confirms a crash.
+
+        This is deliberately not a timeout or cross-session reclaim. The exact
+        current owner must identify itself, a durable checkpoint must exist, and
+        the recovery event records that no in-flight child is assumed complete.
+        """
+        self._require_mission_id(mission_id)
+        self._require_worker(worker_id)
+        _timestamp(at)
         with self._connect() as connection:
             connection.execute("BEGIN IMMEDIATE")
             row = connection.execute(
@@ -442,22 +470,26 @@ class MissionQueue:
             ).fetchone()
             if row is None:
                 raise MissionError("mission not found")
-            if row["state"] != "RUNNING" or row["heartbeat_at"] is None:
-                raise MissionError("mission is not stale")
-            heartbeat = datetime.fromisoformat(row["heartbeat_at"].replace("Z", "+00:00"))
-            cutoff = datetime.fromisoformat(stale_before.replace("Z", "+00:00"))
-            if heartbeat >= cutoff:
-                raise MissionError("mission is not stale")
+            if row["state"] != "RUNNING" or row["worker_id"] != worker_id:
+                raise MissionError("confirmed crash ownership mismatch")
+            if row["checkpoint_sha256"] is None:
+                raise MissionError("confirmed crash requires a durable checkpoint")
             count, head = self._append(
                 connection,
                 row,
                 "MISSION_RECOVERED",
                 "QUEUED",
                 at,
-                {"previous_worker_id": row["worker_id"], "in_flight_assumed_complete": False},
+                {
+                    "previous_worker_id": worker_id,
+                    "checkpoint_sha256": row["checkpoint_sha256"],
+                    "recovery_reason": "OWNER_CONFIRMED_CRASH",
+                    "in_flight_assumed_complete": False,
+                },
             )
             connection.execute(
-                "UPDATE missions SET state='QUEUED',worker_id=NULL,heartbeat_at=NULL,event_count=?,journal_head_sha256=? WHERE mission_id=?",
+                "UPDATE missions SET state='QUEUED',worker_id=NULL,heartbeat_at=NULL,"
+                "event_count=?,journal_head_sha256=? WHERE mission_id=?",
                 (count, head, mission_id),
             )
             connection.commit()

@@ -2,9 +2,12 @@
 
 RunPod pod `1q4ji0gg1fkhvt` is the sole active production runtime and storage
 platform. CPU-only local package, license, schema, workflow, and evidence work
-does not need a lease. Every GPU-affecting action requires the shared capacity
-coordinator. If admission is unavailable, switch to another local or current-
-RunPod-safe dependency lane; never fall back to AWS, S3, or EC2. Historical
+does not need GPU admission. Every GPU-affecting action requires a direct
+per-session preflight of pod identity, GPU/process ownership, queue/services,
+memory, residency, storage, workload identity, cleanup, and rollback. A
+Windows-local coordinator or lease token is not a prerequisite. If the GPU is
+unavailable, switch to another local or current-RunPod-safe dependency lane;
+never fall back to AWS, S3, or EC2. Historical
 cloud receipts remain immutable audit evidence and W64-AQA-012 is not on the
 production critical path.
 
@@ -184,18 +187,19 @@ model load, workflow execution, quality, activation, or promotion.
 `W64-AQA-PKG-QWEN3VL4` has exact official-manifest identity and accepted
 Apache-2.0 project-use licensing. Treat the manifest digest as the immutable
 runtime identity. Do not infer operational or quality authority. Keep the
-fast-triage campaign in queue sequence 5 and require fresh shared-coordinator
-admission, exact model/prompt identity, calibration and held-out partitions,
+fast-triage campaign in queue sequence 5. Retain prior shared-coordinator
+admission evidence only as historical lineage. Runtime now requires direct
+per-session preflight, exact model/prompt identity, calibration and held-out partitions,
 refusal checks, cleanup proof, and Codex acceptance before activation.
-# Guarded migration watcher coexistence (2026-07-22)
+# Manual 2xA40 transfer coexistence (2026-07-23)
 
-Qualification campaigns continue on pod `1q4ji0gg1fkhvt` under the shared
-coordinator. The singleton watcher
-`runpod-us-wa-1-2xa40-guarded-migration-watcher` may observe and qualify only
-its exact US-WA-1 Secure Cloud 2xA40 migration target. It grants no campaign
-lease, creates no product authority, and does not change the active pod until
-verified migration-complete evidence is accepted. Never start a competing
-watcher or an independent migration.
+Qualification campaigns continue on authoritative pod `1q4ji0gg1fkhvt` after
+direct per-session preflight. User-started pod `7oehmw538jykh1` is receiving a
+manual copy into its 1.15 TB pod-local `/workspace`; transfer is incomplete and
+it is not admitted for project workloads. The historical
+`runpod-us-wa-1-2xa40-guarded-migration-watcher` is paused and did not perform
+this migration. Preserve its evidence, do not reactivate or duplicate it, and
+switch authority only after the exact migration-completion gates pass.
 
 # FLUX.2 Klein current-pod reconciliation gate (2026-07-22)
 
@@ -247,6 +251,6 @@ unload cleanup. A passing certificate must be
 
 ## Campaign executor rollout lane
 
-W64-AQA-019 is the CPU-safe orchestration and evidence-compaction lane for the sole production RunPod architecture. Its static schemas, journal, CAS/Merkle, result seal, policy, role families, coordinator adapter contract, renderer, proposed-delta compiler, and exact 18-task CPU shadow require no GPU lease. They grant no model, media, workflow, reviewer, golden-mask, runtime, or product authority.
+W64-AQA-019 is the CPU-safe orchestration and evidence-compaction lane for the sole production RunPod architecture. Its static schemas, journal, CAS/Merkle, result seal, policy, role families, historical coordinator adapter contract, renderer, proposed-delta compiler, and exact 18-task CPU shadow require no GPU admission. They grant no model, media, workflow, reviewer, golden-mask, runtime, or product authority.
 
-The role registry remains `BLOCKED_UNQUALIFIED`. After static and crash/restart replay acceptance, a 5–10-artifact isolated image/short-video/audio shadow may run only when its exact generator, deterministic QA, primary reviewer, independent juror, arbiter, audio/Omni, repair, and evidence roles are independently qualified. Each GPU phase requires a fresh valid shared-coordinator lease; CPU-only work does not. A passing small multimodal shadow permits only a 25–100-artifact qualification expansion, not production promotion or long-duration operation.
+The role registry remains `BLOCKED_UNQUALIFIED`. After static and crash/restart replay acceptance, a 5–10-artifact isolated image/short-video/audio shadow may run only when its exact generator, deterministic QA, primary reviewer, independent juror, arbiter, audio/Omni, repair, and evidence roles are independently qualified. Each GPU phase requires a fresh direct per-session preflight; CPU-only work does not. A passing small multimodal shadow permits only a 25–100-artifact qualification expansion, not production promotion or long-duration operation.

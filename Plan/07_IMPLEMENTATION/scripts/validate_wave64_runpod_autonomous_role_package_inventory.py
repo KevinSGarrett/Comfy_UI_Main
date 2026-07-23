@@ -59,13 +59,26 @@ def validate(data: dict) -> list[str]:
         "pod_id": "1q4ji0gg1fkhvt",
         "gpu": "NVIDIA RTX 6000 Ada Generation",
         "physical_vram_mib": 49140,
-        "shared_coordinator_required": True,
+        "runtime_admission_mode": "DIRECT_PER_SESSION_PREFLIGHT",
+        "windows_local_coordinator_required": False,
         "sequential_residency_required": True,
         "cpu_nvme_offload_allowed": True,
-        "alternative_hardware_watcher": True,
-        "alternative_pod_creation": False,
-        "authorized_watcher_candidate_creation": True,
+        "alternative_hardware_watcher": False,
+        "alternative_hardware_watcher_state": "PAUSED_HISTORICAL",
+        "alternative_pod_creation": True,
+        "authorized_watcher_candidate_creation": False,
         "authorized_watcher_id": "runpod-us-wa-1-2xa40-guarded-migration-watcher",
+        "watcher_performed_current_migration": False,
+        "manual_migration_target": {
+            "pod_id": "7oehmw538jykh1",
+            "user_asserted_gpu": "2x NVIDIA A40",
+            "control_plane_gpu_count": 2,
+            "container_disk_gb": 100,
+            "workspace_storage_gb": 1150,
+            "workspace_storage_class": "POD_LOCAL_VOLUME",
+            "network_volume_id": None,
+            "state": "RUNNING_TRANSFER_INCOMPLETE_NOT_AUTHORITATIVE",
+        },
         "current_pod_authoritative_until_verified_migration_complete": True,
         "external_inference": False,
     }
@@ -570,15 +583,13 @@ def validate(data: dict) -> list[str]:
                     if environment != expected_environment:
                         errors.append(f"{item.get('package_id')}: provisional InternVL dependency environment mismatch")
                     expected_import_canary = {
-                        "state": "EXACT_ADMISSION_READY_EXECUTION_HELD_BY_FOREIGN_COORDINATOR_RECOVERY",
+                        "state": "EXACT_ADMISSION_READY_DIRECT_PREFLIGHT_REQUIRED",
                         "admission": "Plan/10_REGISTRIES/wave64_internvl35_8b_import_canary_admission.json",
                         "admission_sha256": "2f723b1b9341087553fb3abe44c83060248aa8316f065997371d54d93589f191",
                         "lock_sha256": "02e6f2566da9e5ab2002ac15d456c32e8770f72102c21b9b8f6b9eef413c55d9",
                         "runner_sha256": "d567bafa96710cd6824d6fa05884b8fe68cacb3295f13170815ae69a3fc3cf82",
-                        "coordinator_mode": "RECOVERY_REQUIRED",
-                        "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22",
+                        "historical_coordinator_hold_evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_IMPORT_CANARY_ADMISSION_20260722T124343Z/integration_acceptance.json",
                         "executed": False,
-                        "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_IMPORT_CANARY_ADMISSION_20260722T124343Z/integration_acceptance.json",
                     }
                     if item.get("import_canary") != expected_import_canary:
                         errors.append(f"{item.get('package_id')}: provisional InternVL import admission mismatch")

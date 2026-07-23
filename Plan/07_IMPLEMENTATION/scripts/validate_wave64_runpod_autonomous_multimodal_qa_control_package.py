@@ -931,12 +931,19 @@ def collect_errors() -> list[str]:
     if (
         inventory_current_pod.get("pod_id") != "1q4ji0gg1fkhvt"
         or inventory_current_pod.get("physical_vram_mib") != 49140
-        or inventory_current_pod.get("shared_coordinator_required") is not True
+        or inventory_current_pod.get("runtime_admission_mode") != "DIRECT_PER_SESSION_PREFLIGHT"
+        or inventory_current_pod.get("windows_local_coordinator_required") is not False
         or inventory_current_pod.get("sequential_residency_required") is not True
-        or inventory_current_pod.get("alternative_hardware_watcher") is not True
-        or inventory_current_pod.get("alternative_pod_creation") is not False
-        or inventory_current_pod.get("authorized_watcher_candidate_creation") is not True
+        or inventory_current_pod.get("alternative_hardware_watcher") is not False
+        or inventory_current_pod.get("alternative_hardware_watcher_state") != "PAUSED_HISTORICAL"
+        or inventory_current_pod.get("alternative_pod_creation") is not True
+        or inventory_current_pod.get("authorized_watcher_candidate_creation") is not False
         or inventory_current_pod.get("authorized_watcher_id") != "runpod-us-wa-1-2xa40-guarded-migration-watcher"
+        or inventory_current_pod.get("watcher_performed_current_migration") is not False
+        or inventory_current_pod.get("manual_migration_target", {}).get("pod_id") != "7oehmw538jykh1"
+        or inventory_current_pod.get("manual_migration_target", {}).get("state")
+        != "RUNNING_TRANSFER_INCOMPLETE_NOT_AUTHORITATIVE"
+        or inventory_current_pod.get("manual_migration_target", {}).get("network_volume_id") is not None
         or inventory_current_pod.get("current_pod_authoritative_until_verified_migration_complete") is not True
         or inventory_current_pod.get("external_inference") is not False
     ):

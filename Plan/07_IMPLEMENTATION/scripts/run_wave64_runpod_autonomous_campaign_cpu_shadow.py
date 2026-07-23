@@ -301,9 +301,9 @@ def execute(output: Path) -> dict[str, Any]:
             crash_cursor,
             at="2026-07-23T00:03:00Z",
         )
-        queue.recover_stale(
+        queue.recover_confirmed_crash(
             mission_id,
-            stale_before="2026-07-23T00:03:01Z",
+            "shadow-worker-a",
             at="2026-07-23T00:04:00Z",
         )
         queue.claim(mission_id, "shadow-worker-b", at="2026-07-23T00:05:00Z")

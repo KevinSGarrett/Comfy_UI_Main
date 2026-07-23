@@ -1,7 +1,7 @@
 {
   "schema_version": "wave64.aqa.role_package_inventory.v1",
   "program_id": "W64-AQA",
-  "observed_at_utc": "2026-07-22T19:28:00Z",
+  "observed_at_utc": "2026-07-23T07:46:03Z",
   "scope": "REPOSITORY_BACKED_STATIC_AND_SCOPED_RUNTIME_EVIDENCE",
   "runtime_policy": {
     "current_pod_remains_authoritative": true,
@@ -11,13 +11,26 @@
       "pod_id": "1q4ji0gg1fkhvt",
       "gpu": "NVIDIA RTX 6000 Ada Generation",
       "physical_vram_mib": 49140,
-      "shared_coordinator_required": true,
+      "runtime_admission_mode": "DIRECT_PER_SESSION_PREFLIGHT",
+      "windows_local_coordinator_required": false,
       "sequential_residency_required": true,
       "cpu_nvme_offload_allowed": true,
-      "alternative_hardware_watcher": true,
-      "alternative_pod_creation": false,
-      "authorized_watcher_candidate_creation": true,
+      "alternative_hardware_watcher": false,
+      "alternative_hardware_watcher_state": "PAUSED_HISTORICAL",
+      "alternative_pod_creation": true,
+      "authorized_watcher_candidate_creation": false,
       "authorized_watcher_id": "runpod-us-wa-1-2xa40-guarded-migration-watcher",
+      "watcher_performed_current_migration": false,
+      "manual_migration_target": {
+        "pod_id": "7oehmw538jykh1",
+        "user_asserted_gpu": "2x NVIDIA A40",
+        "control_plane_gpu_count": 2,
+        "container_disk_gb": 100,
+        "workspace_storage_gb": 1150,
+        "workspace_storage_class": "POD_LOCAL_VOLUME",
+        "network_volume_id": null,
+        "state": "RUNNING_TRANSFER_INCOMPLETE_NOT_AUTHORITATIVE"
+      },
       "current_pod_authoritative_until_verified_migration_complete": true,
       "external_inference": false
     }
@@ -96,9 +109,9 @@
       "installation_receipt": {"remote_path": "/workspace/w64_aqa/models/controller/Qwen3.6-35B-A3B-FP8/95a723d08a9490559dae23d0cff1d9466213d989/.w64_aqa_install_receipt.json", "sha256": "d7876c0985235681ba82a551cc4f9192ff4e0d37f76822c95a0b32bcf91bd2da", "file_count": 56, "total_bytes": 37493015668, "replay": "ADOPTED_EXACT_VERIFIED_EXISTING_INSTALL"},
       "storage_audit": {"state": "EXACT_PRIMARY_FILE_SET_AND_IDENTITIES_PASS", "sha256": "b592f0a3fd7df03aa04fa6bd7387a4c4e4b5a60576412427ce914b6126c3caf5", "matching_files": 56, "mismatches": 0, "extra_primary_files": 0, "control_files": [".w64_aqa_install_receipt.json"]},
       "dependency_preflight": {"state": "COMPATIBLE_WITH_CANDIDATE_LOCK_METADATA_ONLY", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_DEPENDENCY_PREFLIGHT_20260722T230000Z/integration_acceptance.json", "receipt_sha256": "b2be4415340a2ce358ccb231d42377455486626148e445133bc4880075dfa902", "candidate_lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c"},
-      "dependency_environment": {"state": "CANDIDATE_REUSE_REJECTED_TREE_IDENTITY_DRIFT_NEW_LOCK_REQUIRED", "root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_IMPORT_CANARY_20260722T231000Z/integration_acceptance.json", "candidate_root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "candidate_lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "expected_tree_sha256": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5", "observed_tree_sha256": "67890cf56d9f405b21ad87310cdb88327619d131590dc648fd7536782c08ce2b", "decision": "Plan/10_REGISTRIES/wave64_qwen36_controller_environment_reuse_decision.json"},
-      "fresh_environment_build": {"state": "ADMITTED_STORAGE_QUOTA_HELD", "admission": "Plan/10_REGISTRIES/wave64_qwen36_controller_python_environment_admission.json", "admission_sha256": "3d9fb161f2801d82e14ace86641501443b804e9a476ccc9b76182825e3058f2f", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_ENVIRONMENT_BUILD_HOLD_20260722T231534Z/integration_acceptance.json", "target_published": false, "rollback_verified": true},
-      "qualification": {"state": "STORAGE_AND_METADATA_PREFLIGHT_PASS_FRESH_DEPENDENCY_ENVIRONMENT_REQUIRED", "required_gates": ["dependency_environment", "capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
+      "dependency_environment": {"state": "FRESH_IMMUTABLE_ENVIRONMENT_INSTALLED_IMPORT_ONLY_CLASS_RESOLUTION_PASS_RUNTIME_PENDING", "root": "/workspace/w64_aqa/environments/Qwen3.6-35B-A3B-FP8/transformers-5.2.0-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "tree_sha256": "fe58969cd945b1088f74b3cc9b9a15527d9b7031ed88afd39c4791b848fa7159", "build_receipt_sha256": "7b1dc16ed75c61dff04d82879d4eacae35e1d41c6a89b30cf86c91cfc625c586", "import_receipt_sha256": "9ca944170bdad3ca22013125f50a809490504f8efa0842232212347fbdfade37", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_FRESH_ENVIRONMENT_IMPORT_20260723T072606Z/integration_acceptance.json", "prior_reuse_decision": "Plan/10_REGISTRIES/wave64_qwen36_controller_environment_reuse_decision.json"},
+      "fresh_environment_build": {"state": "INSTALLED_METADATA_VERIFIED_IMPORT_ONLY_PASS_RUNTIME_PENDING", "admission": "Plan/10_REGISTRIES/wave64_qwen36_controller_python_environment_admission.json", "admission_sha256": "3d9fb161f2801d82e14ace86641501443b804e9a476ccc9b76182825e3058f2f", "evidence": "Plan/Tracker/Evidence/W64_AQA_QWEN36_CONTROLLER_FRESH_ENVIRONMENT_IMPORT_20260723T072606Z/integration_acceptance.json", "target_published": true, "rollback_verified": true},
+      "qualification": {"state": "STORAGE_METADATA_DEPENDENCY_ENVIRONMENT_AND_IMPORT_PASS_RUNTIME_CAPACITY_QUALITY_PENDING", "required_gates": ["capacity", "calibration", "runtime", "latency", "quality", "cost", "failure_injection"]},
       "authority": {"operational": false, "allowed_scope": "none until certificate", "forbidden": ["download_without_receipt", "load", "inference", "tool_authorization", "promotion"]}
     },
     {
@@ -118,7 +131,7 @@
       "static_code_review": {"state": "AST_AND_MANUAL_SEMANTIC_REVIEW_PASS_WITH_FAIL_CLOSED_QUALITY_GATES", "custom_code_files": ["configuration_intern_vit.py", "configuration_internvl_chat.py", "conversation.py", "modeling_intern_vit.py", "modeling_internvl_chat.py"], "reviewer_script_sha256": "2b4fa339162decd1a88ff5b47d7819dfe685410e60144c655666ad128e19c3da", "remote_receipt": "/workspace/wave64_evidence/internvl35_8b_custom_code_ast_review_20260722T122600Z.json", "remote_receipt_sha256": "fef7ea03da4388acfb38b5d999d03396b0b53c9635978a669e05af92b462bd83", "risk_findings": [], "top_level_effects": ["four local conversation-template registrations", "four Transformers logger initializations", "optional flash_attn import try block", "optional apex import try block"], "quality_findings": ["FLASH_ATTN_IMPORT_CATCHES_BROAD_EXCEPTION", "TOKEN_COUNT_MISMATCH_FALLBACK_USES_CHAINED_ADVANCED_INDEX_ASSIGNMENT"], "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_CODE_DEPENDENCY_PREFLIGHT_20260722T121807Z/integration_acceptance.json"},
       "dependency_preflight": {"state": "BASE_ENVIRONMENT_INCOMPATIBLE_VERIFIED_OMNI_ENVIRONMENT_REUSE_CANDIDATE_NEEDS_TWO_ADDONS", "base_environment": {"python": "3.11", "torch": "2.4.1+cu124", "transformers": "4.46.3", "timm": "1.0.28", "einops": "0.8.2", "accelerate": null, "flash_attn": null, "apex": null, "gaps": ["TRANSFORMERS_4_46_3_LACKS_QWEN3", "ACCELERATE_MISSING"]}, "reuse_candidate": {"root": "/workspace/w64_aqa/environments/Qwen3-Omni-30B-A3B-Thinking/transformers-5.2.0-qwen-omni-utils-0.0.9-py3.12.13-cu124/a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "lock_sha256": "a19d160721dfb74cf89bc70eebec10f45b2e6f58b7a109726d658db7d361277c", "tree_sha256": "2ae7708993cab848861688ae1b89a2233d61fa02b49e1c14bf51b188a2dd59c5", "python": "3.12.13", "torch": "2.4.1+cu124", "transformers": "5.2.0", "accelerate": "1.14.0", "qwen3_modeling_file_present": true, "system_site_packages": false, "missing_required_addons": ["timm", "einops"]}, "optional_accelerators_absent": ["flash_attn", "apex"], "import_attempted": false, "model_load_attempted": false, "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_CODE_DEPENDENCY_PREFLIGHT_20260722T121807Z/integration_acceptance.json"},
       "dependency_environment": {"state": "IMMUTABLE_LAYERED_ENVIRONMENT_BUILT_METADATA_CLOSURE_PASS_IMPORT_PENDING", "root": "/workspace/w64_aqa/environments/InternVL3_5-8B/transformers-5.2.0-timm-1.0.28-einops-0.8.2-py3.12.13-cu124/9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6", "lock_sha256": "9f7317aef1cf2beb0f67bc879b8d3676d542fb691dc61d337aff268474cda5a6", "admission_sha256": "5ef6117658e1555133e67bb5c536667676e02ef64d395530d2c535d087a071e4", "manifest_sha256": "429ecdddf96132ee46dc1b21d14d95d1ed6f83268a579a1e75db9291807e6ce7", "installed_tree_sha256": "1191178fb3f8ff148b7330767f8d0e1dd0f3418cfacd29d0f3ce19490f6895b7", "installed_file_count": 345, "installed_bytes": 9389082, "base_environment_mutated": false, "metadata_validation": {"state": "PASS_75_BASE_2_OVERLAY_5_REQUIREMENTS_ZERO_ERRORS", "receipt": "/workspace/wave64_evidence/internvl35_8b_layered_environment_metadata_20260722T123557Z.json", "receipt_sha256": "e3fbd176c84114f5360f46cf5986e2514682539414f47dc09638da75e9ddc711"}, "import_attempted": false, "model_load_attempted": false, "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_DEPENDENCY_OVERLAY_20260722T123557Z/integration_acceptance.json"},
-      "import_canary": {"state": "EXACT_ADMISSION_READY_EXECUTION_HELD_BY_FOREIGN_COORDINATOR_RECOVERY", "admission": "Plan/10_REGISTRIES/wave64_internvl35_8b_import_canary_admission.json", "admission_sha256": "2f723b1b9341087553fb3abe44c83060248aa8316f065997371d54d93589f191", "lock_sha256": "02e6f2566da9e5ab2002ac15d456c32e8770f72102c21b9b8f6b9eef413c55d9", "runner_sha256": "d567bafa96710cd6824d6fa05884b8fe68cacb3295f13170815ae69a3fc3cf82", "coordinator_mode": "RECOVERY_REQUIRED", "foreign_lease_id": "lease_f31c0165ee8f4c9bb31e5ef96ef87d22", "executed": false, "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_IMPORT_CANARY_ADMISSION_20260722T124343Z/integration_acceptance.json"},
+      "import_canary": {"state": "EXACT_ADMISSION_READY_DIRECT_PREFLIGHT_REQUIRED", "admission": "Plan/10_REGISTRIES/wave64_internvl35_8b_import_canary_admission.json", "admission_sha256": "2f723b1b9341087553fb3abe44c83060248aa8316f065997371d54d93589f191", "lock_sha256": "02e6f2566da9e5ab2002ac15d456c32e8770f72102c21b9b8f6b9eef413c55d9", "runner_sha256": "d567bafa96710cd6824d6fa05884b8fe68cacb3295f13170815ae69a3fc3cf82", "historical_coordinator_hold_evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_IMPORT_CANARY_ADMISSION_20260722T124343Z/integration_acceptance.json", "executed": false},
       "license_qualification": {"state": "PROJECT_USE_ACCEPTED_NOTICE_RETENTION_REQUIRED", "evidence": "Plan/Tracker/Evidence/W64_AQA_INTERNVL35_8B_LICENSE_RECONCILIATION_20260722T125200Z/integration_acceptance.json", "standalone_license_file_in_snapshot": false, "package_readme_sha256": "47383e9746907dbfabfcad9c786aab81e43586b5e4b0bb07ad893d8b58f3b1e9", "internvl_mit_license_sha256": "8f03d25fbcffafa2254d4d1414bf2a38423a966006b4a6964ee21f728d610bff", "fastchat_apache_2_0_license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"},
       "qualification": {"state": "EXACT_STORAGE_STATIC_CODE_LICENSE_AND_IMMUTABLE_ENVIRONMENT_PASS_IMPORT_CANARY_ADMITTED_EXECUTION_HELD_RUNTIME_GATES_PENDING", "required_gates": ["import_canary", "capacity", "calibration", "runtime", "latency", "quality", "repeatability", "refusal", "cleanup", "failure_injection"]},
       "authority": {"operational": false, "allowed_scope": "none until exact provisional certificate", "forbidden": ["unreviewed_trust_remote_code", "unleased_load", "inference", "independent_juror_substitution", "product_approval", "promotion"]}

@@ -174,7 +174,7 @@ def test_mission_identity_and_path_escape_fail_closed(tmp_path: Path) -> None:
         MISSION.compile_mission(draft, tmp_path)
 
 
-def test_claim_heartbeat_checkpoint_recover_and_reclaim(tmp_path: Path) -> None:
+def test_claim_heartbeat_checkpoint_and_no_time_based_reclaim(tmp_path: Path) -> None:
     _, mission, queue = fixture(tmp_path)
     mission_id = mission["mission_id"]
     queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")
@@ -191,22 +191,67 @@ def test_claim_heartbeat_checkpoint_recover_and_reclaim(tmp_path: Path) -> None:
         at="2026-07-23T00:03:00Z",
     )
     assert checkpoint["checkpoint_sha256"]
-    with pytest.raises(MISSION.MissionError, match="not stale"):
-        queue.recover_stale(
-            mission_id,
-            stale_before="2026-07-23T00:02:00Z",
-            at="2026-07-23T00:04:00Z",
-        )
-    recovered = queue.recover_stale(
+    retained = queue.recover_stale(
         mission_id,
         stale_before="2026-07-23T00:03:01Z",
         at="2026-07-23T00:05:00Z",
     )
-    assert recovered["state"] == "QUEUED"
-    assert recovered["in_flight_assumed_complete"] is False
-    reclaimed = queue.claim(mission_id, "worker-b", at="2026-07-23T00:06:00Z")
-    assert reclaimed["worker_id"] == "worker-b"
+    assert retained["state"] == "RUNNING"
+    assert retained["worker_id"] == "worker-a"
+    with pytest.raises(MISSION.MissionError, match="not claimable"):
+        queue.claim(mission_id, "worker-b", at="2026-07-23T00:06:00Z")
     queue.verify(mission_id)
+
+
+def test_owner_confirmed_crash_requeues_checkpoint_without_assumed_success(
+    tmp_path: Path,
+) -> None:
+    _, mission, queue = fixture(tmp_path)
+    mission_id = mission["mission_id"]
+    queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")
+    queue.claim(mission_id, "worker-a", at="2026-07-23T00:01:00Z")
+    queue.checkpoint(
+        mission_id,
+        "worker-a",
+        {"completed_nodes": [], "in_flight_nodes_assumed_complete": False},
+        at="2026-07-23T00:02:00Z",
+    )
+    recovered = queue.recover_confirmed_crash(
+        mission_id,
+        "worker-a",
+        at="2026-07-23T00:03:00Z",
+    )
+    assert recovered["state"] == "QUEUED"
+    assert recovered["worker_id"] is None
+    event = queue.journal(mission_id)[-1]
+    assert event["event_type"] == "MISSION_RECOVERED"
+    assert event["payload"]["recovery_reason"] == "OWNER_CONFIRMED_CRASH"
+    assert event["payload"]["in_flight_assumed_complete"] is False
+    queue.claim(mission_id, "worker-b", at="2026-07-23T00:04:00Z")
+    queue.verify(mission_id)
+
+
+def test_confirmed_crash_rejects_wrong_owner_and_missing_checkpoint(
+    tmp_path: Path,
+) -> None:
+    _, mission, queue = fixture(tmp_path)
+    mission_id = mission["mission_id"]
+    queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")
+    queue.claim(mission_id, "worker-a", at="2026-07-23T00:01:00Z")
+    with pytest.raises(MISSION.MissionError, match="ownership mismatch"):
+        queue.recover_confirmed_crash(
+            mission_id,
+            "worker-b",
+            at="2026-07-23T00:02:00Z",
+        )
+    with pytest.raises(MISSION.MissionError, match="durable checkpoint"):
+        queue.recover_confirmed_crash(
+            mission_id,
+            "worker-a",
+            at="2026-07-23T00:03:00Z",
+        )
+    assert queue.status(mission_id)["state"] == "RUNNING"
+    assert not (queue.root / "cas").exists()
 
 
 def test_journal_is_append_only_and_tamper_is_detected(tmp_path: Path) -> None:
@@ -336,15 +381,14 @@ def test_concurrent_recovery_before_terminal_recheck_does_not_write_cas(
         )
 
     monkeypatch.setattr(queue, "_verify_result_evidence", recover_during_validation)
-    with pytest.raises(MISSION.MissionError, match="ownership mismatch"):
-        queue.terminalize(
-            mission_id,
-            "worker-a",
-            result,
-            tmp_path / "execution",
-            at="2026-07-23T00:03:00Z",
-        )
-    assert not (queue.root / "cas").exists()
+    terminal = queue.terminalize(
+        mission_id,
+        "worker-a",
+        result,
+        tmp_path / "execution",
+        at="2026-07-23T00:03:00Z",
+    )
+    assert terminal["state"] == "TERMINAL"
 
 
 def test_status_conforms_to_schema(tmp_path: Path) -> None:
