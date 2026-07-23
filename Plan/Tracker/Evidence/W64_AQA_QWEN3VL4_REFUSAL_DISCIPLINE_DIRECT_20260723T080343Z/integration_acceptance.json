@@ -1,0 +1,58 @@
+{
+  "schema_version": "wave64.aqa.fast_triage_refusal.integration_acceptance.v1",
+  "evidence_id": "W64_AQA_QWEN3VL4_REFUSAL_DISCIPLINE_DIRECT_20260723T080343Z",
+  "reviewed_at_utc": "2026-07-23T08:07:00Z",
+  "raw_receipt": {
+    "path": "Plan/Tracker/Evidence/W64_AQA_QWEN3VL4_REFUSAL_DISCIPLINE_DIRECT_20260723T080343Z/runtime_receipt.json",
+    "sha256": "82a3252c21341b741ec75cedbb02979a706fdd3eb0710e58d3a428e8e7ab89e1",
+    "bytes": 9781,
+    "raw_disposition": "PASS_REFUSAL_DISCIPLINE_SCOPE_ONLY"
+  },
+  "adoption": "PARTIALLY_ADOPTED",
+  "accepted_scope": {
+    "refusal_outputs": 13,
+    "schema_valid_outputs": 13,
+    "calibration_cases": 4,
+    "held_out_cases": 5,
+    "calibration_repeatability": 1.0,
+    "refusal_correctness": 1.0,
+    "false_accepts": 0,
+    "ollama_postflight_loaded_models": 0,
+    "comfyui_postflight_queue_running": 0,
+    "comfyui_postflight_queue_pending": 0
+  },
+  "rejected_scope": {
+    "capacity_qualification": true,
+    "reason": "RAW_REPORT_MARKED_CAPACITY_PASS_DESPITE_PEAK_VRAM_GB_45_3555_EXCEEDING_MAX_VRAM_GB_8_AND_DID_NOT_RECORD_GPU_PROCESS_OWNERSHIP",
+    "raw_peak_vram_gb": 45.3555,
+    "raw_max_vram_gb": 8,
+    "operational_role_authority": false,
+    "product_authority": false
+  },
+  "direct_postflight_observation": {
+    "gpu": "NVIDIA RTX 6000 Ada Generation",
+    "gpu_used_mib": 7372,
+    "gpu_free_mib": 41269,
+    "gpu_utilization_percent": 0,
+    "ollama_loaded_models": 0,
+    "comfyui_queue_idle": true,
+    "rsync_process_count": 1,
+    "transfer_remained_active": true
+  },
+  "required_remediation": [
+    "RECORD_GPU_COMPUTE_PROCESS_IDENTITIES_IN_PREFLIGHT",
+    "BLOCK_UNKNOWN_OR_FOREIGN_GPU_PROCESS",
+    "MEASURE_PEAK_VRAM_AS_DELTA_FROM_PREFLIGHT_BASELINE",
+    "ENFORCE_CAPACITY_THRESHOLD_IN_TERMINAL_DISPOSITION",
+    "REPLAY_ONLY_AFTER_CHANGED_RUNNER_BYTES_AND_FRESH_ADMISSION"
+  ],
+  "authority": {
+    "refusal_behavior_evidence_retained": true,
+    "capacity_certificate_accepted": false,
+    "role_operational": false,
+    "general_visual_review": false,
+    "independent_juror": false,
+    "product_promotion": false,
+    "golden_mask": false
+  }
+}

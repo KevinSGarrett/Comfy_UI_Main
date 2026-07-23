@@ -43,6 +43,7 @@ def safe_probe(admission: dict) -> dict:
             "used_mib": 648,
             "free_mib": 47993,
             "utilization_percent": 0,
+            "processes": [],
         },
         "ollama_rss_mib": 100,
         "overlay_used_percent": 55,
@@ -107,6 +108,20 @@ def test_admission_is_hash_bound_and_excludes_unlicensed_llava() -> None:
     [
         ({"queue_pending": 1}, "COMFYUI_QUEUE_NOT_IDLE"),
         ({"loaded_models": ["foreign:model"]}, "UNOWNED_OLLAMA_RESIDENCY_PRESENT"),
+        (
+            {
+                "gpu": {
+                    "processes": [
+                        {
+                            "pid": 123,
+                            "process_name": "[Not Found]",
+                            "used_mib": 640,
+                        }
+                    ]
+                }
+            },
+            "FOREIGN_GPU_PROCESS_PRESENT",
+        ),
         ({"ollama_version": "drifted"}, "OLLAMA_RUNTIME_VERSION_DRIFT"),
         ({"overlay_used_percent": 85}, "OVERLAY_PRESSURE"),
         ({"gpu": {"free_mib": 4096}}, "INSUFFICIENT_FREE_VRAM"),
@@ -149,6 +164,11 @@ def test_calibration_twice_then_held_out_once_and_no_operational_authority() -> 
         result["qualification_report"]["authority_scope"]
         == "REFUSAL_DISCIPLINE_SCOPE_ONLY"
     )
+    assert result["qualification_report"]["capacity"]["passed"] is True
+    assert result["qualification_report"]["capacity"]["peak_vram_gb"] == pytest.approx(
+        (3500 - 648) / 1024,
+        abs=0.0001,
+    )
     assert result["authority"]["triage_crop_capability"] is False
 
 
@@ -166,6 +186,41 @@ def test_failed_calibration_keeps_held_out_sealed_and_unloads() -> None:
         fixture["partition"] == "calibration"
         for fixture in result["qualification_report"]["fixtures"]
     )
+
+
+def test_capacity_overrun_cannot_emit_passing_certificate() -> None:
+    module = load_module()
+    admission = module.load_admission(ADMISSION)
+    pre = safe_probe(admission)
+    calls = []
+
+    def remote(action: str, timeout_seconds: int, **kwargs):
+        calls.append(action)
+        if action == "probe":
+            return copy.deepcopy(pre)
+        if action == "infer":
+            return {
+                "elapsed_seconds": 1.0,
+                "response": json.dumps(
+                    {
+                        "decision": "REFUSE",
+                        "reason_code": kwargs["reason_code"],
+                    }
+                ),
+                "done": True,
+                "done_reason": "stop",
+                "gpu_after": {"used_mib": 12000},
+                "ollama_rss_mib": 500,
+            }
+        if action == "unload":
+            return {"done": True, "done_reason": "unload"}
+        raise AssertionError(action)
+
+    result = module.run_canary(admission, direct_execution(), remote=remote)
+    assert result["disposition"] == "FAIL_CAPACITY_THRESHOLD"
+    assert result["qualification_report"]["capacity"]["passed"] is False
+    assert result["qualification_report"]["capacity"]["peak_vram_gb"] > 8
+    assert calls[-2:] == ["unload", "probe"]
 
 
 def test_direct_execution_requires_project_and_profile_before_remote_action() -> None:

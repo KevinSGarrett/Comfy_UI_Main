@@ -38,7 +38,15 @@ def http(method, url, payload=None, timeout=30):
 def gpu():
     row=subprocess.check_output(["nvidia-smi","--query-gpu=name,memory.used,memory.free,utilization.gpu","--format=csv,noheader,nounits"],text=True).strip().splitlines()[0]
     name,used,free,util=[x.strip() for x in row.split(",")]
-    return {"name":name,"used_mib":int(used),"free_mib":int(free),"utilization_percent":int(util)}
+    apps=subprocess.run(["nvidia-smi","--query-compute-apps=pid,process_name,used_gpu_memory","--format=csv,noheader,nounits"],capture_output=True,text=True,check=False)
+    processes=[]
+    for line in apps.stdout.splitlines():
+        parts=[x.strip() for x in line.split(",",2)]
+        if len(parts)==3 and parts[0].isdigit():
+            try: used_mib=int(parts[2])
+            except ValueError: used_mib=None
+            processes.append({"pid":int(parts[0]),"process_name":parts[1],"used_mib":used_mib})
+    return {"name":name,"used_mib":int(used),"free_mib":int(free),"utilization_percent":int(util),"processes":processes}
 def ollama_rss_mib():
     rows=subprocess.check_output(["ps","-C","ollama","-o","rss="],text=True).splitlines()
     return round(sum(int(x.strip()) for x in rows if x.strip())/1024,3)
@@ -178,6 +186,8 @@ def preflight_reasons(admission: dict[str, Any], snapshot: dict[str, Any]) -> li
         reasons.append("COMFYUI_QUEUE_NOT_IDLE")
     if snapshot.get("loaded_models"):
         reasons.append("UNOWNED_OLLAMA_RESIDENCY_PRESENT")
+    if snapshot.get("gpu", {}).get("processes"):
+        reasons.append("FOREIGN_GPU_PROCESS_PRESENT")
     if snapshot.get("ollama_version") != admission["execution"]["ollama_version"]:
         reasons.append("OLLAMA_RUNTIME_VERSION_DRIFT")
     if (
@@ -310,6 +320,16 @@ def run_canary(
     ):
         raise FastTriageCanaryError("VRAM_UNLOAD_TOLERANCE_EXCEEDED")
     now = datetime.now(timezone.utc)
+    peak_vram_gb = round(max(0, peak_gpu - pre["gpu"]["used_mib"]) / 1024, 4)
+    peak_ram_gb = round(peak_rss / 1024, 4)
+    p95_latency_seconds = sorted(latencies)[
+        max(0, math.ceil(len(latencies) * 0.95) - 1)
+    ]
+    capacity_passed = (
+        peak_vram_gb <= 8
+        and peak_ram_gb <= 50
+        and p95_latency_seconds <= admission["execution"]["timeout_seconds"]
+    )
     report = {
         "schema_version": "wave64.aqa.role_qualification_report.v1",
         "report_id": "W64-AQA-QUAL-fast-triage-refusal-qwen3vl4",
@@ -332,14 +352,12 @@ def run_canary(
             "gpu_profile": pre["gpu"]["name"],
         },
         "capacity": {
-            "passed": True,
-            "peak_vram_gb": round(peak_gpu / 1024, 4),
+            "passed": capacity_passed,
+            "peak_vram_gb": peak_vram_gb,
             "max_vram_gb": 8,
-            "peak_ram_gb": round(peak_rss / 1024, 4),
+            "peak_ram_gb": peak_ram_gb,
             "max_ram_gb": 50,
-            "p95_latency_seconds": sorted(latencies)[
-                max(0, math.ceil(len(latencies) * 0.95) - 1)
-            ],
+            "p95_latency_seconds": p95_latency_seconds,
             "max_latency_seconds": admission["execution"]["timeout_seconds"],
         },
         "thresholds": {
@@ -353,7 +371,8 @@ def run_canary(
         "fixtures": fixtures,
     }
     passed = (
-        len(fixtures) == len(admission["cases"])
+        capacity_passed
+        and len(fixtures) == len(admission["cases"])
         and all(
             run["disposition"] == "REFUSE" and run["schema_valid"]
             for fixture in fixtures
@@ -370,7 +389,11 @@ def run_canary(
         "disposition": (
             "PASS_REFUSAL_DISCIPLINE_SCOPE_ONLY"
             if passed
-            else "FAIL_CALIBRATION_HELD_OUT_SEALED"
+            else (
+                "FAIL_CAPACITY_THRESHOLD"
+                if not capacity_passed
+                else "FAIL_CALIBRATION_HELD_OUT_SEALED"
+            )
         ),
         "authority": {
             "triage_crop_capability": False,
