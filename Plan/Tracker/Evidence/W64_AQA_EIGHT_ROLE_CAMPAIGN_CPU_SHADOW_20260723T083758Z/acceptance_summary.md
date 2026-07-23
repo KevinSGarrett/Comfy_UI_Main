@@ -1,0 +1,9 @@
+Campaign: a703fd1c5853c8dca412e787433a3b8334fbdaa5c1f11da127a12c6cedc8ccaf
+Result: b9f872780067bf15979c500351a681bfeeba9ba60e123c521704c8eba709fbc7
+Disposition: PARTIAL_BLOCKED
+Terminalized: 18
+Evidence completeness: 100.0%
+Anomalies: T03_poison_retry_exhaustion=FAIL:EXPECTED_POISON, T04_poison_dependent_block=BLOCKED:FAILED_DEPENDENCY
+
+Production status: BLOCKED_UNQUALIFIED
+Multimodal shadow: NOT_RUN

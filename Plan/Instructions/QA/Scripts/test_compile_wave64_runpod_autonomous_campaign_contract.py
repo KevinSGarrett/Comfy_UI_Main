@@ -18,10 +18,14 @@ H = "a" * 64
 
 def draft() -> dict:
     roles = [
+        ("W64-AQA-ROLE-CONTROLLER", "W64-AQA-FAMILY-QWEN-CONTROLLER", "5" * 64),
         ("W64-AQA-ROLE-IMPLEMENTER", "W64-AQA-FAMILY-QWEN-CODER", "1" * 64),
         ("W64-AQA-ROLE-REVIEWER", "W64-AQA-FAMILY-INTERNVL", "2" * 64),
         ("W64-AQA-ROLE-INDEPENDENT-JUROR", "W64-AQA-FAMILY-OMNI", "3" * 64),
         ("W64-AQA-ROLE-ARBITER", "W64-AQA-FAMILY-ARBITER", "4" * 64),
+        ("W64-AQA-ROLE-REPAIR-PLANNER", "W64-AQA-FAMILY-QWEN-REPAIR", "6" * 64),
+        ("W64-AQA-ROLE-DETERMINISTIC", "W64-AQA-FAMILY-DETERMINISTIC", "7" * 64),
+        ("W64-AQA-ROLE-EVIDENCE-COMPILER", "W64-AQA-FAMILY-EVIDENCE", "8" * 64),
     ]
     return {
         "schema_version": "wave64.aqa.campaign.v1",
@@ -78,12 +82,45 @@ def test_rejects_path_escape(path: str) -> None:
 
 def test_rejects_self_review_and_represents_unqualified_authority() -> None:
     value = draft()
-    value["model_bindings"][1]["family_id"] = value["model_bindings"][0]["family_id"]
+    bindings = {item["role_id"]: item for item in value["model_bindings"]}
+    bindings["W64-AQA-ROLE-REVIEWER"]["family_id"] = bindings[
+        "W64-AQA-ROLE-IMPLEMENTER"
+    ]["family_id"]
     with pytest.raises(MODULE.CampaignError, match="independent model families"):
         MODULE.compile_contract(value)
     value = draft()
-    value["model_bindings"][2]["qualification_state"] = "UNQUALIFIED"
+    binding = next(
+        item
+        for item in value["model_bindings"]
+        if item["role_id"] == "W64-AQA-ROLE-INDEPENDENT-JUROR"
+    )
+    binding["qualification_state"] = "UNQUALIFIED"
     assert MODULE.compile_contract(value)["admission_disposition"] == "BLOCKED_UNQUALIFIED"
+
+
+def test_new_bundle_role_unqualified_blocks_admission() -> None:
+    value = draft()
+    binding = next(
+        item
+        for item in value["model_bindings"]
+        if item["role_id"] == "W64-AQA-ROLE-REPAIR-PLANNER"
+    )
+    binding["qualification_state"] = "UNQUALIFIED"
+    assert MODULE.compile_contract(value)["admission_disposition"] == "BLOCKED_UNQUALIFIED"
+
+
+def test_missing_bundle_role_is_rejected_exactly() -> None:
+    value = draft()
+    value["model_bindings"] = [
+        item
+        for item in value["model_bindings"]
+        if item["role_id"] != "W64-AQA-ROLE-EVIDENCE-COMPILER"
+    ]
+    with pytest.raises(
+        MODULE.CampaignError,
+        match=r"required campaign roles are missing: \['W64-AQA-ROLE-EVIDENCE-COMPILER'\]",
+    ):
+        MODULE.compile_contract(value)
 
 
 @pytest.mark.parametrize("field", ["runpod_may_push_git", "runpod_may_promote", "runpod_may_spend", "runpod_may_override_foreign_lease"])

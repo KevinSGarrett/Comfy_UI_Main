@@ -21,6 +21,21 @@ IMPLEMENTER = "W64-AQA-ROLE-IMPLEMENTER"
 REVIEWER = "W64-AQA-ROLE-REVIEWER"
 JUROR = "W64-AQA-ROLE-INDEPENDENT-JUROR"
 ARBITER = "W64-AQA-ROLE-ARBITER"
+CONTROLLER = "W64-AQA-ROLE-CONTROLLER"
+REPAIR_PLANNER = "W64-AQA-ROLE-REPAIR-PLANNER"
+DETERMINISTIC = "W64-AQA-ROLE-DETERMINISTIC"
+EVIDENCE_COMPILER = "W64-AQA-ROLE-EVIDENCE-COMPILER"
+REVIEW_CHAIN_ROLES = (IMPLEMENTER, REVIEWER, JUROR, ARBITER)
+BUNDLE_ROLES = (
+    CONTROLLER,
+    IMPLEMENTER,
+    REVIEWER,
+    JUROR,
+    ARBITER,
+    REPAIR_PLANNER,
+    DETERMINISTIC,
+    EVIDENCE_COMPILER,
+)
 CLOSED_LOOP_STAGES = {
     "GENERATE_OR_IMPLEMENT", "DETERMINISTIC_QA", "PRIMARY_REVIEW",
     "INDEPENDENT_FAMILY_JUROR", "CONSENSUS_OR_ARBITER", "DEFECT_TAXONOMY",
@@ -97,18 +112,17 @@ def semantic_validate(contract: dict[str, Any]) -> list[str]:
     unknown_job_roles = {job["role_id"] for job in jobs} - set(by_role)
     if unknown_job_roles:
         errors.append(f"jobs reference undeclared roles: {sorted(unknown_job_roles)}")
-    required_roles = (IMPLEMENTER, REVIEWER, JUROR, ARBITER)
-    missing_roles = set(required_roles) - set(by_role)
+    missing_roles = set(BUNDLE_ROLES) - set(by_role)
     if missing_roles:
         errors.append(f"required campaign roles are missing: {sorted(missing_roles)}")
     else:
-        families = [by_role[role]["family_id"] for role in required_roles]
+        families = [by_role[role]["family_id"] for role in REVIEW_CHAIN_ROLES]
         if len(set(families)) != 4:
             errors.append("implementer, reviewer, juror, and arbiter must use independent model families")
-        checkpoints = [by_role[role]["checkpoint_sha256"] for role in required_roles]
+        checkpoints = [by_role[role]["checkpoint_sha256"] for role in REVIEW_CHAIN_ROLES]
         if len(set(checkpoints)) != 4:
             errors.append("implementer, reviewer, juror, and arbiter must use independent checkpoints")
-        qualified = all(by_role[role]["qualification_state"] == "QUALIFIED" for role in required_roles)
+        qualified = all(by_role[role]["qualification_state"] == "QUALIFIED" for role in BUNDLE_ROLES)
         expected_admission = (
             "READY_CPU_SHADOW"
             if qualified and all(job["phase"] == "CPU" for job in jobs)
@@ -136,10 +150,9 @@ def compile_contract(draft: dict[str, Any]) -> dict[str, Any]:
         raise CampaignError("draft must not supply admission_disposition")
     contract = copy.deepcopy(draft)
     bindings = {item.get("role_id"): item for item in contract.get("model_bindings", [])}
-    required_roles = (IMPLEMENTER, REVIEWER, JUROR, ARBITER)
     qualified = all(
         role in bindings and bindings[role].get("qualification_state") == "QUALIFIED"
-        for role in required_roles
+        for role in BUNDLE_ROLES
     )
     contract["admission_disposition"] = (
         "READY_CPU_SHADOW"

@@ -39,7 +39,16 @@ H = "a" * 64
 
 
 def campaign_draft() -> dict:
-    roles = ["IMPLEMENTER", "REVIEWER", "INDEPENDENT-JUROR", "ARBITER"]
+    roles = [
+        "CONTROLLER",
+        "IMPLEMENTER",
+        "REVIEWER",
+        "INDEPENDENT-JUROR",
+        "ARBITER",
+        "REPAIR-PLANNER",
+        "DETERMINISTIC",
+        "EVIDENCE-COMPILER",
+    ]
     return {
         "schema_version": "wave64.aqa.campaign.v1",
         "campaign_name": "mission-controller-test",
