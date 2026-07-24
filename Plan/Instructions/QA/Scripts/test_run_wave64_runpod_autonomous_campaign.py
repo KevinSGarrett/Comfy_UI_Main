@@ -386,6 +386,7 @@ def test_direct_runpod_adapter_requires_clean_exact_probe_and_single_claim() -> 
     snapshot = {
         "pod_id": "a6000-direct",
         "queue_idle": True,
+        "gpu_processes_idle": True,
         "foreign_process_conflict": False,
         "free_mib": 24000,
     }
@@ -412,6 +413,7 @@ def test_direct_runpod_adapter_requires_clean_exact_probe_and_single_claim() -> 
     [
         ("pod_id", "different-pod"),
         ("queue_idle", False),
+        ("gpu_processes_idle", False),
         ("foreign_process_conflict", True),
         ("free_mib", 21999),
     ],
@@ -420,6 +422,7 @@ def test_direct_runpod_adapter_fails_closed_on_any_probe_mismatch(field: str, va
     snapshot: dict[str, object] = {
         "pod_id": "a6000-direct",
         "queue_idle": True,
+        "gpu_processes_idle": True,
         "foreign_process_conflict": False,
         "free_mib": 22000,
     }
@@ -447,6 +450,7 @@ def test_direct_runpod_adapter_fails_closed_on_malformed_or_failed_probe() -> No
         lambda: {
             "pod_id": "a6000-direct",
             "queue_idle": True,
+            "gpu_processes_idle": True,
             "foreign_process_conflict": False,
             "free_mib": True,
         },
@@ -462,6 +466,7 @@ def test_campaign_executor_uses_direct_runpod_adapter_for_gpu_job(tmp_path: Path
     snapshot = {
         "pod_id": "a6000-direct",
         "queue_idle": True,
+        "gpu_processes_idle": True,
         "foreign_process_conflict": False,
         "free_mib": 24000,
     }

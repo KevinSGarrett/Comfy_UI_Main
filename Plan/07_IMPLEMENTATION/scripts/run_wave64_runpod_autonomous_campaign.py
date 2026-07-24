@@ -79,8 +79,10 @@ class DirectRunPodLeaseAdapter:
 
     It deliberately does not coordinate across pods or override another process.
     The caller supplies a fresh direct probe for the exact selected pod before
-    every acquire and validate decision.  A missing or ambiguous probe field is
-    treated as an admission failure.
+    every acquire and validate decision.  Any resident compute process,
+    including a user-owned ComfyUI process, is an admission failure for direct
+    dispatch and must be deferred to the approved broker path.  A missing or
+    ambiguous probe field is treated as an admission failure.
     """
 
     def __init__(
@@ -112,6 +114,7 @@ class DirectRunPodLeaseAdapter:
         return (
             snapshot.get("pod_id") == self._expected_pod_id
             and snapshot.get("queue_idle") is True
+            and snapshot.get("gpu_processes_idle") is True
             and snapshot.get("foreign_process_conflict") is False
             and type(free_mib) is int
             and free_mib >= self._minimum_free_mib
