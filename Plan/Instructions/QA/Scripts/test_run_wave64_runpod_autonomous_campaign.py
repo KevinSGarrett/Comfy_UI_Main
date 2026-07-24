@@ -125,11 +125,78 @@ def test_lease_loss_and_unqualified_role_abstain(tmp_path: Path) -> None:
     value = contract(2)
     value["jobs"][0]["phase"] = "GPU"
     result = MODULE.CampaignExecutor(value, tmp_path / "lease", MODULE.MemoryLeaseAdapter(lose_after_acquire=True)).run(passing)
-    assert {job["node_id"]: job["terminal_state"] for job in result["jobs"]}["n00"] == "BLOCKED"
+    assert {job["node_id"]: job["terminal_state"] for job in result["jobs"]}["n00"] == "DEFERRED"
+    assert result["disposition"] == "PARTIAL_DEFERRED"
+    assert result["deferred_work_queue"]["jobs"] == [{"node_id": "n00", "phase": "GPU", "job_sha256": MODULE.digest(value["jobs"][0]), "reason": "GPU_ADMISSION_DEFERRED"}]
+    queue_path = tmp_path / "lease" / result["deferred_work_queue"]["relative_path"]
+    assert queue_path.is_file()
+    assert MODULE.digest(queue_path.read_bytes()) == result["deferred_work_queue"]["content_sha256"]
     value = contract(1)
     value["model_bindings"][0]["qualification_state"] = "UNQUALIFIED"
     result = MODULE.CampaignExecutor(value, tmp_path / "role", MODULE.MemoryLeaseAdapter()).run(passing)
     assert result["jobs"][0]["terminal_state"] == "ABSTAINED"
+
+
+def test_deferred_gpu_job_preserves_cpu_progress_and_resumes_after_fresh_admission(
+    tmp_path: Path,
+) -> None:
+    value = contract(2)
+    value["jobs"][0]["phase"] = "GPU"
+    first_executor = MODULE.CampaignExecutor(
+        value, tmp_path / "execution", MODULE.MemoryLeaseAdapter(grant=False)
+    )
+    first = first_executor.run(passing)
+    assert {job["node_id"]: job["terminal_state"] for job in first["jobs"]} == {
+        "n00": "DEFERRED",
+        "n01": "PASS",
+    }
+    assert first["metrics"]["deferred_job_count"] == 1
+    assert first_executor.events[-1]["event_type"] == "CAMPAIGN_DEFERRED"
+    MODULE.CampaignExecutor.verify_result_identity(first)
+
+    restored = MODULE.CampaignExecutor.restore(
+        value,
+        tmp_path / "execution",
+        MODULE.MemoryLeaseAdapter(),
+        first_executor.events,
+        first_executor.results,
+    )
+    assert set(restored.results) == {"n01"}
+    resumed = restored.run(passing)
+    assert resumed["disposition"] == "COMPLETE"
+    assert resumed["deferred_work_queue"] is None
+    assert resumed["metrics"]["deferred_job_count"] == 0
+    assert {job["node_id"]: job["terminal_state"] for job in resumed["jobs"]} == {
+        "n00": "PASS",
+        "n01": "PASS",
+    }
+
+
+def test_gpu_deferment_cascades_only_to_dependent_work(tmp_path: Path) -> None:
+    value = contract(3)
+    value["jobs"][0]["phase"] = "GPU"
+    result = MODULE.CampaignExecutor(
+        value, tmp_path, MODULE.MemoryLeaseAdapter(grant=False)
+    ).run(passing)
+    assert {job["node_id"]: job["terminal_state"] for job in result["jobs"]} == {
+        "n00": "DEFERRED",
+        "n01": "PASS",
+        "n02": "DEFERRED",
+    }
+    assert result["deferred_work_queue"]["jobs"] == [
+        {
+            "node_id": "n00",
+            "phase": "GPU",
+            "job_sha256": MODULE.digest(value["jobs"][0]),
+            "reason": "GPU_ADMISSION_DEFERRED",
+        },
+        {
+            "node_id": "n02",
+            "phase": "CPU",
+            "job_sha256": MODULE.digest(value["jobs"][2]),
+            "reason": "UPSTREAM_GPU_ADMISSION_DEFERRED",
+        },
+    ]
 
 
 def test_static_shadow_continues_qualified_cpu_sibling_and_blocks_dependents(
@@ -313,6 +380,101 @@ def test_coordinator_adapter_fails_closed_when_queue_cancel_fails() -> None:
     )
     with pytest.raises(RuntimeError, match="queued coordinator request was not canceled"):
         adapter.acquire(H, "n00")
+
+
+def test_direct_runpod_adapter_requires_clean_exact_probe_and_single_claim() -> None:
+    snapshot = {
+        "pod_id": "a6000-direct",
+        "queue_idle": True,
+        "foreign_process_conflict": False,
+        "free_mib": 24000,
+    }
+    adapter = MODULE.DirectRunPodLeaseAdapter(
+        lambda: snapshot,
+        expected_pod_id="a6000-direct",
+        minimum_free_mib=22000,
+    )
+    lease_id = adapter.acquire(H, "n00")
+    assert lease_id is not None
+    assert adapter.acquire(H, "n01") is None
+    assert adapter.validate(lease_id) is True
+    snapshot["free_mib"] = 100
+    assert adapter.validate(lease_id) is False
+    adapter.release(lease_id, "PASS")
+    assert adapter.releases == [(lease_id, "PASS")]
+    snapshot["free_mib"] = 24000
+    replacement = adapter.acquire(H, "n00")
+    assert replacement is not None and replacement != lease_id
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("pod_id", "different-pod"),
+        ("queue_idle", False),
+        ("foreign_process_conflict", True),
+        ("free_mib", 21999),
+    ],
+)
+def test_direct_runpod_adapter_fails_closed_on_any_probe_mismatch(field: str, value: object) -> None:
+    snapshot: dict[str, object] = {
+        "pod_id": "a6000-direct",
+        "queue_idle": True,
+        "foreign_process_conflict": False,
+        "free_mib": 22000,
+    }
+    snapshot[field] = value
+    adapter = MODULE.DirectRunPodLeaseAdapter(
+        lambda: snapshot,
+        expected_pod_id="a6000-direct",
+        minimum_free_mib=22000,
+    )
+    assert adapter.acquire(H, "n00") is None
+
+
+def test_direct_runpod_adapter_fails_closed_on_malformed_or_failed_probe() -> None:
+    def probe_error() -> dict[str, object]:
+        raise RuntimeError("probe transport failed")
+
+    for probe in (lambda: {}, lambda: None, probe_error):
+        adapter = MODULE.DirectRunPodLeaseAdapter(
+            probe,
+            expected_pod_id="a6000-direct",
+            minimum_free_mib=0,
+        )
+        assert adapter.acquire(H, "n00") is None
+    bool_free_mib = MODULE.DirectRunPodLeaseAdapter(
+        lambda: {
+            "pod_id": "a6000-direct",
+            "queue_idle": True,
+            "foreign_process_conflict": False,
+            "free_mib": True,
+        },
+        expected_pod_id="a6000-direct",
+        minimum_free_mib=0,
+    )
+    assert bool_free_mib.acquire(H, "n00") is None
+
+
+def test_campaign_executor_uses_direct_runpod_adapter_for_gpu_job(tmp_path: Path) -> None:
+    value = contract(1)
+    value["jobs"][0]["phase"] = "GPU"
+    snapshot = {
+        "pod_id": "a6000-direct",
+        "queue_idle": True,
+        "foreign_process_conflict": False,
+        "free_mib": 24000,
+    }
+    adapter = MODULE.DirectRunPodLeaseAdapter(
+        lambda: snapshot,
+        expected_pod_id="a6000-direct",
+        minimum_free_mib=22000,
+    )
+    result = MODULE.CampaignExecutor(value, tmp_path, adapter).run(passing)
+    assert result["disposition"] == "COMPLETE"
+    assert result["jobs"][0]["terminal_state"] == "PASS"
+    assert result["metrics"]["coordinator_churn"] == 1
+    assert len(adapter.releases) == 1
 
 
 def test_result_identity_and_merkle_tamper_detection(tmp_path: Path) -> None:

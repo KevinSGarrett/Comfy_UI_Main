@@ -13,7 +13,7 @@ from typing import Any, Callable, NamedTuple, Protocol
 ZERO_HASH = "0" * 64
 GENESIS_HASH = hashlib.sha256(b"W64-AQA-CAMPAIGN-GENESIS-V1").hexdigest()
 RESULT_ID_PLACEHOLDER = "0" * 64
-TERMINAL = {"PASS", "FAIL", "BLOCKED", "ABSTAINED", "QUARANTINED", "ROLLED_BACK"}
+TERMINAL = {"PASS", "FAIL", "BLOCKED", "ABSTAINED", "QUARANTINED", "ROLLED_BACK", "DEFERRED"}
 LEGAL_EVENT_TRANSITIONS = {
     None: {"CAMPAIGN_CREATED"},
     "CAMPAIGN_CREATED": {"ADMITTED", "BLOCKED"},
@@ -21,7 +21,7 @@ LEGAL_EVENT_TRANSITIONS = {
     "CPU_PHASE_ACTIVE": {"JOB_DISPATCH", "JOB_TERMINAL"},
     "GPU_LEASE_WAIT": {"JOB_DISPATCH", "JOB_TERMINAL"},
     "JOB_DISPATCH": {"JOB_DISPATCH", "JOB_TERMINAL", "RESTART_REPLAY"},
-    "JOB_TERMINAL": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL", "RESTART_REPLAY"},
+    "JOB_TERMINAL": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_DEFERRED", "CAMPAIGN_TERMINAL", "RESTART_REPLAY"},
     "RESTART_REPLAY": {"CPU_PHASE_ACTIVE", "GPU_LEASE_WAIT", "JOB_TERMINAL", "CAMPAIGN_TERMINAL"},
     "BLOCKED": {
         "CPU_PHASE_ACTIVE",
@@ -30,6 +30,7 @@ LEGAL_EVENT_TRANSITIONS = {
         "CAMPAIGN_TERMINAL",
     },
     "CAMPAIGN_TERMINAL": set(),
+    "CAMPAIGN_DEFERRED": {"RESTART_REPLAY"},
 }
 
 
@@ -56,7 +57,7 @@ class JobOutcome(NamedTuple):
 
 
 class MemoryLeaseAdapter:
-    """Test/shadow adapter; production must replace it with the shared coordinator."""
+    """Test/shadow adapter; never use for direct RunPod production execution."""
 
     def __init__(self, *, grant: bool = True, lose_after_acquire: bool = False) -> None:
         self.grant = grant
@@ -71,6 +72,76 @@ class MemoryLeaseAdapter:
 
     def release(self, lease_id: str, outcome: str) -> None:
         self.releases.append((lease_id, outcome))
+
+
+class DirectRunPodLeaseAdapter:
+    """Fail-closed per-session admission adapter for a directly selected RunPod.
+
+    It deliberately does not coordinate across pods or override another process.
+    The caller supplies a fresh direct probe for the exact selected pod before
+    every acquire and validate decision.  A missing or ambiguous probe field is
+    treated as an admission failure.
+    """
+
+    def __init__(
+        self,
+        probe: Callable[[], dict[str, Any]],
+        *,
+        expected_pod_id: str,
+        minimum_free_mib: int,
+    ) -> None:
+        if not expected_pod_id:
+            raise ValueError("expected_pod_id is required")
+        if minimum_free_mib < 0:
+            raise ValueError("minimum_free_mib must be non-negative")
+        self._probe = probe
+        self._expected_pod_id = expected_pod_id
+        self._minimum_free_mib = minimum_free_mib
+        self._leases: dict[str, dict[str, str]] = {}
+        self._claim_sequence = 0
+        self.releases: list[tuple[str, str]] = []
+
+    def _admitted(self) -> bool:
+        try:
+            snapshot = self._probe()
+        except Exception:
+            return False
+        if not isinstance(snapshot, dict):
+            return False
+        free_mib = snapshot.get("free_mib")
+        return (
+            snapshot.get("pod_id") == self._expected_pod_id
+            and snapshot.get("queue_idle") is True
+            and snapshot.get("foreign_process_conflict") is False
+            and type(free_mib) is int
+            and free_mib >= self._minimum_free_mib
+        )
+
+    def acquire(self, campaign_id: str, node_id: str) -> str | None:
+        if self._leases or not self._admitted():
+            return None
+        self._claim_sequence += 1
+        lease_id = "direct-" + digest(
+            {
+                "campaign_id": campaign_id,
+                "node_id": node_id,
+                "expected_pod_id": self._expected_pod_id,
+                "claim_sequence": self._claim_sequence,
+            }
+        )
+        self._leases[lease_id] = {
+            "campaign_id": campaign_id,
+            "node_id": node_id,
+        }
+        return lease_id
+
+    def validate(self, lease_id: str) -> bool:
+        return lease_id in self._leases and self._admitted()
+
+    def release(self, lease_id: str, outcome: str) -> None:
+        if lease_id in self._leases:
+            self._leases.pop(lease_id)
+            self.releases.append((lease_id, outcome))
 
 
 class CoordinatorLeaseAdapter:
@@ -204,12 +275,28 @@ class CampaignExecutor:
         repair_attempts = self.contract["policy"]["repair_attempts"]
         while remaining:
             progressed = False
-            failed = {node for node, result in self.results.items() if result["terminal_state"] != "PASS"}
+            failed = {
+                node
+                for node, result in self.results.items()
+                if result["terminal_state"] not in {"PASS", "DEFERRED"}
+            }
+            deferred = {
+                node
+                for node, result in self.results.items()
+                if result["terminal_state"] == "DEFERRED"
+            }
             for node in sorted(remaining):
                 if dependencies[node] & failed:
                     artifact = canonical_bytes({"node": node, "reason": "FAILED_DEPENDENCY"})
                     sha, path = self._store(artifact)
                     self.results[node] = {"node_id": node, "terminal_state": "BLOCKED", "attempts": 0, "evidence_sha256": sha, "evidence_path": path, "reason": "FAILED_DEPENDENCY"}
+                    remaining.remove(node)
+                    progressed = True
+                elif dependencies[node] & deferred:
+                    artifact = canonical_bytes({"node": node, "reason": "UPSTREAM_GPU_ADMISSION_DEFERRED"})
+                    sha, path = self._store(artifact)
+                    self.results[node] = {"node_id": node, "terminal_state": "DEFERRED", "attempts": 0, "evidence_sha256": sha, "evidence_path": path, "reason": "UPSTREAM_GPU_ADMISSION_DEFERRED"}
+                    self._event("JOB_TERMINAL", "DAG_ADVANCE", node_id=node, phase=jobs[node]["phase"], payload=self.results[node])
                     remaining.remove(node)
                     progressed = True
             ready = self._ordered_ready(remaining, dependencies, jobs, current_checkpoint)
@@ -251,7 +338,7 @@ class CampaignExecutor:
                         if not lease_id or not self.lease_adapter.validate(lease_id):
                             if lease_id:
                                 self.lease_adapter.release(lease_id, "lease_lost")
-                            outcome = JobOutcome("BLOCKED", canonical_bytes({"node": node, "reason": "LEASE_UNAVAILABLE_OR_LOST"}), "LEASE_UNAVAILABLE_OR_LOST")
+                            outcome = JobOutcome("DEFERRED", canonical_bytes({"node": node, "reason": "GPU_ADMISSION_DEFERRED"}), "GPU_ADMISSION_DEFERRED")
                             attempts = 0
                         else:
                             outcome, attempts = self._attempt(job, runner, max_attempts, repair_attempts)
@@ -313,6 +400,9 @@ class CampaignExecutor:
         )
         restored.events = copy.deepcopy(events)
         restored.results = copy.deepcopy(results)
+        for node_id, result in list(restored.results.items()):
+            if result["terminal_state"] == "DEFERRED":
+                restored.results.pop(node_id)
         restored._event(
             "RESTART_REPLAY",
             "RESTART_REPLAY",
@@ -356,7 +446,9 @@ class CampaignExecutor:
     def _result(self) -> dict[str, Any]:
         self.verify_journal(self.events)
         jobs = [self.results[node] for node in sorted(self.results)]
+        jobs_by_node = {job["node_id"]: job for job in self.contract["jobs"]}
         passed = sum(item["terminal_state"] == "PASS" for item in jobs)
+        deferred = [item for item in jobs if item["terminal_state"] == "DEFERRED"]
         complete = (
             passed == len(jobs)
             and self.contract.get("admission_disposition")
@@ -375,6 +467,7 @@ class CampaignExecutor:
             "accepted_artifacts_per_hour": None, "gpu_seconds_per_accepted_artifact": None,
             "cpu_seconds_per_accepted_artifact": None, "storage_growth_bytes": None,
             "lease_wait_seconds": None, "interruption_count": None,
+            "deferred_job_count": len(deferred),
             "raw_evidence_bytes": evidence_bytes, "compacted_evidence_bytes": None,
         }
         nullable.update(self.measurements)
@@ -389,17 +482,42 @@ class CampaignExecutor:
             "coordinator_churn": self.coordinator_churn,
             **nullable,
         }
+        deferred_work_queue = None
+        if deferred:
+            queue_jobs = [
+                {
+                    "node_id": item["node_id"],
+                    "phase": jobs_by_node[item["node_id"]]["phase"],
+                    "job_sha256": digest(jobs_by_node[item["node_id"]]),
+                    "reason": item["reason"],
+                }
+                for item in deferred
+            ]
+            queue_payload = {
+                "queue_id": digest({"campaign_id": self.contract["campaign_id"], "contract_sha256": digest(self.contract), "jobs": queue_jobs}),
+                "contract_sha256": digest(self.contract),
+                "jobs": queue_jobs,
+                "resume_requires_fresh_admission": True,
+            }
+            queue_sha256, queue_path = self._store(canonical_bytes(queue_payload))
+            deferred_work_queue = {
+                **queue_payload,
+                "content_sha256": queue_sha256,
+                "relative_path": queue_path,
+            }
         result = {
             "schema_version": "wave64.aqa.campaign_result.v1", "result_id": RESULT_ID_PLACEHOLDER, "campaign_id": self.contract["campaign_id"],
             "contract_sha256": digest(self.contract), "journal_head_sha256": self.events[-1]["event_hash"],
             "merkle_root_sha256": self._merkle_root([item["sha256"] for item in evidence]),
-            "disposition": "COMPLETE" if complete else "PARTIAL_BLOCKED", "jobs": jobs, "evidence": evidence,
+            "disposition": "COMPLETE" if complete else "PARTIAL_DEFERRED" if deferred else "PARTIAL_BLOCKED", "jobs": jobs, "evidence": evidence,
             "metrics": metrics,
             "cleanup": self.cleanup,
             "authority": {"self_promoted": False, "git_pushed": False, "thresholds_weakened": False, "final_acceptance_authority": "CODEX"},
             "proposed_delta": None,
+            "deferred_work_queue": deferred_work_queue,
         }
-        self._event("CAMPAIGN_TERMINAL", result["disposition"], payload={"result_sha256": digest(result)})
+        terminal_event = "CAMPAIGN_DEFERRED" if deferred else "CAMPAIGN_TERMINAL"
+        self._event(terminal_event, result["disposition"], payload={"result_sha256": digest(result)})
         result["journal_head_sha256"] = self.events[-1]["event_hash"]
         return self.seal_result(result)
 
