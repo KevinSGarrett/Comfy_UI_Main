@@ -212,6 +212,57 @@ def test_execute_rechecks_bound_trees_and_runs_reviewers_sequentially(tmp_path: 
     assert receipt["serverless_submitted"] is False
 
 
+def test_second_reviewer_admission_deferral_records_first_model_load(tmp_path: Path) -> None:
+    paths = fixture(tmp_path)
+    probes = [clean_probe(), clean_probe(), blocked_probe()]
+    calls: list[str] = []
+
+    def probe() -> dict:
+        return probes.pop(0)
+
+    def reviewer(model_id: str, root: Path, items: list[dict]) -> list[dict]:
+        calls.append(model_id)
+        return [{"item_sha256": item["sha256"], "raw_response": "PASS"} for item in items]
+
+    receipt = run_paths(
+        paths,
+        tmp_path / "partial-deferral.json",
+        execute=True,
+        probe=probe,
+        reviewer=reviewer,
+    )
+    assert receipt["state"] == "DEFERRED_WAITING_FOR_EXCLUSIVE_LOCAL_A6000"
+    assert receipt["gpu_model_load_attempted"] is True
+    assert receipt["gpu_models_loaded"] is True
+    assert calls == ["GLM_4_1V_9B_THINKING"]
+    assert [review["model_id"] for review in receipt["reviews"]] == ["GLM_4_1V_9B_THINKING"]
+
+
+def test_duplicate_or_malformed_responses_fail_with_sealed_receipt(tmp_path: Path) -> None:
+    paths = fixture(tmp_path)
+
+    def reviewer(model_id: str, root: Path, items: list[dict]) -> list[dict]:
+        return [
+            {"item_sha256": items[0]["sha256"], "raw_response": "one"},
+            {"item_sha256": items[0]["sha256"], "raw_response": "two"},
+        ]
+
+    receipt = run_paths(
+        paths,
+        tmp_path / "bad-coverage.json",
+        execute=True,
+        probe=clean_probe,
+        reviewer=reviewer,
+    )
+    assert receipt["state"] == "FAILED_UNQUALIFIED_REVIEW_EXECUTION"
+    assert receipt["failure"] == {
+        "model_id": "GLM_4_1V_9B_THINKING",
+        "reason": "REVIEWER_RESPONSE_COVERAGE_INCOMPLETE",
+    }
+    assert receipt["gpu_model_load_attempted"] is True
+    assert receipt["gpu_models_loaded"] is True
+
+
 def test_tampered_panel_artifact_fails_closed(tmp_path: Path) -> None:
     paths = fixture(tmp_path)
     paths["image"].write_bytes(b"tampered")

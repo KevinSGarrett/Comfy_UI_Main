@@ -10,6 +10,7 @@ It does not submit to Serverless, alter the ComfyUI queue, or promote a result.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import os
@@ -374,6 +375,52 @@ def default_reviewer(model_id: str, model_root: Path, items: list[dict[str, Any]
     raise BridgeError(f"unsupported reviewer: {model_id}")
 
 
+def _complete_reviewer_coverage(
+    responses: Any, items: list[dict[str, Any]]
+) -> bool:
+    """Require exactly one well-formed response for every immutable input item."""
+
+    if not isinstance(responses, list) or len(responses) != len(items):
+        return False
+    expected = Counter(item["sha256"] for item in items)
+    observed: Counter[str] = Counter()
+    for response in responses:
+        if (
+            not isinstance(response, dict)
+            or not isinstance(response.get("item_sha256"), str)
+            or not isinstance(response.get("raw_response"), str)
+        ):
+            return False
+        observed[response["item_sha256"]] += 1
+    return observed == expected
+
+
+def _review_failure(
+    base: dict[str, Any],
+    output_path: Path,
+    reviews: list[dict[str, Any]],
+    model_id: str,
+    reason: str,
+    *,
+    model_execution_attempted: bool,
+    model_load_confirmed: bool,
+) -> dict[str, Any]:
+    """Seal an accurate nonpromoting failure after a reviewer execution attempt."""
+
+    return _persist_receipt(
+        output_path,
+        {
+            **base,
+            "state": "FAILED_UNQUALIFIED_REVIEW_EXECUTION",
+            "deferral_reasons": [],
+            "gpu_model_load_attempted": bool(reviews) or model_execution_attempted,
+            "gpu_models_loaded": bool(reviews) or model_load_confirmed,
+            "reviews": reviews,
+            "failure": {"model_id": model_id, "reason": reason},
+        },
+    )
+
+
 def run_bridge(
     *,
     deferred_path: Path,
@@ -400,6 +447,7 @@ def run_bridge(
         "reviewer_tree_hashes": {item["model_id"]: item["tree_sha256"] for item in validated["reviewer_bindings"]},
         "authority": "NONPROMOTING_UNQUALIFIED_REVIEW_ONLY",
         "serverless_submitted": False,
+        "gpu_model_load_attempted": False,
         "gpu_models_loaded": False,
         "admission_snapshot": snapshot,
     }
@@ -412,15 +460,74 @@ def run_bridge(
         fresh = probe()
         fresh_reasons = admission(fresh, execution)
         if fresh_reasons:
-            return _persist_receipt(output_path, {**base, "state": "DEFERRED_WAITING_FOR_EXCLUSIVE_LOCAL_A6000", "deferral_reasons": fresh_reasons, "admission_snapshot": fresh, "reviews": reviews})
-        observed_tree = model_tree(binding["root"], binding["model_id"])
+            return _persist_receipt(
+                output_path,
+                {
+                    **base,
+                    "state": "DEFERRED_WAITING_FOR_EXCLUSIVE_LOCAL_A6000",
+                    "deferral_reasons": fresh_reasons,
+                    "admission_snapshot": fresh,
+                    "gpu_model_load_attempted": bool(reviews),
+                    "gpu_models_loaded": bool(reviews),
+                    "reviews": reviews,
+                },
+            )
+        try:
+            observed_tree = model_tree(binding["root"], binding["model_id"])
+        except Exception:
+            return _review_failure(
+                base,
+                output_path,
+                reviews,
+                binding["model_id"],
+                "MODEL_TREE_VERIFICATION_FAILED",
+                model_execution_attempted=False,
+                model_load_confirmed=False,
+            )
         if observed_tree["tree_sha256"] != binding["tree_sha256"]:
-            raise BridgeError(f"reviewer tree changed before load: {binding['model_id']}")
-        responses = reviewer(binding["model_id"], binding["root"], validated["items"])
-        if not isinstance(responses, list) or {item.get("item_sha256") for item in responses if isinstance(item, dict)} != {item["sha256"] for item in validated["items"]}:
-            raise BridgeError(f"reviewer response coverage is incomplete: {binding['model_id']}")
+            return _review_failure(
+                base,
+                output_path,
+                reviews,
+                binding["model_id"],
+                "MODEL_TREE_CHANGED_BEFORE_LOAD",
+                model_execution_attempted=False,
+                model_load_confirmed=False,
+            )
+        try:
+            responses = reviewer(binding["model_id"], binding["root"], validated["items"])
+        except Exception:
+            return _review_failure(
+                base,
+                output_path,
+                reviews,
+                binding["model_id"],
+                "REVIEWER_EXECUTION_FAILED",
+                model_execution_attempted=True,
+                model_load_confirmed=False,
+            )
+        if not _complete_reviewer_coverage(responses, validated["items"]):
+            return _review_failure(
+                base,
+                output_path,
+                reviews,
+                binding["model_id"],
+                "REVIEWER_RESPONSE_COVERAGE_INCOMPLETE",
+                model_execution_attempted=True,
+                model_load_confirmed=True,
+            )
         reviews.append({"model_id": binding["model_id"], "role": binding["role"], "responses": responses})
-    return _persist_receipt(output_path, {**base, "state": "COMPLETED_NONPROMOTING_UNQUALIFIED_REVIEW", "deferral_reasons": [], "gpu_models_loaded": True, "reviews": reviews})
+    return _persist_receipt(
+        output_path,
+        {
+            **base,
+            "state": "COMPLETED_NONPROMOTING_UNQUALIFIED_REVIEW",
+            "deferral_reasons": [],
+            "gpu_model_load_attempted": True,
+            "gpu_models_loaded": True,
+            "reviews": reviews,
+        },
+    )
 
 
 def _persist_receipt(output_path: Path, value: dict[str, Any]) -> dict[str, Any]:
@@ -453,7 +560,7 @@ def main() -> int:
         print(json.dumps({"status": "FAIL", "error": str(exc)}))
         return 1
     print(json.dumps({"status": receipt["state"], "receipt_sha256": receipt["receipt_sha256"]}, sort_keys=True))
-    return 0
+    return 1 if receipt["state"] == "FAILED_UNQUALIFIED_REVIEW_EXECUTION" else 0
 
 
 if __name__ == "__main__":
