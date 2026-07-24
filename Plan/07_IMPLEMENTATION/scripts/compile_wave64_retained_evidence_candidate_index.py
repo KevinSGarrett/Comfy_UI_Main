@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Index retained Wave64 evidence as curator candidates without qualification claims.
+"""Index retained direct-review evidence as curator candidates without qualification claims.
 
 The index is deliberately not a qualification corpus.  It creates a compact,
 hash-bound inventory of retained PASS/REJECT evidence so a curator can build a
@@ -32,6 +32,12 @@ REVIEW_DISPOSITION_KEYS = {
     "visual_review_disposition",
     "quality_review_disposition",
 }
+IMAGE_ARTIFACT_QA_ROOT = "Plan/Instructions/QA/Evidence/Image_Artifact_QA/"
+NON_RELEASE_IMAGE_QA_NAME_TOKENS = (
+    "TECHNICAL_QA",
+    "CONTROL_MAP",
+    "PREPROCESSOR_MAP",
+)
 
 
 class CandidateIndexError(ValueError):
@@ -79,7 +85,21 @@ def collect_defect_codes(value: Any) -> list[str]:
     return sorted(codes)
 
 
-def infer_modality(value: Any) -> str:
+def is_image_artifact_qa_source(source: str) -> bool:
+    return source.startswith(IMAGE_ARTIFACT_QA_ROOT)
+
+
+def is_direct_image_artifact_review_source(source: str) -> bool:
+    """Exclude technical and control-map diagnostics from release-image curation intake."""
+    if not is_image_artifact_qa_source(source):
+        return False
+    name = Path(source).name.upper()
+    return not any(token in name for token in NON_RELEASE_IMAGE_QA_NAME_TOKENS)
+
+
+def infer_modality(value: Any, source: str) -> str:
+    if is_image_artifact_qa_source(source):
+        return "image"
     text = " ".join(item.lower() for item in descendants(value) if isinstance(item, str))
     if any(token in text for token in ("wan", "video", "motion", "frame", "temporal")):
         return "video"
@@ -92,7 +112,26 @@ def infer_modality(value: Any) -> str:
     return "image_or_unspecified"
 
 
-def direct_review_disposition(value: dict[str, Any], defect_codes: list[str]) -> str | None:
+def image_artifact_qa_disposition(value: dict[str, Any]) -> str | None:
+    """Read only document-level visual-QA decisions from the image QA evidence family."""
+    values: list[str] = []
+    for key in ("decision", "qa_result"):
+        item = value.get(key)
+        if isinstance(item, str):
+            values.append(item.upper())
+    portfolio = value.get("portfolio_certification_record")
+    if isinstance(portfolio, dict) and isinstance(portfolio.get("decision"), str):
+        values.append(portfolio["decision"].upper())
+    if any(any(token in item for token in ("REJECT", "FAIL", "BLOCK")) for item in values):
+        return "REJECT_EVIDENCE_CANDIDATE"
+    if any(any(token in item for token in ("PASS", "CERTIFIED")) for item in values):
+        return "PASS_EVIDENCE_CANDIDATE"
+    return None
+
+
+def direct_review_disposition(
+    value: dict[str, Any], defect_codes: list[str], source: str
+) -> str | None:
     """Return only an explicit review outcome; generic status prose is not evidence."""
     values: set[str] = set()
     for item in descendants(value):
@@ -108,6 +147,8 @@ def direct_review_disposition(value: dict[str, Any], defect_codes: list[str]) ->
         return "PASS_EVIDENCE_CANDIDATE"
     if defect_codes:
         return "REJECT_EVIDENCE_CANDIDATE"
+    if is_direct_image_artifact_review_source(source):
+        return image_artifact_qa_disposition(value)
     return None
 
 
@@ -126,12 +167,12 @@ def candidate_record(root: Path, path: Path) -> dict[str, Any] | None:
         value = load_json(path)
     except (CandidateIndexError, OSError, UnicodeDecodeError, json.JSONDecodeError):
         return None
+    source = safe_relative(root, path)
     defect_codes = collect_defect_codes(value)
-    disposition = direct_review_disposition(value, defect_codes)
+    disposition = direct_review_disposition(value, defect_codes, source)
     if disposition is None:
         return None
     digest = sha256_file(path)
-    source = safe_relative(root, path)
     evidence_id = value.get("evidence_id") or value.get("receipt_id") or value.get("campaign_id")
     tracker_ids = []
     for key in ("tracker_id", "item_id"):
@@ -146,7 +187,7 @@ def candidate_record(root: Path, path: Path) -> dict[str, Any] | None:
         "evidence_id": evidence_id if isinstance(evidence_id, str) else None,
         "tracker_ids": sorted(set(tracker_ids)),
         "provisional_disposition": disposition,
-        "modality": infer_modality(value),
+        "modality": infer_modality(value, source),
         "defect_codes": defect_codes,
         "requires_human_curation": True,
         "eligible_for_calibration_or_held_out_assignment": False,
