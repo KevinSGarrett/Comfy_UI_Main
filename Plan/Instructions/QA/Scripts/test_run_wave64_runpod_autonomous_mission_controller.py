@@ -4,6 +4,7 @@ import copy
 import importlib.util
 import json
 import sqlite3
+import sys
 from pathlib import Path
 
 import jsonschema
@@ -251,6 +252,68 @@ def test_owner_confirmed_crash_requeues_checkpoint_without_assumed_success(
     assert event["payload"]["in_flight_assumed_complete"] is False
     queue.claim(mission_id, "worker-b", at="2026-07-23T00:04:00Z")
     queue.verify(mission_id)
+
+
+def test_owner_defers_to_durable_queue_without_assumed_success(tmp_path: Path) -> None:
+    _, mission, queue = fixture(tmp_path)
+    mission_id = mission["mission_id"]
+    queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")
+    queue.claim(mission_id, "worker-a", at="2026-07-23T00:01:00Z")
+    deferred = queue.defer(
+        mission_id,
+        "worker-a",
+        {"next_phase": "GPU", "completed_nodes": []},
+        reason="GPU_ADMISSION_DEFERRED",
+        at="2026-07-23T00:02:00Z",
+    )
+    assert deferred["state"] == "QUEUED"
+    assert deferred["worker_id"] is None
+    assert deferred["checkpoint_sha256"]
+    event = queue.journal(mission_id)[-1]
+    assert event["event_type"] == "MISSION_DEFERRED"
+    assert event["payload"]["reason"] == "GPU_ADMISSION_DEFERRED"
+    assert event["payload"]["in_flight_nodes_assumed_complete"] is False
+    checkpoint = json.loads(
+        (queue.root / event["payload"]["relative_path"]).read_text(encoding="utf-8")
+    )
+    assert checkpoint["next_phase"] == "GPU"
+    assert checkpoint["in_flight_nodes_assumed_complete"] is False
+    replacement = queue.claim(mission_id, "worker-b", at="2026-07-23T00:03:00Z")
+    assert replacement["state"] == "RUNNING"
+    assert replacement["worker_id"] == "worker-b"
+    queue.verify(mission_id)
+
+
+def test_cli_defer_requeues_owned_mission(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _, mission, queue = fixture(tmp_path)
+    mission_id = mission["mission_id"]
+    queue.admit(mission, tmp_path, at="2026-07-23T00:00:00Z")
+    queue.claim(mission_id, "worker-a", at="2026-07-23T00:01:00Z")
+    checkpoint_path = tmp_path / "deferred-checkpoint.json"
+    checkpoint_path.write_text(
+        json.dumps({"next_phase": "GPU"}), encoding="utf-8"
+    )
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            str(MISSION_SCRIPT),
+            "--queue-root",
+            str(queue.root),
+            "defer",
+            mission_id,
+            str(checkpoint_path),
+            "--reason",
+            "GPU_ADMISSION_DEFERRED",
+            "--worker-id",
+            "worker-a",
+            "--at",
+            "2026-07-23T00:02:00Z",
+        ],
+    )
+    assert MISSION.main() == 0
+    assert queue.status(mission_id)["state"] == "QUEUED"
+    assert queue.journal(mission_id)[-1]["event_type"] == "MISSION_DEFERRED"
 
 
 def test_confirmed_crash_rejects_wrong_owner_and_missing_checkpoint(

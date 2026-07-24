@@ -36,21 +36,25 @@ LEGAL_TRANSITIONS = {
     "MISSION_CLAIMED": {
         "MISSION_HEARTBEAT",
         "MISSION_CHECKPOINTED",
+        "MISSION_DEFERRED",
         "MISSION_RECOVERED",
         "MISSION_TERMINALIZED",
     },
     "MISSION_HEARTBEAT": {
         "MISSION_HEARTBEAT",
         "MISSION_CHECKPOINTED",
+        "MISSION_DEFERRED",
         "MISSION_RECOVERED",
         "MISSION_TERMINALIZED",
     },
     "MISSION_CHECKPOINTED": {
         "MISSION_HEARTBEAT",
         "MISSION_CHECKPOINTED",
+        "MISSION_DEFERRED",
         "MISSION_RECOVERED",
         "MISSION_TERMINALIZED",
     },
+    "MISSION_DEFERRED": {"MISSION_CLAIMED"},
     "MISSION_RECOVERED": {"MISSION_CLAIMED"},
     "MISSION_TERMINALIZED": set(),
 }
@@ -419,7 +423,11 @@ class MissionQueue:
             row = connection.execute(
                 "SELECT * FROM missions WHERE mission_id=?", (mission_id,)
             ).fetchone()
-            if row is None or row["state"] != "RUNNING" or row["worker_id"] != worker_id:
+            if (
+                row is None
+                or row["state"] != "RUNNING"
+                or row["worker_id"] != worker_id
+            ):
                 raise MissionError("mission ownership mismatch")
             count, head = self._append(connection, row, event_type, "RUNNING", at, payload)
             checkpoint_value = checkpoint_sha256 or row["checkpoint_sha256"]
@@ -491,6 +499,65 @@ class MissionQueue:
                 "UPDATE missions SET state='QUEUED',worker_id=NULL,heartbeat_at=NULL,"
                 "event_count=?,journal_head_sha256=? WHERE mission_id=?",
                 (count, head, mission_id),
+            )
+            connection.commit()
+        return self.status(mission_id)
+
+    def defer(
+        self,
+        mission_id: str,
+        worker_id: str,
+        checkpoint: dict[str, Any],
+        *,
+        reason: str,
+        at: str,
+    ) -> dict[str, Any]:
+        """Return a claimed mission to the durable queue after a clean deferral.
+
+        A GPU admission failure is neither a crash nor a terminal result.  The
+        exact owner records a durable checkpoint and explicitly returns the
+        mission to ``QUEUED`` without assuming any in-flight child completed.
+        A future direct admission may then claim it; no timeout or unrelated
+        session is allowed to perform that transition.
+        """
+
+        self._require_mission_id(mission_id)
+        self._require_worker(worker_id)
+        _timestamp(at)
+        if not isinstance(reason, str) or not reason or len(reason) > 256:
+            raise MissionError("deferral reason is invalid")
+        if not isinstance(checkpoint, dict):
+            raise MissionError("deferral checkpoint must be an object")
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute(
+                "SELECT * FROM missions WHERE mission_id=?", (mission_id,)
+            ).fetchone()
+            if row is None or row["state"] != "RUNNING" or row["worker_id"] != worker_id:
+                raise MissionError("mission ownership mismatch")
+            checkpoint_payload = copy.deepcopy(checkpoint)
+            checkpoint_payload["in_flight_nodes_assumed_complete"] = False
+            checkpoint_sha, checkpoint_path = self._store(
+                canonical_bytes(checkpoint_payload)
+            )
+            count, head = self._append(
+                connection,
+                row,
+                "MISSION_DEFERRED",
+                "QUEUED",
+                at,
+                {
+                    "worker_id": worker_id,
+                    "reason": reason,
+                    "checkpoint_sha256": checkpoint_sha,
+                    "relative_path": checkpoint_path,
+                    "in_flight_nodes_assumed_complete": False,
+                },
+            )
+            connection.execute(
+                "UPDATE missions SET state='QUEUED',worker_id=NULL,heartbeat_at=NULL,"
+                "checkpoint_sha256=?,event_count=?,journal_head_sha256=? WHERE mission_id=?",
+                (checkpoint_sha, count, head, mission_id),
             )
             connection.commit()
         return self.status(mission_id)
@@ -691,6 +758,12 @@ def main() -> int:
     checkpoint_parser.add_argument("checkpoint", type=Path)
     checkpoint_parser.add_argument("--worker-id", required=True)
     checkpoint_parser.add_argument("--at", required=True)
+    defer_parser = subparsers.add_parser("defer")
+    defer_parser.add_argument("mission_id")
+    defer_parser.add_argument("checkpoint", type=Path)
+    defer_parser.add_argument("--reason", required=True)
+    defer_parser.add_argument("--worker-id", required=True)
+    defer_parser.add_argument("--at", required=True)
     recover_parser = subparsers.add_parser("recover")
     recover_parser.add_argument("mission_id")
     recover_parser.add_argument("--stale-before", required=True)
@@ -733,6 +806,14 @@ def main() -> int:
                 args.mission_id,
                 args.worker_id,
                 _read_json(args.checkpoint),
+                at=args.at,
+            )
+        elif args.command == "defer":
+            result = queue.defer(
+                args.mission_id,
+                args.worker_id,
+                _read_json(args.checkpoint),
+                reason=args.reason,
                 at=args.at,
             )
         elif args.command == "recover":
